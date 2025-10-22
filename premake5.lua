@@ -5,6 +5,7 @@ workspace "Zephyr"
     architecture "x86_64"
     language "C++"
     cppdialect "C++23"
+    clangtidy "On"
 
     startproject "ZephyrEditor"
 
@@ -25,6 +26,7 @@ workspace "Zephyr"
         optimize "Speed"
         runtime "Release"
         linktimeoptimization "On"
+        runcodeanalysis "On"
 
     removefiles { "**/vendor/**" }
 

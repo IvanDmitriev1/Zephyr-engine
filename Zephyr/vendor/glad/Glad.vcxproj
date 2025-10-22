@@ -46,12 +46,15 @@
     <IntDir>$(ProjectDir)..\..\..\.bin_int\Debug_windows\glad\</IntDir>
     <TargetName>glad</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Opengl|x64'">
     <OutDir>$(ProjectDir)..\..\..\.bin\Release_windows\glad\</OutDir>
     <IntDir>$(ProjectDir)..\..\..\.bin_int\Release_windows\glad\</IntDir>
     <TargetName>glad</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Opengl|x64'">
     <ClCompile>

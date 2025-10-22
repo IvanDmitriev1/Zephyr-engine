@@ -847,5 +847,6 @@
     <ClCompile Include="glm\detail\glm.cpp">
       <Filter>detail</Filter>
     </ClCompile>
+    <ClCompile Include="glm\glm.cppm" />
   </ItemGroup>
 </Project>

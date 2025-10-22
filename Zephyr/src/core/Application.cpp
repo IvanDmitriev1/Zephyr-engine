@@ -8,30 +8,19 @@ module;
 #include <cstdio>
 #include <chrono>
 
-export module zephyr.app;
+module zephyr.app;
 
-import zephyr.core;
+import glm;
 
-export namespace zephyr
+namespace zephyr
 {
-	class Application
-	{
-	public:
-		virtual ~Application() = default;
+    Application::Application(const char* windowTitle)
+        : m_WindowTitle{ windowTitle }
+    {
+    }
 
-		Application(const char* windowTitle) 
-			:m_WindowTitle{windowTitle}
-		{}
-
-	public:
-		void Run();
-
-	private:
-		const char* m_WindowTitle;
-	};
-
-	void Application::Run()
-	{
+    void Application::Run()
+    {
         if (!glfwInit())
             throw std::runtime_error("glfwInit failed");
 
@@ -61,7 +50,6 @@ export namespace zephyr
         {
             glfwPollEvents();
 
-            // (optional) dt if you need it later
             auto now = std::chrono::high_resolution_clock::now();
             [[maybe_unused]] float dt = std::chrono::duration<float>(now - prev).count();
             prev = now;
@@ -71,15 +59,11 @@ export namespace zephyr
             glClearColor(0.10f, 0.10f, 0.12f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            // TODO: render your scene here
-
+            // rendering...
             glfwSwapBuffers(window);
         }
 
         glfwDestroyWindow(window);
         glfwTerminate();
-	}
-
-
-	export extern inline Application* CreateApplication();
+    }
 }

@@ -872,13 +872,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\zephyr.app.ixx">
+    <ClCompile Include="src\core\Application.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\zephyr.core.ixx">
+    <ClCompile Include="src\core\Application.ixx">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.ixx">
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp">

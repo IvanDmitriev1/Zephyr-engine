@@ -13,7 +13,6 @@ project "Zephyr"
         "**.hpp",
         "**.ixx",
         "**.glsl",
-        "**/vendor/glfw/**",
     }
 
     filter "system:windows"
@@ -38,4 +37,5 @@ project "Zephyr"
         {
             "opengl32.lib",
             "glad",
+            "glm"
         }

@@ -12,7 +12,7 @@ public:
 	}
 };
 
-export inline zephyr::Application* zephyr::CreateApplication()
+export zephyr::Application* zephyr::CreateApplication()
 {
 	return new ZephyrEditor();
 }

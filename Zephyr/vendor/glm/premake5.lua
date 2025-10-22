@@ -3,4 +3,4 @@ project "glm"
     language "C++"
     staticruntime "off"
 
-    files {"glm/**.cpp", "glm/**.h", "glm/**.hpp"}
+    files {"glm/**.cpp", "glm/**.cppm", "glm/**.h", "glm/**.hpp"}

@@ -46,12 +46,15 @@
     <IntDir>$(ProjectDir)..\.bin_int\Debug_windows\Zephyr\</IntDir>
     <TargetName>Zephyr</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Opengl|x64'">
     <OutDir>$(ProjectDir)..\.bin\Release_windows\Zephyr\</OutDir>
     <IntDir>$(ProjectDir)..\.bin_int\Release_windows\Zephyr\</IntDir>
     <TargetName>Zephyr</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Opengl|x64'">
     <ClCompile>
@@ -384,14 +387,19 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\zephyr.app.ixx" />
-    <ClCompile Include="src\core\zephyr.core.ixx" />
-    <ClCompile Include="src\main.ixx" />
+    <ClCompile Include="src\core\Application.cpp" />
+    <ClCompile Include="src\core\Application.ixx">
+      <ObjectFileName>$(IntDir)\Application1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="vendor\glm\glm\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glad\glad.vcxproj">
       <Project>{DD62977C-C999-980D-7286-7E105E9C140F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\glm\glm.vcxproj">
+      <Project>{6577880B-D180-887C-5AFC-9E7CC604947C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -45,12 +45,15 @@
     <IntDir>$(ProjectDir)..\..\..\.bin_int\Debug_windows\glm\</IntDir>
     <TargetName>glm</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Opengl|x64'">
     <OutDir>$(ProjectDir)..\..\..\.bin\Release_windows\glm\</OutDir>
     <IntDir>$(ProjectDir)..\..\..\.bin_int\Release_windows\glm\</IntDir>
     <TargetName>glm</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Opengl|x64'">
     <ClCompile>
@@ -385,6 +388,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glm\detail\glm.cpp" />
+    <ClCompile Include="glm\glm.cppm">
+      <ObjectFileName>$(IntDir)\glm1.obj</ObjectFileName>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

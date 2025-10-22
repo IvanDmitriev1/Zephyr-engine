@@ -3,6 +3,7 @@ project "glad"
     language "C"
     cdialect "C23"
     staticruntime "off"
+    clangtidy "Off"
 
     files { "include/**", "src/**" }
     includedirs {"include"}

@@ -47,6 +47,7 @@
     <IntDir>$(ProjectDir)..\.bin_int\Debug_windows\ZephyrEditor\</IntDir>
     <TargetName>ZephyrEditor</TargetName>
     <TargetExt>.exe</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Opengl|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,6 +55,8 @@
     <IntDir>$(ProjectDir)..\.bin_int\Release_windows\ZephyrEditor\</IntDir>
     <TargetName>ZephyrEditor</TargetName>
     <TargetExt>.exe</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Opengl|x64'">
     <ClCompile>
