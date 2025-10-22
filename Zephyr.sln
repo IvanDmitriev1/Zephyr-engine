@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZephyrEditor", "ZephyrEditor\ZephyrEditor.vcxproj", "{2E44C0DD-1AA7-4F82-C32C-8838AF6E1B05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glad", "Zephyr\vendor\glad\glad.vcxproj", "{DD62977C-C999-980D-7286-7E105E9C140F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glm", "Zephyr\vendor\glm\glm.vcxproj", "{6577880B-D180-887C-5AFC-9E7CC604947C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zephyr", "Zephyr\Zephyr.vcxproj", "{272D32E1-13CF-5CB7-FC89-700BE8CAE307}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Opengl = Debug|Opengl
+		Release|Opengl = Release|Opengl
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E44C0DD-1AA7-4F82-C32C-8838AF6E1B05}.Debug|Opengl.ActiveCfg = Debug Opengl|x64
+		{2E44C0DD-1AA7-4F82-C32C-8838AF6E1B05}.Debug|Opengl.Build.0 = Debug Opengl|x64
+		{2E44C0DD-1AA7-4F82-C32C-8838AF6E1B05}.Release|Opengl.ActiveCfg = Release Opengl|x64
+		{2E44C0DD-1AA7-4F82-C32C-8838AF6E1B05}.Release|Opengl.Build.0 = Release Opengl|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Debug|Opengl.ActiveCfg = Debug Opengl|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Debug|Opengl.Build.0 = Debug Opengl|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Release|Opengl.ActiveCfg = Release Opengl|x64
+		{DD62977C-C999-980D-7286-7E105E9C140F}.Release|Opengl.Build.0 = Release Opengl|x64
+		{6577880B-D180-887C-5AFC-9E7CC604947C}.Debug|Opengl.ActiveCfg = Debug Opengl|x64
+		{6577880B-D180-887C-5AFC-9E7CC604947C}.Debug|Opengl.Build.0 = Debug Opengl|x64
+		{6577880B-D180-887C-5AFC-9E7CC604947C}.Release|Opengl.ActiveCfg = Release Opengl|x64
+		{6577880B-D180-887C-5AFC-9E7CC604947C}.Release|Opengl.Build.0 = Release Opengl|x64
+		{272D32E1-13CF-5CB7-FC89-700BE8CAE307}.Debug|Opengl.ActiveCfg = Debug Opengl|x64
+		{272D32E1-13CF-5CB7-FC89-700BE8CAE307}.Debug|Opengl.Build.0 = Debug Opengl|x64
+		{272D32E1-13CF-5CB7-FC89-700BE8CAE307}.Release|Opengl.ActiveCfg = Release Opengl|x64
+		{272D32E1-13CF-5CB7-FC89-700BE8CAE307}.Release|Opengl.Build.0 = Release Opengl|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DD62977C-C999-980D-7286-7E105E9C140F} = {53E47842-3FC8-3998-A828-34EB942B241A}
+		{6577880B-D180-887C-5AFC-9E7CC604947C} = {53E47842-3FC8-3998-A828-34EB942B241A}
+	EndGlobalSection
+EndGlobal

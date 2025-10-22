@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "F:\\Zephyr\\ZephyrEditor\\..\\.bin_int\\Debug_windows\\ZephyrEditor\\app.ixx.obj",
+            "outputs": [
+                "F:\\Zephyr\\.bin_int\\Debug_windows\\ZephyrEditor\\vc143.pdb",
+                "F:\\Zephyr\\ZephyrEditor\\..\\.bin_int\\Debug_windows\\ZephyrEditor\\",
+                "F:\\Zephyr\\.bin_int\\Debug_windows\\ZephyrEditor\\app.ixx.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "zephyreditor",
+                    "source-path": "f:\\zephyr\\zephyreditor\\src\\app.ixx",
+                    "is-interface": true
+                }
+            ],
+            "requires": [
+                {
+                    "logical-name": "zephyr.app"
+                }
+            ]
+        }
+    ]
+}

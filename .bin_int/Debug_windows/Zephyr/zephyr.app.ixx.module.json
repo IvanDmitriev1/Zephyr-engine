@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "F:\\Zephyr\\Zephyr\\..\\.bin_int\\Debug_windows\\Zephyr\\zephyr.app.ixx.obj",
+            "outputs": [
+                "F:\\Zephyr\\.bin\\Debug_windows\\Zephyr\\Zephyr.pdb",
+                "F:\\Zephyr\\Zephyr\\..\\.bin_int\\Debug_windows\\Zephyr\\",
+                "F:\\Zephyr\\.bin_int\\Debug_windows\\Zephyr\\zephyr.app.ixx.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "zephyr.app",
+                    "source-path": "f:\\zephyr\\zephyr\\src\\core\\zephyr.app.ixx",
+                    "is-interface": true
+                }
+            ],
+            "requires": [
+                {
+                    "logical-name": "zephyr.core"
+                }
+            ]
+        }
+    ]
+}
