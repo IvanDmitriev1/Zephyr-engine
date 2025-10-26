@@ -3,15 +3,19 @@ project "imgui"
 	language "C++"
     staticruntime "off"
 
-    includedirs { "src", "%{IncludeDir.glfw}"}
+    includedirs
+    {
+        "%{IncludeDir.glfw}",
+        "./include",
+    }
 
     files
 	{
-        "src/*"
+        "include/*"
 	}
 
     filter "platforms:Opengl"
         files
-	{
-        "platform/opengl/*"
-	}
+	    {
+            "platform/opengl/*"
+	    }
