@@ -4,18 +4,19 @@ project "ZephyrEditor"
     includedirs
 	{
 		"%{wks.location}/Zephyr/src",
+        "src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.imgui}",
 	}
 
     debugdir "%{prj.location}"
-    links {"Zephyr"}
+    links {"Zephyr", "imgui"}
 
 	files
     {
         "**.cpp",
         "**.hpp",
+        "**.h",
         "**.ixx",
         "**.glsl",
     }

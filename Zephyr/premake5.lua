@@ -11,6 +11,7 @@ project "Zephyr"
     {
         "**.cpp",
         "**.hpp",
+        "**.h",
         "**.ixx",
         "**.glsl",
     }
@@ -37,5 +38,5 @@ project "Zephyr"
         {
             "opengl32.lib",
             "glad",
-            "glm"
+            "glm",
         }
