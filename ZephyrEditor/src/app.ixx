@@ -2,11 +2,10 @@ export module zephyreditor;
 
 import zephyr.app;
 
-
 class ZephyrEditor final : public zephyr::Application
 {
 public:
-	ZephyrEditor() : Application("Zephyr Editor")
+	ZephyrEditor(const zephyr::WindowSpecification& spec) : Application(spec)
 	{
 
 	}
@@ -14,5 +13,8 @@ public:
 
 export zephyr::Application* zephyr::CreateApplication()
 {
-	return new ZephyrEditor();
+	zephyr::WindowSpecification spec{};
+	spec.Title = "Zephyr Editor";
+
+	return new ZephyrEditor(spec);
 }
