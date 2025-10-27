@@ -33,15 +33,18 @@ namespace zephyr
             float dt = glm::clamp(currentTime - lastTime, 0.001f, 0.1f);
             lastTime = currentTime;
 
-            m_LayerStack.OnUpdate(dt);
+            if (!m_Minimized)
+            {
+                m_LayerStack.OnUpdate(dt);
 
-            renderer.StartOfTheFrame();
-            m_LayerStack.OnRender();
-            renderer.EndOfTheFrame();
+                renderer.StartOfTheFrame();
+                m_LayerStack.OnRender();
+                renderer.EndOfTheFrame();
 
-            uiRenderContext.BeginFrame();
-            m_LayerStack.OnUiRender();
-            uiRenderContext.EndFrame();
+                uiRenderContext.BeginFrame();
+                m_LayerStack.OnUiRender();
+                uiRenderContext.EndFrame();
+            }
 
             m_window->Update();
 		}
@@ -55,7 +58,11 @@ namespace zephyr
 
             if (appEvent.GetWidth() == 0 || appEvent.GetHeight() == 0)
             {
-                //_minimized = true;
+                m_Minimized = true;
+            }
+            else
+            {
+				m_Minimized = false;
             }
 
             if (appEvent.GetEventType() == EventType::WINDOW_CLOSING_EVENT)

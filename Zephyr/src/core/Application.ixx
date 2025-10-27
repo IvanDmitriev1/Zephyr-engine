@@ -34,6 +34,7 @@ export namespace zephyr
 		Scope<IWindow> m_window;
 		LayerStack m_LayerStack;
         bool m_Running = true;
+		bool m_Minimized = false;
     };
 
     extern Application* CreateApplication();
