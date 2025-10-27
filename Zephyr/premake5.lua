@@ -4,8 +4,16 @@ project "Zephyr"
     staticruntime "off"
 
     defines { "GLFW_INCLUDE_NONE" }
-    includedirs { "src", "%{IncludeDir.glfw}", "%{IncludeDir.glm}",}
-    links { "%{Library.glfw}" }
+
+    includedirs
+    {
+        "src",
+        "%{IncludeDir.glfw}",
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.imgui}",
+    }
+
+    links { "%{Library.glfw}", "imgui" }
 
     files
     {
@@ -33,6 +41,7 @@ project "Zephyr"
         {
             "%{IncludeDir.glm}",
             "%{IncludeDir.glad}",
+            "%{IncludeDir.imguiOpengl}",
         }
         links
         {

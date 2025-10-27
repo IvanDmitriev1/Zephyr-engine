@@ -33,7 +33,7 @@ workspace "Zephyr"
 group "Dependencies"
 	include "Zephyr/vendor/glad"
 	include "Zephyr/vendor/glm"
-    include "ZephyrEditor/vendor/imgui"
+    include "Zephyr/vendor/imgui"
 group ""
 
 include "Zephyr"

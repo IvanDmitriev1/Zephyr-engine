@@ -23,6 +23,7 @@ namespace zephyr
     {
         m_Running = true;
         IRendererAPI& renderer = m_window->Gfx();
+		IUiRenderContext& uiRenderContext = m_window->UiContext();
 
         float lastTime = m_window->GetTime();
 
@@ -33,10 +34,14 @@ namespace zephyr
             lastTime = currentTime;
 
             m_LayerStack.OnUpdate(dt);
-            m_LayerStack.OnRender();
 
-            glClearColor(0.10f, 0.10f, 0.12f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            renderer.StartOfTheFrame();
+            m_LayerStack.OnRender();
+            renderer.EndOfTheFrame();
+
+            uiRenderContext.BeginFrame();
+            m_LayerStack.OnUiRender();
+            uiRenderContext.EndFrame();
 
             m_window->Update();
 		}
@@ -44,7 +49,7 @@ namespace zephyr
 
     void Application::OnEvent(const IEvent& e)
     {
-        if (e.GetCategoryFlags() == EventCategoryApplication)
+        if (e.IsInCategory(EventCategoryApplication) )
         {
             const auto& appEvent = (ApplicationEvent&)e;
 
@@ -61,6 +66,7 @@ namespace zephyr
             m_window->Gfx().OnEvent(appEvent);
         }
 
+        m_window->UiContext().OnEvent(e);
 		m_LayerStack.OnEvent(e);
     }
 }

@@ -1,6 +1,7 @@
 export module zephyr.renderer.IWindow;
 
 export import zephyr.renderer.IRendererAPI;
+export import zephyr.renderer.IUiRenderContext;
 export import zephyr.events.IEvent;
 
 export namespace zephyr
@@ -27,6 +28,7 @@ export namespace zephyr
 		virtual void* GetNativeWindow() const = 0;
 		virtual float GetTime() const = 0;
 		virtual IRendererAPI& Gfx() const = 0;
+		virtual IUiRenderContext& UiContext() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void Update() = 0;

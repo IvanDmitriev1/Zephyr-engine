@@ -29,6 +29,7 @@ export namespace zephyr
 		void OnEvent(const IEvent& event);
 		void OnUpdate(float ts);
 		void OnRender();
+		void OnUiRender();
 
 	private:
 		std::vector<Scope<Layer>> m_Layers;

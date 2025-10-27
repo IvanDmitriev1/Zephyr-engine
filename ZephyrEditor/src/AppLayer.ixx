@@ -12,25 +12,4 @@ public:
 	}
 
 	~AppLayer() override = default;
-
-	void OnAttach() override
-	{
-	}
-
-	void OnDetach() override
-	{
-	}
-
-	void OnEvent(const zephyr::IEvent& event) override
-	{
-	}
-
-	void OnUpdate(float ts) override
-	{
-	}
-
-	void OnRender() override
-	{
-		
-	}
 };

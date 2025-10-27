@@ -2,6 +2,7 @@ export module zephyr.renderer.IGraphicsContext;
 
 export import zephyr.core.coreTypes;
 export import zephyr.renderer.IRendererAPI;
+export import zephyr.renderer.IUiRenderContext;
 
 export namespace zephyr
 {
@@ -15,7 +16,8 @@ export namespace zephyr
 		IGraphicsContext& operator=(const IGraphicsContext&) = delete;
 
 	public:
-		virtual Scope<IRendererAPI> CreateRendererAPI(int width, int height) = 0;
+		virtual Scope<IRendererAPI> CreateRendererAPI(uint32_t width, uint32_t height) = 0;
+		virtual Scope<IUiRenderContext> CreateUiContext() = 0;
 		virtual void SetSwapInterval(int interval) = 0;
 
 	public:

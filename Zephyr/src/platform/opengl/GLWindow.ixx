@@ -7,6 +7,7 @@ export module zephyr.opengl.GLWindow;
 import zephyr.core.coreTypes;
 import zephyr.renderer.IWindow;
 import zephyr.renderer.IGraphicsContext;
+import zephyr.renderer.IUiRenderContext;
 
 export namespace zephyr
 {
@@ -27,6 +28,11 @@ export namespace zephyr
 			return *m_rendererAPI;
 		}
 
+		IUiRenderContext& UiContext() const override
+		{
+			return *m_uiContext;
+		}
+
 		float GetTime() const override;
 		void SetEventCallback(const EventCallbackFn& callback) override;
 		void Update() override;
@@ -43,5 +49,6 @@ export namespace zephyr
 		EventCallbackFn m_eventCallback;
 		Scope<IGraphicsContext> m_context;
 		Scope<IRendererAPI> m_rendererAPI;
+		Scope<IUiRenderContext> m_uiContext;
 	};
 }

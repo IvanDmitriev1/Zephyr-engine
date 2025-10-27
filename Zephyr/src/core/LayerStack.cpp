@@ -46,4 +46,12 @@ namespace zephyr
 			layer->OnRender();
 		}
 	}
+
+	void LayerStack::OnUiRender()
+	{
+		for (const auto& layer : m_Layers)
+		{
+			layer->OnUi();
+		}
+	}
 }

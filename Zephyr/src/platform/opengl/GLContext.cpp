@@ -9,6 +9,7 @@ module zephyr.opengl.GLContext;
 
 import zephyr.opengl.GLRendererAPI;
 import zephyr.opengl.GlUtils;
+import zephyr.opengl.ImGuiGLRenderContext;
 
 namespace zephyr
 {
@@ -17,9 +18,14 @@ namespace zephyr
 	{
 	}
 
-	Scope<IRendererAPI> GLContext::CreateRendererAPI(int width, int height)
+	Scope<IRendererAPI> GLContext::CreateRendererAPI(uint32_t width, uint32_t height)
 	{
 		return CreateScope<GLRendererAPI>(width, height);
+	}
+
+	Scope<IUiRenderContext> GLContext::CreateUiContext()
+	{
+		return CreateScope<ImGuiGLRenderContext>(m_window);
 	}
 
 	void GLContext::SetSwapInterval(int interval)
@@ -35,7 +41,7 @@ namespace zephyr
 		std::println("OpenGL Info: {}", version);
 
 #ifdef _DEBUG
-		InitOpenGLDebugMessageCallback();
+		GlUtils::InitOpenGLDebugMessageCallback();
 #endif // _DEBUG
 
 	}

@@ -19,12 +19,25 @@ export namespace zephyr
 		Layer& operator=(const Layer&) = delete;
 
 	public:
-		virtual void OnAttach() = 0;
-		virtual void OnDetach() = 0;
+		virtual void OnAttach()
+		{
+		}
+		virtual void OnDetach()
+		{
+		}
 
-		virtual void OnEvent(const IEvent& event) = 0;
-		virtual void OnUpdate(float ts) = 0;
-		virtual void OnRender() = 0;
+		virtual void OnEvent(const IEvent& event)
+		{
+		}
+		virtual void OnUpdate(float ts)
+		{
+		}
+		virtual void OnRender()
+		{
+		}
+		virtual void OnUi()
+		{
+		}
 
 		std::string_view GetName()
 		{

@@ -9,6 +9,13 @@ import std;
 
 namespace zephyr
 {
+	export class GlUtils
+	{
+		public:
+			static void InitOpenGLDebugMessageCallback();
+	};
+	
+
 	static constexpr std::string_view GLDebugSourceToString(GLenum source)
 	{
 		switch (source)
@@ -71,7 +78,7 @@ namespace zephyr
 		E_DEBUGBREAK();
 	}
 
-	export void InitOpenGLDebugMessageCallback()
+	void GlUtils::InitOpenGLDebugMessageCallback()
 	{
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

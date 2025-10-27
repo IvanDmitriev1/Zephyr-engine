@@ -30,7 +30,8 @@ namespace zephyr
 		m_context->Init();
 		m_context->SetSwapInterval(m_windowSpec.VSync ? 1 : 0);
 
-		m_rendererAPI = CreateScope<GLRendererAPI>((int)m_windowSpec.Width, (int)m_windowSpec.Height);
+		m_rendererAPI = m_context->CreateRendererAPI(m_windowSpec.Width, m_windowSpec.Height);
+		m_uiContext = m_context->CreateUiContext();
 
 		glfwSetWindowUserPointer(m_window, this);
 		glfwSetWindowSizeCallback(m_window, WindowSizeCallBack);

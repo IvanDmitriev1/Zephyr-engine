@@ -21,9 +21,9 @@ export namespace zephyr
 			return GetCategoryFlags() & category;
 		}
 
-		virtual constexpr std::string_view ToString() const
+		virtual std::string ToString() const
 		{
-			return GetName();
+			return std::string{ GetName() };
 		}
 	};
 
