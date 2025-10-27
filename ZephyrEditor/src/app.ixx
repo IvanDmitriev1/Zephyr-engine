@@ -1,3 +1,7 @@
+module;
+
+#include <imgui.h>
+
 export module zephyreditor;
 
 import zephyr.app;
@@ -11,6 +15,9 @@ public:
 	{
 		auto& window = GetWindow();
 		auto& gfx = window.Gfx();
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
 
 		GetLayerStack().PushOverlay<EditorLayer>(gfx);
 	}
