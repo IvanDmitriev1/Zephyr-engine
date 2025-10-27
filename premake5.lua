@@ -28,11 +28,16 @@ workspace "Zephyr"
         linktimeoptimization "On"
         runcodeanalysis "On"
 
+    filter "system:windows"
+        buildoptions { "/utf-8" }
+
+
     removefiles { "**/vendor/**" }
 
 group "Dependencies"
 	include "Zephyr/vendor/glad"
 	include "Zephyr/vendor/glm"
+    include "Zephyr/vendor/spdlog"
     include "Zephyr/vendor/imgui"
 group ""
 

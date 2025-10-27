@@ -1,6 +1,7 @@
 module;
 
 #include <imgui.h>
+#include <spdlog/spdlog.h>
 
 export module zephyreditor;
 
@@ -27,6 +28,8 @@ export zephyr::Application* zephyr::CreateApplication()
 {
 	zephyr::WindowSpecification spec{};
 	spec.Title = "Zephyr Editor";
+
+	spdlog::log(spdlog::level::info, "Creating Zephyr Editor application");
 
 	return new ZephyrEditor(spec);
 }

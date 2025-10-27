@@ -8,6 +8,7 @@ project "ZephyrEditor"
         "%{IncludeDir.glfw}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
+        "%{IncludeDir.spdlog}",
 	}
 
     debugdir "%{prj.location}"

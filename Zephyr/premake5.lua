@@ -3,17 +3,22 @@ project "Zephyr"
     language "C++"
     staticruntime "off"
 
-    defines { "GLFW_INCLUDE_NONE" }
+    defines
+    {
+        "GLFW_INCLUDE_NONE",
+        "SPDLOG_COMPILED_LIB"
+    }
 
     includedirs
     {
         "src",
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glm}",
+        "%{IncludeDir.spdlog}",
         "%{IncludeDir.imgui}",
     }
 
-    links { "%{Library.glfw}", "imgui" }
+    links { "%{Library.glfw}", "imgui", "spdlog" }
 
     files
     {
