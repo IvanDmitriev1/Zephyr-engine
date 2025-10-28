@@ -8,19 +8,23 @@ project "ZephyrEditor"
         "%{IncludeDir.glfw}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
-        "%{IncludeDir.spdlog}",
 	}
+
+    defines
+    {
+        
+    }
 
     debugdir "%{prj.location}"
     links {"Zephyr"}
 
 	files
     {
-        "**.cpp",
-        "**.hpp",
-        "**.h",
-        "**.ixx",
-        "**.glsl",
+        "src/**.cpp",
+        "src/**.hpp",
+        "src/**.h",
+        "src/**.ixx",
+        "src/**.glsl",
     }
 	
     filter "system:windows"

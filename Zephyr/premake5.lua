@@ -6,7 +6,6 @@ project "Zephyr"
     defines
     {
         "GLFW_INCLUDE_NONE",
-        "SPDLOG_COMPILED_LIB"
     }
 
     includedirs
@@ -22,11 +21,11 @@ project "Zephyr"
 
     files
     {
-        "**.cpp",
-        "**.hpp",
-        "**.h",
-        "**.ixx",
-        "**.glsl",
+        "src/**.cpp",
+        "src/**.hpp",
+        "src/**.h",
+        "src/**.ixx",
+        "src/**.glsl",
     }
 
     filter "system:windows"
