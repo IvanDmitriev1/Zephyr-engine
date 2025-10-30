@@ -1,11 +1,11 @@
 module;
 
-#include <GLFW/glfw3.h>
-#include <imgui.h>
-
 export module zephyr.opengl.ImGuiGLRenderContext;
 
 export import zephyr.renderer.IUiRenderContext;
+
+import <GLFW/glfw3.h>;
+import <imgui.h>;
 
 export namespace zephyr
 {

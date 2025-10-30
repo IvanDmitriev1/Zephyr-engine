@@ -1,7 +1,6 @@
 module;
 
 #include <GLFW/glfw3.h>
-#include "core/Macros.h"
 
 module zephyr.opengl.GLWindow;
 
@@ -13,7 +12,7 @@ namespace zephyr
 	GLWindow::GLWindow(const WindowSpecification& spec)
 		:m_windowSpec(spec)
 	{
-		E_ASSERT(glfwInit(), "Failed to init glfw!");
+		Assert(glfwInit(), "Failed to init glfw!");
 
 #ifdef _DEBUG
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
@@ -24,7 +23,7 @@ namespace zephyr
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		m_window = glfwCreateWindow((int)m_windowSpec.Width, (int)m_windowSpec.Height, m_windowSpec.Title.c_str(), nullptr, nullptr);
-		E_ASSERT(m_window, "Failed to create GLFW window!");
+		Assert(m_window, "Failed to create GLFW window!");
 
 		m_context = CreateScope<GLContext>(m_window);
 		m_context->Init();

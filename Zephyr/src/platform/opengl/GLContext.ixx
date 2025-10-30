@@ -1,10 +1,9 @@
 module;
-
-#include <GLFW/glfw3.h>
-
 export module zephyr.opengl.GLContext;
 
 import zephyr.renderer.IGraphicsContext;
+
+import <GLFW/glfw3.h>;
 
 export namespace zephyr
 {

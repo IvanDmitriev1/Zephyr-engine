@@ -12,7 +12,7 @@ project "ZephyrEditor"
 
     defines
     {
-        
+        "SPDLOG_COMPILED_LIB"
     }
 
     debugdir "%{prj.location}"

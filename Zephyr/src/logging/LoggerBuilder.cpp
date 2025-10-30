@@ -1,6 +1,5 @@
 module;
 
-#include <spdlog/spdlog.h>
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 #ifdef Zephyr_PLATFORM_WINDOWS
@@ -10,6 +9,8 @@ module;
 module zephyr.logging.LoggerBuilder;
 
 import zephyr.logging.LogHelpers;
+
+import <spdlog/spdlog.h>;
 
 namespace zephyr
 {

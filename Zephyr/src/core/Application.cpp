@@ -4,15 +4,15 @@ module;
 #include <glad/glad.h>
 
 #include "core/Macros.h"
-#include "spdlog/common.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 
 module zephyr.app;
 
 import zephyr.logging.LogHelpers;
+import zephyr.logging.BufferedLogSink;
 import zephyr.opengl.GLWindow;
 import glm;
+
+import <spdlog/spdlog.h>;
 
 namespace zephyr
 {
@@ -66,28 +66,28 @@ namespace zephyr
 		return *m_window;
     }
 
-    BufferedLogSink<>& Application::GetLogSink()
+    LogBuffer& Application::GetLogBuffer()
     {
-        return *m_BufferedLogSink;
+        return *m_LogBuffer;
     }
 
     void Application::ConfigureLogging()
     {
-        m_BufferedLogSink = CreateRef<BufferedLogSink<>>();
+        m_LogBuffer = CreateRef<LogBuffer>();
 
         LoggerBuilder engineLoggerBuilder;
         engineLoggerBuilder
             .SetName("Zephyr")
-            .SetLevel(LogLevel::Info)
+            .SetLevel(LogLevel::Error)
             .SetPattern("%^[%T] [ZEPHYR] %v%$")
-            .AddSink(m_BufferedLogSink);
+            .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
         LoggerBuilder appLoggerBuilder;
         appLoggerBuilder
             .SetName("App")
             .SetLevel(LogLevel::Info)
-            .SetPattern("%^[%T] [APP] %v%$")
-            .AddSink(m_BufferedLogSink);
+            .SetPattern(std::format("%^[%T] [{}] %v%$", m_windowSpec.Title))
+            .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
         ConfigureAppLogger(appLoggerBuilder);
         ConfigureEngineLogger(engineLoggerBuilder);

@@ -1,13 +1,11 @@
-module;
-
-#include <GLFW/glfw3.h>
-
 export module zephyr.opengl.GLWindow;
 
 import zephyr.core.coreTypes;
 import zephyr.renderer.IWindow;
 import zephyr.renderer.IGraphicsContext;
 import zephyr.renderer.IUiRenderContext;
+
+import <GLFW/glfw3.h>;
 
 export namespace zephyr
 {

@@ -3,10 +3,10 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-module zephyreditor.EditorLayer;
+module zephyreditor.ui.EditorLayer;
 
-EditorLayer::EditorLayer(zephyr::IRendererAPI& rendererApi) : Layer("EditorLayer")
-    ,m_rendererApi(rendererApi)
+EditorLayer::EditorLayer(zephyr::IRendererAPI& rendererApi, zephyr::LogBuffer& logBuffer) : Layer("EditorLayer")
+    ,m_rendererApi(rendererApi), m_DebugLog(logBuffer)
 {
 }
 
@@ -24,7 +24,10 @@ void EditorLayer::OnUi()
 {
     DrawDockSpace();
     DrawViewPort();
-    DrawConsole();
+
+    m_DebugLog.Draw();
+
+    //DrawConsole();
 
     if (m_ShowDemoWindow)
     {
@@ -120,27 +123,24 @@ void EditorLayer::DrawDockSpaceMenuBar()
     }
 }
 
-void EditorLayer::BuildDefaultDockLayout(ImGuiID dockspace_id)
+void EditorLayer::BuildDefaultDockLayout(ImGuiID dock_main_id)
 {
     // Clear out existing layout
-    ImGui::DockBuilderRemoveNode(dockspace_id);
-    ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
-    ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
+    ImGui::DockBuilderRemoveNode(dock_main_id);
+    ImGui::DockBuilderAddNode(dock_main_id, ImGuiDockNodeFlags_DockSpace);
+    ImGui::DockBuilderSetNodeSize(dock_main_id, ImGui::GetMainViewport()->Size);
 
-    // Split the dockspace into multiple zones
-    ImGuiID dock_main_id = dockspace_id;
     ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.2f, nullptr, &dock_main_id);
     ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
     ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
 
-    // Dock windows into the created spaces
     ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
     ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
     ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
     ImGui::DockBuilderDockWindow("Content Browser", dock_id_bottom);
-    ImGui::DockBuilderDockWindow("Console", dock_id_bottom);
+    ImGui::DockBuilderDockWindow("Debug log", dock_id_bottom);
 
-    ImGui::DockBuilderFinish(dockspace_id);
+    ImGui::DockBuilderFinish(dock_main_id);
 }
 
 void EditorLayer::DrawViewPort()
@@ -177,18 +177,3 @@ void EditorLayer::DrawViewPort()
     ImGui::End();
 }
 
-void EditorLayer::DrawConsole()
-{
-    if (!m_ShowConsole)
-        return;
-
-    ImGui::Begin("Console", nullptr);
-
-    // Example console messages
-    ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "[INFO] Engine initialized");
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "[WARNING] Missing texture");
-    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "[ERROR] Failed to load shader");
-    ImGui::Text("[LOG] Frame rendered in 16.7ms");
-
-    ImGui::End();
-}

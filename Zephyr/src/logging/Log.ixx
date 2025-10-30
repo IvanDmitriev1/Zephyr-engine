@@ -31,8 +31,6 @@ export namespace zephyr
 		LogEntry& operator=(LogEntry&&) = default;
 
 		LogLevel Level;
-		std::chrono::system_clock::time_point TimeStamp;
-		std::string LoggerName;
 		std::string Message;
 	};
 

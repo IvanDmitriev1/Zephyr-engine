@@ -1,11 +1,10 @@
 module;
 
 #include <glad/glad.h>
-#include "core/Macros.h"
 
 export module zephyr.opengl.GlUtils;
 
-import std;
+import zephyr.core.coreTypes;
 
 namespace zephyr
 {
@@ -75,7 +74,7 @@ namespace zephyr
 
 		std::println("[OpenGL] [{} - {} ({})]: [{}] {}", severityStr, typeStr, id, sourceStr, message);
 
-		E_DEBUGBREAK();
+		DebugBreak();
 	}
 
 	void GlUtils::InitOpenGLDebugMessageCallback()

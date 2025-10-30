@@ -26,7 +26,6 @@ workspace "Zephyr"
         optimize "Speed"
         runtime "Release"
         linktimeoptimization "On"
-        runcodeanalysis "On"
 
     filter "system:windows"
         buildoptions { "/utf-8" }

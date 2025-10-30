@@ -6,35 +6,24 @@ module;
 export module zephyr.logging.BufferedLogSink;
 
 export import zephyr.logging.LogHelpers;
+export import zephyr.logging.LogBuffer;
+export import zephyr.core.coreTypes;
 
 export namespace zephyr
 {
-	template<typename Mutex = std::mutex>
-	class BufferedLogSink : public spdlog::sinks::base_sink<Mutex>
+	class BufferedLogSink : public spdlog::sinks::base_sink<std::mutex>
 	{
 	public:
-		BufferedLogSink(size_t max_entries = 10000)
-			:m_MaxEntries(max_entries)
+		BufferedLogSink(Ref<LogBuffer> logBuffer)
+			:m_logBuffer(std::move(logBuffer))
 		{
-			m_Logs.reserve(max_entries);
+			
 		}
 
 		~BufferedLogSink() override = default;
 
 		BufferedLogSink(const BufferedLogSink&) = delete;
 		BufferedLogSink& operator=(const BufferedLogSink&) = delete;
-
-	public:
-		const std::vector<LogEntry>& GetLogs() const
-		{
-			return m_Logs;
-		}
-
-		void ClearLogs()
-		{
-			std::scoped_lock lock{ spdlog::sinks::base_sink<Mutex>::mutex_ };
-			m_Logs.clear();
-		}
 
 	protected:
 		void sink_it_(const spdlog::details::log_msg& msg) override
@@ -44,16 +33,9 @@ export namespace zephyr
 
 			LogEntry entry;
 			entry.Level = log::ConvertLogLevel(msg.level);
-			entry.TimeStamp = msg.time;
-			entry.LoggerName = std::string(msg.logger_name.begin(), msg.logger_name.end());
 			entry.Message = std::string(formatted.data(), formatted.size());
 
-			m_Logs.push_back(std::move(entry));
-
-			if (m_Logs.size() > m_MaxEntries)
-			{
-				m_Logs.erase(m_Logs.begin(), m_Logs.begin() + (m_Logs.size() - m_MaxEntries));
-			}
+			m_logBuffer->AddLog(std::move(entry));
 		}
 
 		void flush_() override
@@ -61,7 +43,6 @@ export namespace zephyr
 		}
 
 	private:
-		std::vector<LogEntry> m_Logs;
-		size_t m_MaxEntries;
+		const Ref<LogBuffer> m_logBuffer;
 	};
 }

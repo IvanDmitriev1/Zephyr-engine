@@ -5,7 +5,7 @@ export import zephyr.core.LayerStack;
 export import zephyr.renderer.IWindow;
 export import zephyr.events.IEvent;
 export import zephyr.logging.LoggerBuilder;
-export import zephyr.logging.BufferedLogSink;
+export import zephyr.logging.LogBuffer;
 
 export namespace zephyr
 {
@@ -20,7 +20,7 @@ export namespace zephyr
     protected:
         LayerStack& GetLayerStack();
         IWindow& GetWindow();
-        BufferedLogSink<>& GetLogSink();
+        LogBuffer& GetLogBuffer();
 
         virtual void ConfigureEngineLogger(LoggerBuilder& builder) { }
         virtual void ConfigureAppLogger(LoggerBuilder& builder) { }
@@ -34,7 +34,7 @@ export namespace zephyr
         const WindowSpecification m_windowSpec;
 		Scope<IWindow> m_window;
 		LayerStack m_LayerStack;
-        Ref<BufferedLogSink<>> m_BufferedLogSink;
+        Ref<LogBuffer> m_LogBuffer;
         bool m_Running = true;
 		bool m_Minimized = false;
     };

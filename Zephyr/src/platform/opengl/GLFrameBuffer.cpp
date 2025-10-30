@@ -1,11 +1,11 @@
 module;
 
 #include <glad/glad.h>
-#include <core/Macros.h>
 
 module zephyr.opengl.GLFrameBuffer;
 
 import zephyr.opengl.GlFrameBufferSpecs;
+import zephyr.core.coreTypes;
 
 namespace zephyr
 {
@@ -41,7 +41,7 @@ namespace zephyr
 
 	void GLFrameBuffer::ClearAttachment(uint32_t attachmentIndex, int value)
 	{
-		E_ASSERT(attachmentIndex < m_ColorAttachments.size(), "attachmentIndex < ColorAttachments in frameBuffer");
+		Assert(attachmentIndex < m_ColorAttachments.size(), "attachmentIndex < ColorAttachments in frameBuffer");
 		const auto fmt = m_Spec.Attachments.Attachments[attachmentIndex].TextureFormat;
 
 		if (fmt == FramebufferTextureFormat::RED_INTEGER)

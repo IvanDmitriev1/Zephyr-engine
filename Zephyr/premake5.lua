@@ -6,6 +6,7 @@ project "Zephyr"
     defines
     {
         "GLFW_INCLUDE_NONE",
+        "SPDLOG_COMPILED_LIB"
     }
 
     includedirs
