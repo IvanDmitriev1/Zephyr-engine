@@ -33,14 +33,18 @@ namespace zephyr
 	void GLContext::Init()
 	{
 		glfwMakeContextCurrent(m_window);
-		int version = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		Assert(version, "Failed to init glad!");
-		std::println("OpenGL Info: {}", version);
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+			Assert(false, "Failed to init glad!");
 
 #ifdef _DEBUG
-		GlUtils::InitOpenGLDebugMessageCallback();
+		glUtils::InitOpenGLDebugMessageCallback();
 #endif // _DEBUG
 
+
+		GLint major = 0, minor = 0;
+		glGetIntegerv(GL_MAJOR_VERSION, &major);
+		glGetIntegerv(GL_MINOR_VERSION, &minor);
+		log::Info("OpenGL version: {}.{}", major, minor);
 	}
 
 	void GLContext::SwapBuffers()

@@ -1,13 +1,11 @@
-module;
-
-#include <imgui.h>
-
 export module zephyreditor.ui.EditorLayer;
 
 export import zephyr.core.Layer;
 export import zephyr.renderer.IRendererAPI;
 
 import zephyreditor.ui.DebugLog;
+
+import <imgui.h>;
 
 export class EditorLayer : public zephyr::Layer
 {

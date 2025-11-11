@@ -6,16 +6,9 @@ export module zephyr.opengl.GlUtils;
 
 import zephyr.core.coreTypes;
 
-namespace zephyr
+namespace zephyr::glUtils
 {
-	export class GlUtils
-	{
-		public:
-			static void InitOpenGLDebugMessageCallback();
-	};
-	
-
-	static constexpr std::string_view GLDebugSourceToString(GLenum source)
+	inline constexpr std::string_view GLDebugSourceToString(GLenum source)
 	{
 		switch (source)
 		{
@@ -29,7 +22,7 @@ namespace zephyr
 		}
 	}
 
-	static constexpr std::string_view GLDebugTypeToString(GLenum type)
+	inline constexpr std::string_view GLDebugTypeToString(GLenum type)
 	{
 		switch (type)
 		{
@@ -45,7 +38,7 @@ namespace zephyr
 
 	}
 
-	static constexpr std::string_view GLDebugSeverityToString(GLenum severity)
+	inline constexpr std::string_view GLDebugSeverityToString(GLenum severity)
 	{
 		switch (severity)
 		{
@@ -57,7 +50,7 @@ namespace zephyr
 		}
 	}
 
-	static void GLDebugCallback(GLenum source,
+	inline void GLDebugCallback(GLenum source,
 		GLenum type,
 		GLuint id,
 		GLenum severity,
@@ -72,12 +65,11 @@ namespace zephyr
 		const auto typeStr = GLDebugTypeToString(type);
 		const auto severityStr = GLDebugSeverityToString(severity);
 
-		std::println("[OpenGL] [{} - {} ({})]: [{}] {}", severityStr, typeStr, id, sourceStr, message);
-
+		log::Critical("[OpenGL] [{} - {} ({})]: [{}] {}", severityStr, typeStr, id, sourceStr, message);
 		DebugBreak();
 	}
 
-	void GlUtils::InitOpenGLDebugMessageCallback()
+	export inline void InitOpenGLDebugMessageCallback()
 	{
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

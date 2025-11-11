@@ -86,6 +86,6 @@ namespace zephyr
 
 	void GLWindow::ErrorCallback(int error, const char* description)
 	{
-		std::cout << std::format("GLFW Error: {}: {}", error, description);
+		log::Critical("GLFW Error: {}: {}", error, description);
 	}
 }

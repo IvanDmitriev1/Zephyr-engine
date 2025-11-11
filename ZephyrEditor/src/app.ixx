@@ -1,12 +1,10 @@
-module;
-
-#include <imgui.h>
-
 export module zephyreditor;
 
 import zephyr.app;
 import zephyreditor.AppLayer;
 import zephyreditor.ui.EditorLayer;
+
+import <imgui.h>;
 
 class ZephyrEditor final : public zephyr::Application
 {

@@ -78,7 +78,7 @@ namespace zephyr
         LoggerBuilder engineLoggerBuilder;
         engineLoggerBuilder
             .SetName("Zephyr")
-            .SetLevel(LogLevel::Error)
+            .SetLevel(LogLevel::Info)
             .SetPattern("%^[%T] [ZEPHYR] %v%$")
             .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 

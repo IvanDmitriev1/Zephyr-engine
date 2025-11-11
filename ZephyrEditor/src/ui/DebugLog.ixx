@@ -1,11 +1,9 @@
-module;
-
-#include <imgui.h>
-
 export module zephyreditor.ui.DebugLog;
 
 export import zephyr.logging.BufferedLogSink;
 export import zephyr.core.coreTypes;
+
+import <imgui.h>;
 
 export class DebugLog
 {

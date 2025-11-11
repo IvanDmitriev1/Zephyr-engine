@@ -1,6 +1,5 @@
 ﻿module;
 
-#include <imgui.h>
 #include <imgui_internal.h>
 
 module zephyreditor.ui.EditorLayer;
