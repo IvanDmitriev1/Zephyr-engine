@@ -3,8 +3,6 @@ module;
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "core/Macros.h"
-
 module zephyr.app;
 
 import zephyr.logging.LogHelpers;
@@ -22,7 +20,7 @@ namespace zephyr
         ConfigureLogging();
 
         m_window = CreateScope<GLWindow>(spec);
-        m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+        m_window->SetEventCallback(bind_event_fn(this, &Application::OnEvent));
     }
 
     void Application::Run()

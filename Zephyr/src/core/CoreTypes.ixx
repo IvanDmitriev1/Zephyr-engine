@@ -32,7 +32,9 @@ export namespace zephyr
 #endif
 	}
 
-	inline void Assert(bool condition, std::string_view message,
+	inline void Assert(
+		bool condition,
+		std::string_view message,
 		std::source_location location = std::source_location::current())
 	{
 		if (condition)
@@ -48,5 +50,17 @@ export namespace zephyr
 
 		DebugBreak();
 		throw std::runtime_error(std::string(message));
+	}
+
+	template <std::unsigned_integral T = std::uint16_t>
+	[[nodiscard]] constexpr T bit(uint32_t pos) noexcept
+	{
+		return T{ 1 } << pos;
+	}
+
+	template <typename C, typename M>
+	[[nodiscard]] constexpr auto bind_event_fn(C* self, M method)
+	{
+		return std::bind_front(method, self);
 	}
 }

@@ -5,7 +5,6 @@ workspace "Zephyr"
     architecture "x86_64"
     language "C++"
     cppdialect "C++23"
-    clangtidy "On"
 
     startproject "ZephyrEditor"
 
@@ -29,6 +28,7 @@ workspace "Zephyr"
 
     filter "system:windows"
         buildoptions { "/utf-8" }
+        toolset "v145"
 
 
     removefiles { "**/vendor/**" }
