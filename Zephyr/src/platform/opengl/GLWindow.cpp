@@ -6,6 +6,7 @@ module zephyr.opengl.GLWindow;
 
 import zephyr.opengl.GLRendererAPI;
 import zephyr.opengl.GLContext;
+import zephyr.renderer.Renderer;
 
 namespace zephyr
 {
@@ -29,8 +30,9 @@ namespace zephyr
 		m_context->Init();
 		m_context->SetSwapInterval(m_windowSpec.VSync ? 1 : 0);
 
-		m_rendererAPI = m_context->CreateRendererAPI(m_windowSpec.Width, m_windowSpec.Height);
+		m_rendererAPI = CreateScope<GLRendererAPI>();
 		m_uiContext = m_context->CreateUiContext();
+		Renderer::Init(m_rendererAPI.get(), m_windowSpec.Width, m_windowSpec.Height);
 
 		glfwSetWindowUserPointer(m_window, this);
 		glfwSetWindowSizeCallback(m_window, WindowSizeCallBack);
@@ -39,6 +41,8 @@ namespace zephyr
 
 	GLWindow::~GLWindow()
 	{
+		Renderer::Shutdown();
+
 		if (m_window)
 		{
 			glfwDestroyWindow(m_window);

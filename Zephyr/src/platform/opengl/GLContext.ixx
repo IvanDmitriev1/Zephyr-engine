@@ -14,7 +14,6 @@ export namespace zephyr
 		~GLContext() override = default;
 
 	public:
-		Scope<IRendererAPI> CreateRendererAPI(uint32_t width, uint32_t height) override;
 		Scope<IUiRenderContext> CreateUiContext() override;
 		void SetSwapInterval(int interval) override;
 

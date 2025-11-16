@@ -6,39 +6,79 @@ module zephyr.opengl.GLRendererAPI;
 
 namespace zephyr
 {
-	GLRendererAPI::GLRendererAPI(int width, int height)
+	GLenum ToGLPrimitive(PrimitiveTopology topology)
 	{
-		FramebufferSpecification fbSpec;
-		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
-		fbSpec.Width = width;
-		fbSpec.Height = height;
-
-		m_frameBuffer = CreateScope<GLFrameBuffer>(fbSpec);
-	}
-
-	void GLRendererAPI::OnEvent(const ApplicationEvent& e)
-	{
-		if (e.GetEventType() == EventType::WINDOW_RESIZE_EVENT)
+		switch (topology)
 		{
-			const auto& resizeEvent = (WindowResizeEvent&)e;
-			m_frameBuffer->Resize(resizeEvent.GetWidth(), resizeEvent.GetHeight());
+		case PrimitiveTopology::Triangles: return GL_TRIANGLES;
+		case PrimitiveTopology::Lines:     return GL_LINES;
+		default:                           return GL_TRIANGLES;
 		}
 	}
 
-	void GLRendererAPI::StartOfTheFrame()
+	GLenum ToGLIndexType(IndexType type)
 	{
-		m_frameBuffer->Bind();
-		
-		//TODO remove
-		glViewport(0, 0, (GLsizei)m_frameBuffer->Width(), (GLsizei)m_frameBuffer->Height());
-		glDisable(GL_SCISSOR_TEST);
-		glEnable(GL_DEPTH_TEST);
-		glClearColor(0.10f, 0.10f, 0.12f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		switch (type)
+		{
+		case IndexType::UInt16: return GL_UNSIGNED_SHORT;
+		case IndexType::UInt32: return GL_UNSIGNED_INT;
+		default:                return GL_UNSIGNED_INT;
+		}
 	}
 
-	void GLRendererAPI::EndOfTheFrame()
+	void GLRendererAPI::BeginFrame()
 	{
-		m_frameBuffer->UnBind();
+	}
+
+	void zephyr::GLRendererAPI::EndFrame()
+	{
+	}
+
+	void GLRendererAPI::SetDepthTest(bool enabled)
+	{
+		if (enabled)
+			glEnable(GL_DEPTH_TEST);
+		else
+			glDisable(GL_DEPTH_TEST);
+	}
+
+	void GLRendererAPI::SetScissorTest(bool enabled)
+	{
+		if (enabled)
+			glEnable(GL_SCISSOR_TEST);
+		else
+			glDisable(GL_SCISSOR_TEST);
+	}
+
+	void GLRendererAPI::SetClearColor(const glm::vec4& color)
+	{
+		glClearColor(color.r, color.g, color.b, color.a);
+	}
+
+	void GLRendererAPI::Clear(bool color, bool depth)
+	{
+		GLbitfield mask = 0;
+		if (color) mask |= GL_COLOR_BUFFER_BIT;
+		if (depth) mask |= GL_DEPTH_BUFFER_BIT;
+
+		glClear(mask);
+	}
+
+	void GLRendererAPI::DrawIndexed(const IVertexArray& vao, PrimitiveTopology topology)
+	{
+		vao.Bind();
+
+		const uint32_t indexCount = vao.GetIndexCount();
+		if (indexCount == 0)
+			return;
+
+		const auto indexType = vao.GetIndexType();
+
+		glDrawElements(
+			ToGLPrimitive(topology),
+			static_cast<GLsizei>(indexCount),
+			ToGLIndexType(indexType),
+			nullptr
+		);
 	}
 }

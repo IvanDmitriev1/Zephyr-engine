@@ -9,6 +9,11 @@ import zephyr.core.coreTypes;
 
 namespace zephyr
 {
+	Ref<IFrameBuffer> IFrameBuffer::Create(const FramebufferSpecification& spec)
+	{
+		return CreateRef<GLFrameBuffer>(spec);
+	}
+
 	GLFrameBuffer::GLFrameBuffer(const FramebufferSpecification& spec)
 		: m_Spec(spec)
 	{
@@ -136,7 +141,11 @@ namespace zephyr
 		else
 		{
 			std::vector<GLenum> bufs(m_ColorAttachments.size());
-			for (size_t i = 0; i < bufs.size(); ++i) bufs[i] = GL_COLOR_ATTACHMENT0 + (GLenum)i;
+			for (size_t i = 0; i < bufs.size(); ++i)
+			{
+				bufs[i] = GL_COLOR_ATTACHMENT0 + (GLenum)i;
+			}
+
 			glNamedFramebufferDrawBuffers(m_FBO, (GLsizei)bufs.size(), bufs.data());
 		}
 

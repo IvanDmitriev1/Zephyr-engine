@@ -2,6 +2,7 @@ export module zephyr.renderer.IRendererAPI;
 
 export import zephyr.events.ApplicationEvents;
 export import zephyr.renderer.IFrameBuffer;
+export import zephyr.renderer.DrawCommand;
 
 export namespace zephyr
 {
@@ -15,11 +16,16 @@ export namespace zephyr
 		IRendererAPI& operator=(const IRendererAPI&) = delete;
 
 	public:
-		virtual IFrameBuffer& GetFrameBuffer() const = 0;
+		virtual void BeginFrame() = 0;
+		virtual void EndFrame() = 0;
 
-	public:
-		virtual void OnEvent(const ApplicationEvent& e) = 0;
-		virtual void StartOfTheFrame() = 0;
-		virtual void EndOfTheFrame() = 0;
+		virtual void SetDepthTest(bool enabled) = 0;
+		virtual void SetScissorTest(bool enabled) = 0;
+		virtual void SetClearColor(const glm::vec4& color) = 0;
+		virtual void Clear(bool color, bool depth) = 0;
+
+
+	public: // Drawing
+		virtual void DrawIndexed(const IVertexArray& vao, PrimitiveTopology topology) = 0;
 	};
 }

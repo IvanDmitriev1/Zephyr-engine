@@ -4,6 +4,8 @@ export import zephyr.core.Layer;
 export import zephyr.renderer.IRendererAPI;
 
 import zephyreditor.ui.DebugLog;
+import zephyr.renderer.IShader;
+import zephyr.renderer.IVertexArray;
 
 import <imgui.h>;
 
@@ -13,8 +15,12 @@ public:
 	EditorLayer(zephyr::IRendererAPI& rendererApi, zephyr::LogBuffer& logBuffer);
 	~EditorLayer() = default;
 
+	void OnAttach() override;
+
 	void OnUpdate(float ts) override;
 	void OnUi() override;
+
+	void OnRender() override;
 
 private:
 	void DrawDockSpace();
@@ -22,6 +28,11 @@ private:
 	void BuildDefaultDockLayout(ImGuiID dockspace_id);
 
 	void DrawViewPort();
+
+private:
+	zephyr::Ref<zephyr::IShader> m_Shader;
+	zephyr::Ref<zephyr::IVertexArray> m_VertexArray;
+	uint32_t m_IndexCount = 0;
 
 private:
 	zephyr::IRendererAPI& m_rendererApi;

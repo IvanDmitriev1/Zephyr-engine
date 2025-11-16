@@ -16,7 +16,6 @@ export namespace zephyr
 		IGraphicsContext& operator=(const IGraphicsContext&) = delete;
 
 	public:
-		virtual Scope<IRendererAPI> CreateRendererAPI(uint32_t width, uint32_t height) = 0;
 		virtual Scope<IUiRenderContext> CreateUiContext() = 0;
 		virtual void SetSwapInterval(int interval) = 0;
 

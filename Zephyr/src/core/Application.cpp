@@ -8,6 +8,7 @@ module zephyr.app;
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
 import zephyr.opengl.GLWindow;
+import zephyr.renderer.Renderer;
 import glm;
 
 import <spdlog/spdlog.h>;
@@ -26,7 +27,6 @@ namespace zephyr
     void Application::Run()
     {
         m_Running = true;
-        IRendererAPI& renderer = m_window->Gfx();
 		IUiRenderContext& uiRenderContext = m_window->UiContext();
 
         float lastTime = m_window->GetTime();
@@ -41,9 +41,14 @@ namespace zephyr
             {
                 m_LayerStack.OnUpdate(dt);
 
-                renderer.StartOfTheFrame();
+                // 3D: some layer should set camera each frame:
+                // Renderer::SetViewProjection(camera.GetViewProjection());
+                // For now, identity:
+                Renderer::SetViewProjection(glm::mat4(1.0f));
+
+                Renderer::BeginFrame();
                 m_LayerStack.OnRender();
-                renderer.EndOfTheFrame();
+                Renderer::EndFrame();
 
                 uiRenderContext.BeginFrame();
                 m_LayerStack.OnUiRender();
@@ -112,8 +117,6 @@ namespace zephyr
             {
                 m_Running = false;
             }
-
-            m_window->Gfx().OnEvent(appEvent);
         }
 
         m_window->UiContext().OnEvent(e);

@@ -26,6 +26,8 @@ public:
 export zephyr::Application* zephyr::CreateApplication()
 {
 	zephyr::WindowSpecification spec{};
+	spec.Width = 1920;
+	spec.Height = 1080;
 	spec.Title = "Zephyr Editor";
 
 	return new ZephyrEditor(spec);

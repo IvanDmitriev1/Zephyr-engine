@@ -1,6 +1,7 @@
 export module zephyr.renderer.IFrameBuffer;
 
-export import std.compat;
+export import zephyr.renderer.FrameBufferSpecs;
+export import zephyr.core.coreTypes;
 
 export namespace zephyr
 {
@@ -25,5 +26,8 @@ export namespace zephyr
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
 
 		virtual uint32_t GetTexture(uint32_t index) = 0;
+
+	public:
+		static Ref<IFrameBuffer> Create(const FramebufferSpecification& spec);
 	};
 }

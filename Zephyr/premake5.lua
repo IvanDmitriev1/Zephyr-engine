@@ -13,7 +13,6 @@ project "Zephyr"
     {
         "src",
         "%{IncludeDir.glfw}",
-        "%{IncludeDir.glm}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.imgui}",
     }
@@ -28,6 +27,9 @@ project "Zephyr"
         "src/**.ixx",
         "src/**.glsl",
     }
+
+    filter "files:**.glsl"
+        buildaction "None"
 
     filter "system:windows"
         systemversion "latest"

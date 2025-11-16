@@ -6,7 +6,6 @@ project "ZephyrEditor"
 		"%{wks.location}/Zephyr/src",
         "src",
         "%{IncludeDir.glfw}",
-		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
 	}
 
@@ -26,6 +25,9 @@ project "ZephyrEditor"
         "src/**.ixx",
         "src/**.glsl",
     }
+
+    filter "files:**.glsl"
+        buildaction "None"
 	
     filter "system:windows"
 		kind "WindowedApp"

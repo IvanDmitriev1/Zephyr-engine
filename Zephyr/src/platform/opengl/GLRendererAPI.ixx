@@ -1,4 +1,3 @@
-module;
 export module zephyr.opengl.GLRendererAPI;
 
 import zephyr.renderer.IRendererAPI;
@@ -11,21 +10,19 @@ export namespace zephyr
 	class GLRendererAPI final : public IRendererAPI
 	{
 	public:
-		GLRendererAPI(int width, int height);
+		GLRendererAPI() = default;
 		~GLRendererAPI() override = default;
 
 	public:
-		IFrameBuffer& GetFrameBuffer() const override
-		{
-			return *m_frameBuffer;
-		}
+		void BeginFrame() override;
+		void EndFrame() override;
+
+		void SetDepthTest(bool enabled) override;
+		void SetScissorTest(bool enabled) override;
+		void SetClearColor(const glm::vec4& color) override;
+		void Clear(bool color, bool depth) override;
 
 	public:
-		void OnEvent(const ApplicationEvent& e) override;
-		void StartOfTheFrame() override;
-		void EndOfTheFrame() override;
-
-	private:
-		Scope<GLFrameBuffer> m_frameBuffer;
+		void DrawIndexed(const IVertexArray& vao, PrimitiveTopology topology) override;
 	};
 }

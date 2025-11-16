@@ -1,22 +1,84 @@
-﻿module;
+module;
 
 #include <imgui_internal.h>
 
 module zephyreditor.ui.EditorLayer;
 
+import zephyr.renderer.Renderer;
+
+struct Vertex
+{
+    glm::vec3 Position;
+    glm::vec3 Color;
+};
+
+
+
 EditorLayer::EditorLayer(zephyr::IRendererAPI& rendererApi, zephyr::LogBuffer& logBuffer) : Layer("EditorLayer")
     ,m_rendererApi(rendererApi), m_DebugLog(logBuffer)
 {
+    
+}
+
+void EditorLayer::OnAttach()
+{
+    zephyr::ShaderCreateInfo shaderInfo;
+    shaderInfo.Name = "TriangleShader";
+    shaderInfo.Stages =
+    {
+        zephyr::ShaderStageDesc{ zephyr::ShaderStage::Vertex,   "assets/shaders/Triangle.vert.glsl" },
+        zephyr::ShaderStageDesc{ zephyr::ShaderStage::Fragment, "assets/shaders/Triangle.frag.glsl" }
+    };
+
+    m_Shader = zephyr::IShader::Create(shaderInfo);
+
+
+    Vertex vertices[3] = {
+        { {  0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f } },
+        { {  0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
+        { { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f } }
+    };
+
+    std::uint32_t indices[3] = { 0, 1, 2 };
+
+    zephyr::BufferCreateInfo vbInfo;
+    vbInfo.Type = zephyr::BufferType::Vertex;
+    vbInfo.Usage = zephyr::BufferUsage::StaticDraw;
+    vbInfo.Size = sizeof(vertices);
+    vbInfo.Data = vertices;
+
+    zephyr::BufferCreateInfo ibInfo;
+    ibInfo.Type = zephyr::BufferType::Index;
+    ibInfo.Usage = zephyr::BufferUsage::StaticDraw;
+    ibInfo.Size = sizeof(indices);
+    ibInfo.Data = indices;
+
+    auto vertexBuffer = zephyr::IBuffer::Create(vbInfo);
+    auto indexBuffer = zephyr::IBuffer::Create(ibInfo);
+
+    zephyr::VertexLayout layout =
+    {
+        { "a_Position", zephyr::ShaderDataType::Float3 },
+        { "a_Color",    zephyr::ShaderDataType::Float3 }
+    };
+
+    zephyr::VertexArrayCreateInfo vaoInfo(
+        vertexBuffer,
+        std::move(layout),
+        indexBuffer,
+        zephyr::IndexType::UInt32);
+
+    m_VertexArray = zephyr::IVertexArray::Create(vaoInfo);
+    m_IndexCount = m_VertexArray->GetIndexCount();
 }
 
 void EditorLayer::OnUpdate(float ts)
 {
     if (m_ResizeRequested)
     {
-        m_rendererApi.GetFrameBuffer().Resize(m_PendingW, m_PendingH);
+        zephyr::Renderer::GetFrameBuffer().Resize(m_PendingW, m_PendingH);
         m_ResizeRequested = false;
     }
-
 }
 
 void EditorLayer::OnUi()
@@ -32,6 +94,17 @@ void EditorLayer::OnUi()
     {
         ImGui::ShowDemoWindow(nullptr);
     }
+}
+
+void EditorLayer::OnRender()
+{
+    zephyr::DrawCommand cmd;
+    cmd.Shader = m_Shader;
+    cmd.VertexArray = m_VertexArray;
+    cmd.Topology = zephyr::PrimitiveTopology::Triangles;
+    cmd.Transform = glm::mat4(1.0f);
+
+    zephyr::Renderer::Submit(cmd);
 }
 
 void EditorLayer::DrawDockSpace()
@@ -147,7 +220,7 @@ void EditorLayer::DrawViewPort()
     if (!m_ShowViewport)
         return;
 
-    zephyr::IFrameBuffer& fbo = m_rendererApi.GetFrameBuffer();
+    zephyr::IFrameBuffer& fbo = zephyr::Renderer::GetFrameBuffer();
 
     ImGui::Begin("Viewport", nullptr,
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
