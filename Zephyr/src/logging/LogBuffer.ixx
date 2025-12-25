@@ -2,7 +2,7 @@ export module zephyr.logging.LogBuffer;
 
 export import zephyr.logging.Log;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class LogBuffer
 	{

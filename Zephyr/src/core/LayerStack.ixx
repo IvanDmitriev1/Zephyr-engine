@@ -1,9 +1,9 @@
 export module zephyr.core.LayerStack;
 
-export import zephyr.core.coreTypes;
+export import Zephyr.Core.CoreTypes;
 export import zephyr.core.Layer;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class LayerStack final
 	{

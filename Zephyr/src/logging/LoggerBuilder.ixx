@@ -6,7 +6,7 @@ export module zephyr.logging.LoggerBuilder;
 
 export import zephyr.logging.Log;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class LoggerBuilder
 	{

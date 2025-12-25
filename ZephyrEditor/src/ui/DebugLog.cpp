@@ -4,7 +4,7 @@ module;
 
 module zephyreditor.ui.DebugLog;
 
-DebugLog::DebugLog(zephyr::LogBuffer& logBuffer)
+DebugLog::DebugLog(Zephyr::LogBuffer& logBuffer)
 	:m_LogBuffer(logBuffer)
 {
 
@@ -41,9 +41,9 @@ void DebugLog::DrawToolBar()
 
 	if (ImGui::Button("Test"))
 	{
-		zephyr::applog::Warn("Warning");
-		zephyr::applog::Error("Error");
-		zephyr::applog::Critical("Critical");
+		Zephyr::applog::Warn("Warning");
+		Zephyr::applog::Error("Error");
+		Zephyr::applog::Critical("Critical");
 	}
 }
 
@@ -76,16 +76,16 @@ void DebugLog::DrawLogs()
 	ImGui::EndChild();
 }
 
-constexpr ImU32 DebugLog::LogColor(zephyr::LogLevel level)
+constexpr ImU32 DebugLog::LogColor(Zephyr::LogLevel level)
 {
 	switch (level)
 	{
-	case zephyr::LogLevel::Trace:    return IM_COL32(160, 160, 160, 255);
-	case zephyr::LogLevel::Debug:    return IM_COL32(120, 180, 255, 255);
-	case zephyr::LogLevel::Info:     return IM_COL32_WHITE;
-	case zephyr::LogLevel::Warning:  return IM_COL32(255, 200, 80, 255);
-	case zephyr::LogLevel::Error:    return IM_COL32(255, 120, 120, 255);
-	case zephyr::LogLevel::Critical: return IM_COL32(255, 80, 80, 255);
+	case Zephyr::LogLevel::Trace:    return IM_COL32(160, 160, 160, 255);
+	case Zephyr::LogLevel::Debug:    return IM_COL32(120, 180, 255, 255);
+	case Zephyr::LogLevel::Info:     return IM_COL32_WHITE;
+	case Zephyr::LogLevel::Warning:  return IM_COL32(255, 200, 80, 255);
+	case Zephyr::LogLevel::Error:    return IM_COL32(255, 120, 120, 255);
+	case Zephyr::LogLevel::Critical: return IM_COL32(255, 80, 80, 255);
 	default:					     return IM_COL32_WHITE;
 	}
 }

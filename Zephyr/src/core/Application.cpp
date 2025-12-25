@@ -1,72 +1,59 @@
-module;
-
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
 module zephyr.app;
 
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
-import zephyr.opengl.GLWindow;
-import zephyr.renderer.Renderer;
+import zephyr.events.ApplicationEvents;
 import glm;
 
 import <spdlog/spdlog.h>;
 
-namespace zephyr
+import Zephyr.Renderer.Zephyr_RENDERER.Window;
+
+namespace Zephyr
 {
     Application::Application(const WindowSpecification& spec)
-        : m_windowSpec{ spec }
     {
         ConfigureLogging();
 
-        m_window = CreateScope<GLWindow>(spec);
+        m_window = Window::CreateMainWindow(spec);
         m_window->SetEventCallback(bind_event_fn(this, &Application::OnEvent));
+
+        m_swapchain = RHI::Device::CreateSwapchain(*m_window, RHI::SwapchainDesc{
+            .Size = m_window->GetSize(),
+            .ColorFormat = RHI::TextureFormat::RGBA8,
+            .DepthFormat = RHI::TextureFormat::DEPTH24STENCIL8,
+            .DebugName = "MainSwapchain"
+        });
     }
 
     void Application::Run()
     {
         m_Running = true;
-		IUiRenderContext& uiRenderContext = m_window->UiContext();
 
         float lastTime = m_window->GetTime();
 
         while (m_Running)
         {
+            m_window->PollEvents();
+
             float currentTime = m_window->GetTime();
             float dt = glm::clamp(currentTime - lastTime, 0.001f, 0.1f);
             lastTime = currentTime;
 
             if (!m_Minimized)
             {
-                m_LayerStack.OnUpdate(dt);
+                m_swapchain->BeginFrame();
 
-                // 3D: some layer should set camera each frame:
-                // Renderer::SetViewProjection(camera.GetViewProjection());
-                // For now, identity:
-                Renderer::SetViewProjection(glm::mat4(1.0f));
 
-                Renderer::BeginFrame();
-                m_LayerStack.OnRender();
-                Renderer::EndFrame();
 
-                uiRenderContext.BeginFrame();
-                m_LayerStack.OnUiRender();
-                uiRenderContext.EndFrame();
+                m_swapchain->Present();
             }
-
-            m_window->Update();
-		}
+        }
     }
 
     LayerStack& Application::GetLayerStack()
     {
 		return m_LayerStack;
-    }
-
-    IWindow& Application::GetWindow()
-    {
-		return *m_window;
     }
 
     LogBuffer& Application::GetLogBuffer()
@@ -89,7 +76,7 @@ namespace zephyr
         appLoggerBuilder
             .SetName("App")
             .SetLevel(LogLevel::Info)
-            .SetPattern(std::format("%^[%T] [{}] %v%$", m_windowSpec.Title))
+            .SetPattern(std::format("%^[%T] [{}] %v%$", "change later"))
             .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
         ConfigureAppLogger(appLoggerBuilder);
@@ -117,9 +104,14 @@ namespace zephyr
             {
                 m_Running = false;
             }
+
+            if (appEvent.GetEventType() == EventType::WINDOW_RESIZE_EVENT)
+            {
+                m_swapchain->Resize(glm::ivec2(appEvent.GetWidth(), appEvent.GetHeight()));
+            }
         }
 
-        m_window->UiContext().OnEvent(e);
+        //m_window->UiContext().OnEvent(e);
 		m_LayerStack.OnEvent(e);
     }
 }

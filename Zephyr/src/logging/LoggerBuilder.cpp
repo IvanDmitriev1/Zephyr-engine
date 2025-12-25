@@ -12,7 +12,7 @@ import zephyr.logging.LogHelpers;
 
 import <spdlog/spdlog.h>;
 
-namespace zephyr
+namespace Zephyr
 {
 	LoggerBuilder::LoggerBuilder()
 	{

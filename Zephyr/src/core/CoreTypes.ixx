@@ -1,8 +1,8 @@
-export module zephyr.core.coreTypes;
+export module Zephyr.Core.CoreTypes;
 
 export import zephyr.logging.LogHelpers;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
@@ -42,7 +42,7 @@ export namespace zephyr
 			return;
 		}
 
-		zephyr::log::Critical(
+		Zephyr::log::Critical(
 			"Assertion failed: {} at {}:{}",
 			message,
 			location.file_name(),
@@ -52,7 +52,7 @@ export namespace zephyr
 		throw std::runtime_error(std::string(message));
 	}
 
-	template <std::unsigned_integral T = std::uint16_t>
+	template <std::unsigned_integral T = std::uint32_t>
 	[[nodiscard]] constexpr T bit(uint32_t pos) noexcept
 	{
 		return T{ 1 } << pos;

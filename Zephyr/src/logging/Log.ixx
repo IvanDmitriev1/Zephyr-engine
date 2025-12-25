@@ -6,7 +6,7 @@ export module zephyr.logging.Log;
 
 export import std;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	enum class LogLevel
 	{

@@ -3,7 +3,7 @@ export module zephyr.logging.LogHelpers;
 export import zephyr.logging.Log;
 import <spdlog/spdlog.h>;
 
-export namespace zephyr::log
+export namespace Zephyr::log
 {
     constexpr LogLevel ConvertLogLevel(spdlog::level::level_enum level)
     {
@@ -65,7 +65,7 @@ export namespace zephyr::log
     }
 }
 
-export namespace zephyr::applog
+export namespace Zephyr::applog
 {
     template<typename... Args>
     inline void Trace(spdlog::format_string_t<Args...> fmt, Args&&... args)

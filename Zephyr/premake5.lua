@@ -12,7 +12,7 @@ project "Zephyr"
     includedirs
     {
         "src",
-        "%{IncludeDir.glfw}",
+        "%{IncludeDir.glm}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.imgui}",
     }
@@ -42,11 +42,11 @@ project "Zephyr"
     filter "platforms:Opengl"
         defines
         {
-            "Zephyr_RENDERER=Opengl",
+            "Zephyr_RENDERER=OpenGL",
         }
         includedirs
         {
-            "%{IncludeDir.glm}",
+            "%{IncludeDir.glfw}",
             "%{IncludeDir.glad}",
             "%{IncludeDir.imguiOpengl}",
         }

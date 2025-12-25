@@ -3,7 +3,7 @@ export module zephyr.events.IEvent;
 export import zephyr.events.EventType;
 export import zephyr.events.EventCategory;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class IEvent
 	{

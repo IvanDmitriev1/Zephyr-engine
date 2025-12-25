@@ -3,7 +3,7 @@ export module zephyreditor.AppLayer;
 
 export import zephyr.core.Layer;
 
-export class AppLayer : public zephyr::Layer
+export class AppLayer : public Zephyr::Layer
 {
 public:
 	AppLayer() : Layer("test1")

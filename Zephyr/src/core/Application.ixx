@@ -1,13 +1,15 @@
 export module zephyr.app;
 
-export import zephyr.core.coreTypes;
+export import Zephyr.Core.CoreTypes;
 export import zephyr.core.LayerStack;
-export import zephyr.renderer.IWindow;
 export import zephyr.events.IEvent;
 export import zephyr.logging.LoggerBuilder;
 export import zephyr.logging.LogBuffer;
 
-export namespace zephyr
+export import Zephyr.Renderer.Core.Device;
+export import Zephyr.Renderer.Window;
+
+export namespace Zephyr
 {
     class Application
     {
@@ -19,7 +21,6 @@ export namespace zephyr
 
     protected:
         LayerStack& GetLayerStack();
-        IWindow& GetWindow();
         LogBuffer& GetLogBuffer();
 
         virtual void ConfigureEngineLogger(LoggerBuilder& builder) { }
@@ -31,9 +32,9 @@ export namespace zephyr
         void OnEvent(const IEvent& e);
 
     private:
-        const WindowSpecification m_windowSpec;
-		Scope<IWindow> m_window;
 		LayerStack m_LayerStack;
+        Scope<IWindow> m_window;
+        Scope<RHI::ISwapchain> m_swapchain;
         Ref<LogBuffer> m_LogBuffer;
         bool m_Running = true;
 		bool m_Minimized = false;

@@ -1,6 +1,6 @@
 module zephyr.core.LayerStack;
 
-namespace zephyr
+namespace Zephyr
 {
 	LayerStack::~LayerStack()
 	{

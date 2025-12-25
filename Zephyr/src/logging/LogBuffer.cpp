@@ -1,6 +1,6 @@
 module zephyr.logging.LogBuffer;
 
-namespace zephyr
+namespace Zephyr
 {
 	LogBuffer::LogBuffer(size_t capacity)
 		: m_Capacity(capacity)

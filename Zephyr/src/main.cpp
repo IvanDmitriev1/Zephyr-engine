@@ -5,7 +5,7 @@ import zephyr.app;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow)
 {
-    zephyr::Application* app = zephyr::CreateApplication();
+    Zephyr::Application* app = Zephyr::CreateApplication();
     app->Run();
 
     delete app;

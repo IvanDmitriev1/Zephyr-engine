@@ -7,9 +7,9 @@ export module zephyr.logging.BufferedLogSink;
 
 export import zephyr.logging.LogHelpers;
 export import zephyr.logging.LogBuffer;
-export import zephyr.core.coreTypes;
+export import Zephyr.Core.CoreTypes;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class BufferedLogSink : public spdlog::sinks::base_sink<std::mutex>
 	{

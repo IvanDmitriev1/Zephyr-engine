@@ -1,8 +1,8 @@
 export module zephyr.events.EventCategory;
 
-import zephyr.core.coreTypes;
+import Zephyr.Core.CoreTypes;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	enum EventCategory
 	{

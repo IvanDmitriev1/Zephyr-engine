@@ -2,7 +2,7 @@ export module zephyr.core.Layer;
 
 export import zephyr.events.IEvent;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class Layer
 	{

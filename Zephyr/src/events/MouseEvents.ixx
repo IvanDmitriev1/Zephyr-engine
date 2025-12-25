@@ -6,7 +6,7 @@ export module zephyr.events.MouseEvents;
 
 export import zephyr.events.IEvent;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	using MouseCode = uint16_t;
 

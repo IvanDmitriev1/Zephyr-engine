@@ -5,7 +5,7 @@ project "ZephyrEditor"
 	{
 		"%{wks.location}/Zephyr/src",
         "src",
-        "%{IncludeDir.glfw}",
+        "%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
 	}
 

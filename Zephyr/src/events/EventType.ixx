@@ -2,7 +2,7 @@ export module zephyr.events.EventType;
 
 export import std.compat;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	enum class EventType : uint8_t
 	{

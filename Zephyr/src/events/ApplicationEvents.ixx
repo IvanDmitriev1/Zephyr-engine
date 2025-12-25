@@ -6,7 +6,7 @@ export module zephyr.events.ApplicationEvents;
 
 export import zephyr.events.IEvent;
 
-export namespace zephyr
+export namespace Zephyr
 {
 	class ApplicationEvent : public IEvent
 	{

@@ -1,14 +1,14 @@
 export module zephyreditor.ui.DebugLog;
 
 export import zephyr.logging.BufferedLogSink;
-export import zephyr.core.coreTypes;
+export import Zephyr.Core.CoreTypes;
 
 import <imgui.h>;
 
 export class DebugLog
 {
 public:
-	DebugLog(zephyr::LogBuffer& logBuffer);
+	DebugLog(Zephyr::LogBuffer& logBuffer);
 	~DebugLog() = default;
 
 public:
@@ -20,11 +20,11 @@ public:
 private:
 	void DrawToolBar();
 	void DrawLogs();
-	constexpr ImU32 LogColor(zephyr::LogLevel level);
+	constexpr ImU32 LogColor(Zephyr::LogLevel level);
 
 
 private:
-	zephyr::LogBuffer& m_LogBuffer;
-	zephyr::Scope<ImGuiTextFilter> m_filter;
+	Zephyr::LogBuffer& m_LogBuffer;
+	Zephyr::Scope<ImGuiTextFilter> m_filter;
 	bool m_AutoScroll = true;
 };
