@@ -6,6 +6,7 @@ module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
+import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
 {
@@ -30,9 +31,7 @@ namespace Zephyr::RHI::OpenGL
 	{
 		if (m_Spec.Size == newSize || (m_Spec.Size.x == 0 && m_Spec.Size.y== 0))
 			return;
-
-		auto f = m_ColorAttachments.max_size();
-
+		
 		m_Spec.Size = newSize;
 		Invalidate();
 	}
@@ -82,10 +81,7 @@ namespace Zephyr::RHI::OpenGL
 		AttachTextures();
 		CheckStatus();
 
-		if (!m_Spec.DebugName.empty())
-		{
-			glObjectLabel(GL_FRAMEBUFFER, m_FBO, -1, m_Spec.DebugName.data());
-		}
+		Debug::SetGlDebugLabel(GL_FRAMEBUFFER, m_FBO, m_Spec.DebugName);
 	}
 
 	void GlFrameBuffer::CreateAttachments()

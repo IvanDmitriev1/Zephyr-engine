@@ -69,10 +69,15 @@ namespace Zephyr::RHI::OpenGL::Debug
 		DebugBreak();
 	}
 
-	void InitOpenGLDebugMessageCallback()
+	constexpr void InitOpenGLDebugMessageCallback()
 	{
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(GLDebugCallback, nullptr);
+	}
+
+	constexpr void SetGlDebugLabel(GLenum identifier, GLuint name, std::string_view label)
+	{
+		glObjectLabel(identifier, name, (GLsizei) label.size(), label.data());
 	}
 }

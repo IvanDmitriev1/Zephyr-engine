@@ -13,19 +13,22 @@ export namespace Zephyr::RHI::OpenGL
 	public:
 		std::string_view GetName() const noexcept override
 		{
-			return m_name;
+			return m_Name;
 		}
 
 	public:
-		void SetInt(std::string_view name, int value) override;
-		void SetFloat(std::string_view name, float value) override;
-		void SetFloat2(std::string_view name, const glm::vec2& value) override;
-		void SetFloat3(std::string_view name, const glm::vec3& value) override;
-		void SetFloat4(std::string_view name, const glm::vec4& value) override;
-		void SetMat4(std::string_view name, const glm::mat4& value) override;
+		uint32_t GetProgramID() const noexcept
+		{
+			return m_ProgramID;
+		}
 
 	private:
-		std::string m_name{};
-		uint32_t m_programId{};
+		void CompileAndLink(std::span<const ShaderStageDesc> stages);
+		uint32_t CompileStage(ShaderStage stage, std::string_view source);
+		void LinkProgram(std::span<const uint32_t> shaderIDs);
+
+	private:
+		std::string m_Name{};
+		uint32_t m_ProgramID{};
 	};
 }

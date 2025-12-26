@@ -20,5 +20,6 @@ namespace Zephyr::RHI::OpenGL::Debug
 						 const GLchar* message,
 						 const void* userParam);
 
-	export void InitOpenGLDebugMessageCallback();
+	export constexpr void InitOpenGLDebugMessageCallback();
+	export constexpr void SetGlDebugLabel(GLenum identifier, GLuint name, std::string_view label);
 }

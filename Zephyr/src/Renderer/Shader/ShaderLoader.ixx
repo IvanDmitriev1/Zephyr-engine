@@ -34,7 +34,7 @@ export namespace Zephyr
     private:
         static std::string ReadFile(const std::filesystem::path& path);
 
-        static std::vector<RHI::ShaderStage, std::string> PreprocessShader(std::string_view source);
+        static std::vector<std::pair<RHI::ShaderStage, std::string>> PreprocessShader(std::string_view source);
 
         static RHI::ShaderStage ExtensionToStage(std::string_view extension);
 	};

@@ -4,26 +4,36 @@ export import Zephyr.Renderer.Resources.BufferTypes;
 
 export namespace Zephyr::RHI
 {
-    class IBuffer
+    class IVertexBuffer 
     {
     public:
-        virtual ~IBuffer() = default;
+        virtual ~IVertexBuffer() = default;
 
+    public:
         virtual const BufferDesc& GetDesc() const noexcept = 0;
+        virtual void SetData(std::span<const std::byte> data, uint64_t dstOffsetBytes = 0) = 0;
     };
 
-    class IVertexBuffer : public IBuffer
+    class IIndexBuffer
     {
     public:
+        virtual ~IIndexBuffer() = default;
+
+    public:
+        virtual const BufferDesc& GetDesc() const noexcept = 0;
+        virtual uint32_t GetCount() const noexcept = 0;
+        virtual IndexType GetIndexType() const noexcept = 0;
+
+        virtual void SetData(std::span<const std::byte> data, uint64_t dstOffsetBytes = 0) = 0;
     };
 
-    class IIndexBuffer : public IBuffer
+    class IUniformBuffer
     {
     public:
-        virtual uint32_t GetCount() const = 0;
-    };
+        virtual ~IUniformBuffer() = default;
 
-    class IUniformBuffer : public IBuffer
-    {
+    public:
+        virtual const BufferDesc& GetDesc() const noexcept = 0;
+        virtual void SetData(std::span<const std::byte> data, uint64_t dstOffsetBytes = 0) = 0;
     };
 }
