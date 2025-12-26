@@ -32,12 +32,22 @@ export namespace Zephyr
 #endif
 	}
 
+
+	template <class T>
+	concept BoolTestable = requires(T && t)
+	{
+		{
+			static_cast<bool>(std::forward<T>(t))
+		} -> std::same_as<bool>;
+	};
+
+	template <BoolTestable Condition>
 	inline void Assert(
-		bool condition,
+		Condition&& condition,
 		std::string_view message,
 		std::source_location location = std::source_location::current())
 	{
-		if (condition)
+		if (static_cast<bool>(condition))
 		{
 			return;
 		}

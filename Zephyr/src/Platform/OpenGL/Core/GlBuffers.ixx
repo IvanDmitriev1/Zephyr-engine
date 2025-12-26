@@ -24,7 +24,7 @@ export namespace Zephyr::RHI::OpenGL
             m_Buffer.SetData(data, dstOffsetBytes);
         }
 
-        const GlBuffer& GetNativeBuffer() const noexcept
+        const GlBuffer& GetUnderlyingBuffer() const noexcept
         {
             return m_Buffer;
         }

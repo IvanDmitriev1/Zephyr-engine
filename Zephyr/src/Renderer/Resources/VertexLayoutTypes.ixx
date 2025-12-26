@@ -15,10 +15,12 @@ export namespace Zephyr::RHI
 
     struct VertexAttribute
     {
-        std::string_view Name{};
-        VertexAttributeType Type{};
+        uint32_t Location = 0;
         uint32_t Offset{};
+        VertexAttributeType Type{};
         bool Normalized = false;
+        
+        std::string_view DebugName{};
     };
 
 
@@ -38,6 +40,36 @@ export namespace Zephyr::RHI
         case VertexAttributeType::Mat3:   return 4 * 3 * 3;
         case VertexAttributeType::Mat4:   return 4 * 4 * 4;
         case VertexAttributeType::Bool:   return 1;
+        default: return 0;
+        }
+    }
+
+    constexpr bool VertexAttributeTypeIsInteger(VertexAttributeType t) noexcept
+    {
+        return t == VertexAttributeType::Int || t == VertexAttributeType::Int2 ||
+            t == VertexAttributeType::Int3 || t == VertexAttributeType::Int4 ||
+            t == VertexAttributeType::Bool;
+    }
+
+    constexpr bool VertexAttributeTypeIsMatrix(VertexAttributeType t) noexcept
+    {
+        return t == VertexAttributeType::Mat3 || t == VertexAttributeType::Mat4;
+    }
+
+    constexpr uint32_t VertexAttributeTypeComponentCount(VertexAttributeType t) noexcept
+    {
+        switch (t)
+        {
+        case VertexAttributeType::Float:  return 1;
+        case VertexAttributeType::Float2: return 2;
+        case VertexAttributeType::Float3: return 3;
+        case VertexAttributeType::Float4: return 4;
+        case VertexAttributeType::Int:    return 1;
+        case VertexAttributeType::Int2:   return 2;
+        case VertexAttributeType::Int3:   return 3;
+        case VertexAttributeType::Int4:   return 4;
+        case VertexAttributeType::Bool:   return 1;
+            // Mat handled separately (split into columns)
         default: return 0;
         }
     }

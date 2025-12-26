@@ -19,8 +19,24 @@ export namespace Zephyr::RHI
 		VertexLayout(const VertexLayout&) = delete;
 		VertexLayout& operator=(const VertexLayout&) = delete;
 
-		VertexLayout(VertexLayout&&) = default;
-		VertexLayout& operator=(VertexLayout&&) = default;
+		VertexLayout(VertexLayout&& other)
+			: m_Attributes(std::move(other.m_Attributes)),
+			m_Stride(other.m_Stride)
+		{
+			other.m_Stride = 0;
+		}
+
+		VertexLayout& operator=(VertexLayout&& other)
+		{
+			if (this == &other)
+				return *this;
+
+			m_Attributes = std::move(other.m_Attributes);
+			m_Stride = other.m_Stride;
+
+			other.m_Stride = 0;
+			return *this;
+		}
 
 	public:
 		std::span<const VertexAttribute> GetAttributes() const noexcept

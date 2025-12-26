@@ -18,12 +18,16 @@ export namespace Zephyr::RHI
 
     enum class CullMode : uint8_t
     {
-        None, Front, Back, FrontAndBack
+        None,
+        Front,
+        Back,
+        FrontAndBack
     };
 
     enum class FrontFace : uint8_t
     {
-        Clockwise, CounterClockwise
+        Clockwise,
+        CounterClockwise
     };
 
     struct RasterizerState
@@ -37,13 +41,11 @@ export namespace Zephyr::RHI
 
     struct PipelineDesc
     {
-        Ref<IShader> Shader;
-        VertexLayout VertexLayout;
-        PrimitiveTopology topology = PrimitiveTopology::Triangles;
+        Ref<IShader> Shader{};
+        VertexLayout VertexLayout{};
+        PrimitiveTopology Topology{ PrimitiveTopology::Triangles };
+        RasterizerState rasterizerState{};
 
-        RasterizerState rasterizerState;
-
-        std::vector<TextureFormat> colorAttachmentFormats{};
-        TextureFormat DepthAttachmentFormat = TextureFormat::None;
+        std::string_view DebugName{};
     };
 }
