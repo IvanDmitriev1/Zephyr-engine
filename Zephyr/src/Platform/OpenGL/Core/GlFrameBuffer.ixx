@@ -2,6 +2,7 @@ export module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 export import Zephyr.Renderer.Core.IFrameBuffer;
 export import Zephyr.Renderer.OpenGL.GlTexture;
+export import Zephyr.Renderer.Resources.RenderPassTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {
@@ -33,6 +34,9 @@ export namespace Zephyr::RHI::OpenGL
 	public:
 		void Bind();
 		void Unbind();
+		void ClearForRenderPass(const RenderPassDesc& rp);
+
+		static void ClearDefaultFrameBuffer(const RenderPassDesc& rp);
 
 	private:
 		void Destroy() noexcept;

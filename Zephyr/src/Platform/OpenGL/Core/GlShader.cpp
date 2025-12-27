@@ -5,6 +5,7 @@ module;
 module Zephyr.Renderer.OpenGL.Shader;
 
 import Zephyr.Renderer.OpenGL.Resources.GlShaderTypes;
+import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
 {
@@ -43,6 +44,16 @@ namespace Zephyr::RHI::OpenGL
 	{
 		if (m_ProgramID)
 			glDeleteProgram(m_ProgramID);
+	}
+
+	void GlShader::Bind() const
+	{
+		glUseProgram(m_ProgramID);
+	}
+
+	void GlShader::Unbind() const
+	{
+		glUseProgram(0);
 	}
 
 	void GlShader::CompileAndLink(std::span<const ShaderStageDesc> stages)
@@ -106,7 +117,7 @@ namespace Zephyr::RHI::OpenGL
 		}
 
 		glLinkProgram(m_ProgramID);
-		glObjectLabel(GL_PROGRAM, m_ProgramID, -1, m_Name.c_str());
+		Debug::SetGlDebugLabel(GL_PROGRAM, m_ProgramID, m_Name);
 
 		GLint success = 0;
 		glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &success);

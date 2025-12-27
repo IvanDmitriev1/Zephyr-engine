@@ -6,6 +6,7 @@ module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
+import Zephyr.Renderer.OpenGL.Resources.GlFrameBufferHelpers;
 import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
@@ -38,7 +39,7 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::Bind()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO);
 		glViewport(0, 0, (GLsizei)m_Spec.Size.x, (GLsizei)m_Spec.Size.y);
 	}
 
@@ -55,7 +56,17 @@ namespace Zephyr::RHI::OpenGL
 			0, 0, width, height,
 			GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	}
+
+	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)
+	{
+		ClearNamedFbo(rp, m_FBO);
+	}
+
+	void GlFrameBuffer::ClearDefaultFrameBuffer(const RenderPassDesc& rp)
+	{
+		ClearDefaultFbo(rp);
 	}
 
 	void GlFrameBuffer::Destroy() noexcept

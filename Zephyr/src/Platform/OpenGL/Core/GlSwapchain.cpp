@@ -16,7 +16,7 @@ namespace Zephyr::RHI::OpenGL
 		};
 		fb.DepthStencilAttachment = FrameBufferAttachmentDesc{ desc.DepthFormat };
 
-		m_BackBuffer = CreateScope<GlFrameBuffer>(fb);
+		m_BackBuffer = CreateRef<GlFrameBuffer>(fb);
 	}
 
 	void GlSwapchain::BeginFrame()

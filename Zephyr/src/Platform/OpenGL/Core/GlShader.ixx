@@ -16,11 +16,8 @@ export namespace Zephyr::RHI::OpenGL
 			return m_Name;
 		}
 
-	public:
-		uint32_t GetProgramID() const noexcept
-		{
-			return m_ProgramID;
-		}
+		void Bind() const;
+		void Unbind() const;
 
 	private:
 		void CompileAndLink(std::span<const ShaderStageDesc> stages);

@@ -9,6 +9,8 @@ export import zephyr.logging.LogBuffer;
 export import Zephyr.Renderer.Core.Device;
 export import Zephyr.Renderer.Window;
 
+import Zephyr.Renderer.Shader.ShaderLoader;
+
 export namespace Zephyr
 {
     class Application
@@ -34,8 +36,9 @@ export namespace Zephyr
     private:
 		LayerStack m_LayerStack;
         Scope<IWindow> m_window;
-        Scope<RHI::ISwapchain> m_swapchain;
+        Ref<RHI::ISwapchain> m_swapchain;
         Ref<LogBuffer> m_LogBuffer;
+        Ref<RHI::IShader> m_Shader;
         bool m_Running = true;
 		bool m_Minimized = false;
     };

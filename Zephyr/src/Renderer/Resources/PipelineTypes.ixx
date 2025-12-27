@@ -30,22 +30,64 @@ export namespace Zephyr::RHI
         CounterClockwise
     };
 
+    enum class PolygonMode : uint8_t
+    {
+        Fill,
+        Wireframe,
+        Point
+    };
+
+
     struct RasterizerState
     {
-        CullMode CullMode = CullMode::Back;
-        FrontFace FrontFace = FrontFace::CounterClockwise;
+        CullMode Cull = CullMode::Back;
+        FrontFace Face = FrontFace::CounterClockwise;
+        PolygonMode Polygon = PolygonMode::Fill;
+
         bool DepthClampEnable = false;
-        bool ScissorTestEnable = false;
         float LineWidth = 1.0f;
     };
 
-    struct PipelineDesc
+    enum class CompareOp : uint8_t
+    {
+        Never, 
+        Less,
+        Equal,
+        LessEqual,
+        Greater,
+        NotEqual,
+        GreaterEqual,
+        Always
+    };
+
+    struct DepthStencilState
+    {
+        bool DepthTestEnable = true;
+        bool DepthWriteEnable = true;
+        CompareOp DepthCompare = CompareOp::LessEqual;
+
+        bool StencilTestEnable = false;
+    };
+
+    struct BlendState
+    {
+        bool Enable = false;
+    };
+
+    struct GraphicsPipelineDesc
     {
         Ref<IShader> Shader{};
-        VertexLayout VertexLayout{};
-        PrimitiveTopology Topology{ PrimitiveTopology::Triangles };
-        RasterizerState rasterizerState{};
+        PrimitiveTopology Topology = PrimitiveTopology::Triangles;
 
+        RasterizerState Rasterizer{};
+        DepthStencilState Depth{};
+        BlendState Blend{};
+
+        TextureFormat ColorFormat = TextureFormat::RGBA8;
+        TextureFormat DepthFormat = TextureFormat::DEPTH24STENCIL8;
+
+        uint32_t SampleCount = 1; // MSAA
+        
         std::string_view DebugName{};
     };
 }

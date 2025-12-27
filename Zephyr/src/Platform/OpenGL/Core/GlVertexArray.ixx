@@ -28,10 +28,7 @@ export namespace Zephyr::RHI::OpenGL
 			return (bool)m_IndexBuffer;
 		}
 
-		uint32_t GetRendererID() const noexcept
-		{
-			return m_RendererID;
-		}
+		void Bind();
 
 	private:
 		void BindVertexBuffer();

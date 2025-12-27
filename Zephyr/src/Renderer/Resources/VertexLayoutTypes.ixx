@@ -15,12 +15,11 @@ export namespace Zephyr::RHI
 
     struct VertexAttribute
     {
-        uint32_t Location = 0;
-        uint32_t Offset{};
+        std::string_view Name{};
         VertexAttributeType Type{};
+        uint32_t Offset{};
+        uint32_t Location = 0;
         bool Normalized = false;
-        
-        std::string_view DebugName{};
     };
 
 

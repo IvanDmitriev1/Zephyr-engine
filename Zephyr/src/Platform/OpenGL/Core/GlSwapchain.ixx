@@ -11,9 +11,9 @@ export namespace Zephyr::RHI::OpenGL
 	public:
 		GlSwapchain(IWindow& window, SwapchainDesc desc);
 
-		IFrameBuffer& GetBackBuffer() const override
+		const Ref<IFrameBuffer> GetBackBuffer() const override
 		{
-			return *m_BackBuffer;
+			return m_BackBuffer;
 		}
 
 		void BeginFrame() override;
@@ -22,6 +22,6 @@ export namespace Zephyr::RHI::OpenGL
 
 	private:
 		IWindow& m_window;
-		Scope<GlFrameBuffer> m_BackBuffer;
+		Ref<GlFrameBuffer> m_BackBuffer;
 	};
 }

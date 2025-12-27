@@ -2,27 +2,11 @@ export module Zephyr.Core.CoreTypes;
 
 export import zephyr.logging.LogHelpers;
 
+export import Zephyr.Core.BuildConfig;
+export import std;
+
 export namespace Zephyr
 {
-	template<typename T>
-	using Scope = std::unique_ptr<T>;
-
-	template<typename T>
-	using Ref = std::shared_ptr<T>;
-
-	template<typename T, typename ... Args>
-	[[nodiscard]] constexpr Scope<T> CreateScope(Args&& ... args)
-	{
-		return std::make_unique<T>(std::forward<Args>(args)...);
-	}
-
-	template<typename T, typename ... Args>
-	[[nodiscard]] constexpr Ref<T> CreateRef(Args&& ... args)
-	{
-		return std::make_shared<T>(std::forward<Args>(args)...);
-	}
-
-
 	inline void DebugBreak()
 	{
 #ifdef _DEBUG
@@ -30,6 +14,52 @@ export namespace Zephyr
 		__debugbreak();
 	#endif
 #endif
+	}
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T, typename ... Args>
+		requires std::constructible_from<T, Args...>
+	[[nodiscard]] constexpr Scope<T> CreateScope(Args&& ... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+
+	template<typename T, typename ... Args>
+		requires std::constructible_from<T, Args...>
+	[[nodiscard]] constexpr Ref<T> CreateRef(Args&& ... args)
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+
+	template<class To, class From>
+	concept Related = std::is_base_of_v<From, To> || std::is_base_of_v<To, From>;
+
+	template<class From>
+	concept Polymorphic = std::is_polymorphic_v<From>;
+
+	template <class To, class From>
+		requires Related<To, From> && Polymorphic<From>
+	[[nodiscard]] constexpr To& StaticCastRef(const Ref<From>& from)
+	{
+		if constexpr (Zephyr::Build::SafeCast)
+		{
+			if (auto* p = dynamic_cast<To*>(from.get()))
+			{
+				return *p;
+			}
+
+			DebugBreak();
+			throw std::bad_cast{};
+		}
+		else
+		{
+			return static_cast<To&>(*from);
+		}
 	}
 
 
@@ -47,10 +77,13 @@ export namespace Zephyr
 		std::string_view message,
 		std::source_location location = std::source_location::current())
 	{
-		if (static_cast<bool>(condition))
+		if constexpr (!Zephyr::Build::EnableAsserts)
 		{
 			return;
 		}
+
+		if (static_cast<bool>(condition))
+			return;
 
 		Zephyr::log::Critical(
 			"Assertion failed: {} at {}:{}",

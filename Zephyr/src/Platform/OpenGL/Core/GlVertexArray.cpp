@@ -32,6 +32,11 @@ namespace Zephyr::RHI::OpenGL
 			glDeleteVertexArrays(1, &m_RendererID);
 	}
 
+	void GlVertexArray::Bind()
+	{
+		glBindVertexArray(m_RendererID);
+	}
+
 	void GlVertexArray::BindVertexBuffer()
 	{
 		const auto vbId = (std::static_pointer_cast<GlVertexBuffer>(m_VertexBuffer))->GetUnderlyingBuffer().RendererID();
