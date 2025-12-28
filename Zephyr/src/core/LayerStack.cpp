@@ -69,9 +69,9 @@ namespace Zephyr
 				break;
 			}
 			}
-
-			m_Pending.clear();
 		}
+
+		m_Pending.clear();
 	}
 
 	void LayerStack::OnEvent(IEvent& event)

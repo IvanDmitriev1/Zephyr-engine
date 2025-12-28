@@ -43,6 +43,7 @@ project "Zephyr"
         defines
         {
             "Zephyr_RENDERER=OpenGL",
+            "ZEPHYR_RENDERER_OPENGL",
         }
         includedirs
         {

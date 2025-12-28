@@ -5,7 +5,7 @@ module;
 
 module Zephyr.Renderer.OpenGL.Window;
 
-import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.OpenGL.GlImGuiRenderContext;
 import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::Window
@@ -75,6 +75,11 @@ namespace Zephyr::OpenGL
 		}
 		
 		glfwTerminate();
+	}
+
+	Scope<IUiRenderContext> OpenGL::GlWindow::CreateUiContext() const noexcept
+	{
+		return CreateScope<GlImGuiRenderContext>(m_window);
 	}
 
 	float GlWindow::GetTime() const noexcept

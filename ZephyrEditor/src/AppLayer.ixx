@@ -1,11 +1,12 @@
 module;
-export module zephyreditor.AppLayer;
+export module ZephyrEditor.AppLayer;
 
 export import zephyr.core.Layer;
 export import Zephyr.Renderer.Shader.ShaderLoader;
 
-using namespace Zephyr;
+import Zephyr.Renderer.Renderer;
 
+using namespace Zephyr;
 
 struct Vertex
 {
@@ -75,6 +76,7 @@ public:
         const RHI::ColorAttachment colors[] = { ca };
 
         RHI::RenderPassDesc rp{};
+        rp.Target = Zephyr::Renderer::GetMainFrameBuffer();
         rp.Colors = colors;
         rp.DebugName = "MainPass";
 

@@ -3,6 +3,7 @@ module zephyr.app;
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
 import zephyr.events.ApplicationEvents;
+import Zephyr.Renderer.Renderer;
 import glm;
 
 import <spdlog/spdlog.h>;
@@ -17,6 +18,7 @@ namespace Zephyr
 
         m_window = Window::CreateMainWindow(spec);
         m_window->SetEventCallback(bind_event_fn(this, &Application::OnEvent));
+        m_uiRenderContext = m_window->CreateUiContext();
 
         m_swapchain = RHI::Device::CreateSwapchain(*m_window, RHI::SwapchainDesc{
             .Size = m_window->GetSize(),
@@ -28,6 +30,10 @@ namespace Zephyr
 
     void Application::Run()
     {
+        Zephyr::Renderer::Init({
+            .Swapchain = m_swapchain
+        });
+
         m_Running = true;
         float lastTime = m_window->GetTime();
 
@@ -44,12 +50,17 @@ namespace Zephyr
                 m_LayerStack.FlushPendingOps();
 
                 m_LayerStack.OnUpdate(dt);
-
-                m_swapchain->BeginFrame();
                 m_LayerStack.OnRender();
+
+                m_uiRenderContext->BeginFrame();
+                m_LayerStack.OnUiRender();
+                m_uiRenderContext->EndFrame();
+
                 m_swapchain->Present();
             }
         }
+
+        Zephyr::Renderer::ShutDown();
     }
 
     LayerStack& Application::GetLayerStack()
@@ -108,7 +119,7 @@ namespace Zephyr
 
             if (appEvent.GetEventType() == EventType::WINDOW_RESIZE_EVENT)
             {
-                m_swapchain->Resize(glm::ivec2(appEvent.GetWidth(), appEvent.GetHeight()));
+                //m_swapchain->Resize(glm::ivec2(appEvent.GetWidth(), appEvent.GetHeight()));
             }
         }
 

@@ -13,10 +13,9 @@ export namespace Zephyr::RHI
         virtual ~ISwapchain() = default;
 
     public:
-        virtual const Ref<IFrameBuffer> GetBackBuffer() const = 0;
+        virtual Ref<IFrameBuffer> GetBackBuffer() const = 0;
 
         virtual void BeginFrame() = 0;
         virtual void Present() = 0;
-        virtual void Resize(glm::vec2 newSize) = 0;
     };
 }

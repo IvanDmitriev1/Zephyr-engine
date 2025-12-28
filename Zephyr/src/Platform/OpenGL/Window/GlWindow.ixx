@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.OpenGL.Window;
 
 export import Zephyr.Renderer.Window;
+
 import <GLFW/glfw3.h>;
 
 export namespace Zephyr::OpenGL
@@ -12,6 +13,8 @@ export namespace Zephyr::OpenGL
 		~GlWindow() override;
 
 	public:
+		Scope<IUiRenderContext> CreateUiContext() const noexcept override;
+
 		void* GetNativeHandle() const noexcept override
 		{
 			return m_window;

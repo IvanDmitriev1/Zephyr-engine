@@ -36,6 +36,7 @@ export namespace Zephyr
     private:
 		LayerStack m_LayerStack;
         Scope<IWindow> m_window;
+        Scope<IUiRenderContext> m_uiRenderContext;
         Ref<RHI::ISwapchain> m_swapchain;
         Ref<LogBuffer> m_LogBuffer;
         bool m_Running = true;

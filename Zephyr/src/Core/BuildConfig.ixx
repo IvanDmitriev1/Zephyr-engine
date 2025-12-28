@@ -9,4 +9,6 @@ export namespace Zephyr::Build
 	inline constexpr bool EnableAsserts = false;
 	inline constexpr bool SafeCast = false;
 #endif // NDEBUG
+
+
 }

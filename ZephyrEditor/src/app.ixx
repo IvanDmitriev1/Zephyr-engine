@@ -1,7 +1,8 @@
 export module zephyreditor;
 
 import zephyr.app;
-import zephyreditor.AppLayer;
+import ZephyrEditor.EditorLayer;
+import ZephyrEditor.AppLayer;
 
 import <imgui.h>;
 
@@ -12,10 +13,8 @@ public:
 	{
 		Zephyr::applog::Info("Creating Zephyr Editor application");
 
-		//ImGuiIO& io = ImGui::GetIO();
-		//io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
-
 		GetLayerStack().PushLayer<AppLayer>();
+		GetLayerStack().PushOverlay<EditorLayer>();
 	}
 };
 

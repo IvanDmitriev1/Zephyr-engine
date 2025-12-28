@@ -30,7 +30,10 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::Resize(glm::ivec2 newSize)
 	{
-		if (m_Spec.Size == newSize || (m_Spec.Size.x == 0 && m_Spec.Size.y== 0))
+		if (newSize.x == 0 || newSize.y == 0)
+			return;
+
+		if (m_Spec.Size == newSize)
 			return;
 		
 		m_Spec.Size = newSize;
@@ -52,7 +55,7 @@ namespace Zephyr::RHI::OpenGL
 	{
 		if (m_FBO)
 		{
-			glDeleteRenderbuffers(1, &m_FBO);
+			glDeleteFramebuffers(1, &m_FBO);
 			m_FBO = 0;
 		}
 

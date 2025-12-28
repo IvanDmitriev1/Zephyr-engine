@@ -10,18 +10,25 @@ export namespace Zephyr::RHI::OpenGL
 		explicit GlTexture(TextureDesc desc);
 		~GlTexture() override;
 
+		GlTexture(const GlTexture&) = delete;
+		GlTexture& operator=(const GlTexture&) = delete;
+
+		GlTexture(GlTexture&& other) noexcept;
+		GlTexture& operator=(GlTexture&& other) noexcept;
+
 	public:
 		const TextureDesc& GetDesc() const noexcept override
 		{
 			return m_desc;
 		}
 
-		uint32_t GetId() const noexcept
+		const uint32_t GetId() const noexcept
 		{
 			return m_Id;
 		}
 
 	private:
+		void Destroy() noexcept;
 		void Invalidate();
 
 	private:
