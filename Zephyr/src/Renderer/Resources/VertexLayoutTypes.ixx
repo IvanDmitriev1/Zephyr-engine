@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.Resources.VertexLayoutTypes;
 
 export import std.compat;
+export import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr::RHI
 {
@@ -22,6 +23,59 @@ export namespace Zephyr::RHI
         bool Normalized = false;
     };
 
+
+    class VertexLayout
+    {
+    public:
+        VertexLayout() = default;
+
+        template<size_t N>
+        VertexLayout(std::array<VertexAttribute, N>&& attributes, uint32_t stride)
+            :m_Attributes(attributes.begin(), attributes.end()),
+            m_Stride(stride) 
+        {
+            Assert(m_Stride, "VertexLayout: stride must be > 0");
+        }
+
+        ~VertexLayout() = default;
+
+        VertexLayout(const VertexLayout&) = delete;
+        VertexLayout& operator=(const VertexLayout&) = delete;
+
+        VertexLayout(VertexLayout&& other)
+            : m_Attributes(std::move(other.m_Attributes)),
+            m_Stride(other.m_Stride)
+        {
+            other.m_Stride = 0;
+        }
+
+        VertexLayout& operator=(VertexLayout&& other)
+        {
+            if (this == &other)
+                return *this;
+
+            m_Attributes = std::move(other.m_Attributes);
+            m_Stride = other.m_Stride;
+
+            other.m_Stride = 0;
+            return *this;
+        }
+
+    public:
+        std::span<const VertexAttribute> GetAttributes() const noexcept
+        {
+            return { m_Attributes.data(), m_Attributes.size() };
+        }
+
+        uint32_t GetStride() const noexcept
+        {
+            return m_Stride;
+        }
+
+    private:
+        std::vector<VertexAttribute> m_Attributes{};
+        uint32_t m_Stride = 0;
+    };
 
 
     constexpr uint32_t VertexAttributeTypeSize(VertexAttributeType type)
@@ -70,6 +124,16 @@ export namespace Zephyr::RHI
         case VertexAttributeType::Bool:   return 1;
             // Mat handled separately (split into columns)
         default: return 0;
+        }
+    }
+
+    constexpr uint32_t VertexAttributeMatrixColumns(VertexAttributeType type) noexcept
+    {
+        switch (type)
+        {
+        case VertexAttributeType::Mat3: return 3;
+        case VertexAttributeType::Mat4: return 4;
+        default: return 1;
         }
     }
 }

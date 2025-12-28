@@ -44,7 +44,7 @@ export namespace Zephyr
 
 	template <class To, class From>
 		requires Related<To, From> && Polymorphic<From>
-	[[nodiscard]] constexpr To& StaticCastRef(const Ref<From>& from)
+	[[nodiscard]] constexpr inline To& StaticCastRef(const Ref<From>& from)
 	{
 		if constexpr (Zephyr::Build::SafeCast)
 		{
@@ -72,7 +72,7 @@ export namespace Zephyr
 	};
 
 	template <BoolTestable Condition>
-	inline void Assert(
+	constexpr inline void Assert(
 		Condition&& condition,
 		std::string_view message,
 		std::source_location location = std::source_location::current())

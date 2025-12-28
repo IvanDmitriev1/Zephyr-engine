@@ -4,68 +4,22 @@ export import Zephyr.Renderer.Resources.VertexLayoutTypes;
 
 export namespace Zephyr::RHI
 {
-	class VertexLayout
-	{
-	public:
-		VertexLayout() = default;
-		~VertexLayout() = default;
+    template<typename Vertex, size_t N>
+        requires std::is_trivially_copyable_v<Vertex>
+    [[nodiscard]] constexpr inline VertexLayout MakeLayoutFromMembers(std::array<VertexAttribute, N>&& attributes)
+    {
+        uint32_t offset = 0;
+        uint32_t location = 0;
 
-		VertexLayout(std::initializer_list<VertexAttribute> attributes)
-			: m_Attributes(attributes)
-		{
-			CalculateStrideAndOffsets();
-		}
+        for (auto& attr : attributes)
+        {
+            attr.Offset = offset;
+            attr.Location = location;
 
-		VertexLayout(const VertexLayout&) = delete;
-		VertexLayout& operator=(const VertexLayout&) = delete;
+            offset += VertexAttributeTypeSize(attr.Type);
+            location += VertexAttributeTypeIsMatrix(attr.Type) ? VertexAttributeMatrixColumns(attr.Type) : 1u;
+        }
 
-		VertexLayout(VertexLayout&& other)
-			: m_Attributes(std::move(other.m_Attributes)),
-			m_Stride(other.m_Stride)
-		{
-			other.m_Stride = 0;
-		}
-
-		VertexLayout& operator=(VertexLayout&& other)
-		{
-			if (this == &other)
-				return *this;
-
-			m_Attributes = std::move(other.m_Attributes);
-			m_Stride = other.m_Stride;
-
-			other.m_Stride = 0;
-			return *this;
-		}
-
-	public:
-		std::span<const VertexAttribute> GetAttributes() const noexcept
-		{
-			return { m_Attributes.data(), m_Attributes.size() };
-		}
-
-		uint32_t GetStride() const noexcept
-		{
-			return m_Stride;
-		}
-
-	private:
-		void CalculateStrideAndOffsets() noexcept
-		{
-			uint32_t offset = 0;
-			m_Stride = 0;
-
-			for (auto& attr : m_Attributes)
-			{
-				attr.Offset = offset;
-				const uint32_t size = VertexAttributeTypeSize(attr.Type);
-				offset += size;
-				m_Stride += size;
-			}
-		}
-
-	private:
-		std::vector<VertexAttribute> m_Attributes;
-		uint32_t m_Stride = 0;
-	};
+        return VertexLayout(std::move(attributes), static_cast<uint32_t>(sizeof(Vertex)));
+    }
 }

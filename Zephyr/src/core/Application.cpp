@@ -83,11 +83,10 @@ namespace Zephyr
 
         vb->SetData(std::as_bytes(std::span{ verts }));
 
-        RHI::VertexLayout layout
-        {
-            VertexAttribute{.Name = "aPos",   .Type = VertexAttributeType::Float2, .Offset = (uint32_t)offsetof(Vertex, Pos),   .Location = 0 },
-            VertexAttribute{.Name = "aColor", .Type = VertexAttributeType::Float3, .Offset = (uint32_t)offsetof(Vertex, Color), .Location = 1 },
-        };
+        auto layout = RHI::MakeLayoutFromMembers<Vertex>(std::array{
+             VertexAttribute{.Name = "aPos",   .Type = VertexAttributeType::Float2 },
+             VertexAttribute{.Name = "aColor", .Type = VertexAttributeType::Float3 },
+        });
 
         auto vao = Device::CreateVertexArray(RHI::VertexArrayCreateInfo{
             .VertexBuffer = vb,
