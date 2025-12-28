@@ -20,6 +20,8 @@ export namespace Zephyr::RHI
             location += VertexAttributeTypeIsMatrix(attr.Type) ? VertexAttributeMatrixColumns(attr.Type) : 1u;
         }
 
+        Assert(offset == sizeof(Vertex), "MakeLayoutFromMembers: calculation error in vertex layout");
+
         return VertexLayout(std::move(attributes), static_cast<uint32_t>(sizeof(Vertex)));
     }
 }

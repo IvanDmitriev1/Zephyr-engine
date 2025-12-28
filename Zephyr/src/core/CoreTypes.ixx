@@ -72,7 +72,7 @@ export namespace Zephyr
 	};
 
 	template <BoolTestable Condition>
-	constexpr inline void Assert(
+	inline void Assert(
 		Condition&& condition,
 		std::string_view message,
 		std::source_location location = std::source_location::current())

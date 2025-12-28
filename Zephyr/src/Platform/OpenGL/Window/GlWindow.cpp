@@ -22,9 +22,7 @@ namespace Zephyr::Window
 
 	IWindow& GetMainWindow()
 	{
-		if (!g_Window)
-			throw std::runtime_error("Window::GetMainWindow() called before Window::CreateMainWindow().");
-
+		Assert(g_Window, "Window::GetMainWindow() called before Window::CreateMainWindow().");
 		return *g_Window;
 	}
 }

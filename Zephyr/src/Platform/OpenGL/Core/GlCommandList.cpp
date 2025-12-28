@@ -20,17 +20,11 @@ namespace Zephyr::RHI::OpenGL
         Assert(!m_IsInRenderPass, "GlCommandList: BeginRenderPass called while already in a render pass");
         m_IsInRenderPass = true;
 
-        if (rp.Target)
-        {
-            auto& glFb = StaticCastRef<GlFrameBuffer>(rp.Target);
-            glFb.Bind();
-            glFb.ClearForRenderPass(rp);
-        }
-        else
-        {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-            GlFrameBuffer::ClearDefaultFrameBuffer(rp);
-        }
+        //Assert(rp.Target, "GlCommandList: BeginRenderPass target is null");
+
+        //auto& glFb = StaticCastRef<GlFrameBuffer>(rp.Target);
+        //glFb.Bind();
+        //glFb.ClearForRenderPass(rp);
 	}
     void GlCommandList::EndRenderPass()
     {

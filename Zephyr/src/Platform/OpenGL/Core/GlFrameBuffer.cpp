@@ -43,30 +43,9 @@ namespace Zephyr::RHI::OpenGL
 		glViewport(0, 0, (GLsizei)m_Spec.Size.x, (GLsizei)m_Spec.Size.y);
 	}
 
-	void GlFrameBuffer::Unbind()
-	{
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_FBO);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-		int width = m_Spec.Size.x;
-		int height = m_Spec.Size.y;
-
-		glBlitFramebuffer(
-			0, 0, width, height,
-			0, 0, width, height,
-			GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	}
-
 	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)
 	{
 		ClearNamedFbo(rp, m_FBO);
-	}
-
-	void GlFrameBuffer::ClearDefaultFrameBuffer(const RenderPassDesc& rp)
-	{
-		ClearDefaultFbo(rp);
 	}
 
 	void GlFrameBuffer::Destroy() noexcept

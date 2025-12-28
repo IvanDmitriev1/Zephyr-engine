@@ -7,11 +7,9 @@ export namespace Zephyr
 	class Layer
 	{
 	public:
-		Layer(std::string_view name)
+		explicit Layer(std::string_view name)
 			:m_Name(name)
-		{
-
-		}
+		{}
 
 		virtual ~Layer() = default;
 
@@ -19,32 +17,31 @@ export namespace Zephyr
 		Layer& operator=(const Layer&) = delete;
 
 	public:
-		virtual void OnAttach()
-		{
-		}
-		virtual void OnDetach()
-		{
-		}
+		virtual void OnAttach(){}
+		virtual void OnDetach(){}
 
-		virtual void OnEvent(const IEvent& event)
-		{
-		}
-		virtual void OnUpdate(float ts)
-		{
-		}
-		virtual void OnRender()
-		{
-		}
-		virtual void OnUi()
-		{
-		}
+		virtual void OnEvent(IEvent& event) {}
+		virtual void OnUpdate(float ts) {}
+		virtual void OnRender() {}
+		virtual void OnUiRender() {}
 
 		std::string_view GetName()
 		{
 			return m_Name;
 		}
 
+		bool IsEnabled() const noexcept
+		{
+			return m_Enabled;
+		}
+
+		void SetEnabled(bool enabled) noexcept
+		{
+			m_Enabled = enabled;
+		}
+
 	private:
 		const std::string m_Name;
+		bool m_Enabled = true;
 	};
 }

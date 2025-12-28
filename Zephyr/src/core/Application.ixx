@@ -31,14 +31,13 @@ export namespace Zephyr
     private:
         void ConfigureLogging();
 
-        void OnEvent(const IEvent& e);
+        void OnEvent(IEvent& e);
 
     private:
 		LayerStack m_LayerStack;
         Scope<IWindow> m_window;
         Ref<RHI::ISwapchain> m_swapchain;
         Ref<LogBuffer> m_LogBuffer;
-        Ref<RHI::IShader> m_Shader;
         bool m_Running = true;
 		bool m_Minimized = false;
     };

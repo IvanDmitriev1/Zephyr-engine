@@ -28,5 +28,5 @@ export namespace Zephyr
 	};
 
 
-	using EventCallbackFn = std::function<void(const IEvent&)>;
+	using EventCallbackFn = std::function<void(IEvent&)>;
 }

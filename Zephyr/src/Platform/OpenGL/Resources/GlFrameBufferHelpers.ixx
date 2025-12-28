@@ -69,7 +69,7 @@ namespace Zephyr::RHI::OpenGL
 
     export void ClearDefaultFbo(const RenderPassDesc& rp)
     {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+        //glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
         struct Backend
         {

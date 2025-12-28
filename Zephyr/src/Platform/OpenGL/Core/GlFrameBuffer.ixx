@@ -28,15 +28,17 @@ export namespace Zephyr::RHI::OpenGL
 			return m_DepthAttachment;
 		}
 
+		uint32_t GetHandle() const noexcept
+		{
+			return m_FBO;
+		}
+
 		const ITexture& GetColorAttachment(size_t index) const override;
 		void Resize(glm::ivec2 newSize) override;
 
 	public:
 		void Bind();
-		void Unbind();
 		void ClearForRenderPass(const RenderPassDesc& rp);
-
-		static void ClearDefaultFrameBuffer(const RenderPassDesc& rp);
 
 	private:
 		void Destroy() noexcept;

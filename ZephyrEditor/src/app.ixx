@@ -15,7 +15,7 @@ public:
 		//ImGuiIO& io = ImGui::GetIO();
 		//io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
 
-		GetLayerStack().PushOverlay<AppLayer>();
+		GetLayerStack().PushLayer<AppLayer>();
 	}
 };
 

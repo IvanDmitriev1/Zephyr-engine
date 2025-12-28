@@ -2,7 +2,7 @@ export module Zephyr.Core.BuildConfig;
 
 export namespace Zephyr::Build
 {
-#if NDEBUG
+#if _DEBUG
 	inline constexpr bool EnableAsserts = true;
 	inline constexpr bool SafeCast = true;
 #else
