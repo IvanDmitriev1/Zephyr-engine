@@ -1,4 +1,4 @@
-export module zephyr.app;
+export module Zephyr.App;
 
 export import Zephyr.Core.CoreTypes;
 export import zephyr.core.LayerStack;
@@ -22,23 +22,24 @@ export namespace Zephyr
         void Run();
 
     protected:
-        LayerStack& GetLayerStack();
-        LogBuffer& GetLogBuffer();
+		virtual void OnUpdate(float dt) = 0;
+		virtual void OnRender() = 0;
+		virtual void OnUiRender() = 0;
+		virtual void OnEvent(IEvent& e) = 0;
 
         virtual void ConfigureEngineLogger(LoggerBuilder& builder) { }
         virtual void ConfigureAppLogger(LoggerBuilder& builder) { }
 
     private:
         void ConfigureLogging();
-
-        void OnEvent(IEvent& e);
+		void OnEventDispatch(IEvent& e);
+        
 
     private:
-		LayerStack m_LayerStack;
         Scope<IWindow> m_window;
         Scope<IUiRenderContext> m_uiRenderContext;
-        Ref<RHI::ISwapchain> m_swapchain;
-        Ref<LogBuffer> m_LogBuffer;
+		Ref<LogBuffer> m_LogBuffer;
+
         bool m_Running = true;
 		bool m_Minimized = false;
     };

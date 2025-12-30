@@ -24,60 +24,6 @@ export namespace Zephyr::RHI
     };
 
 
-    class VertexLayout
-    {
-    public:
-        VertexLayout() = default;
-
-        template<size_t N>
-        VertexLayout(std::array<VertexAttribute, N>&& attributes, uint32_t stride)
-            :m_Attributes(attributes.begin(), attributes.end()),
-            m_Stride(stride) 
-        {
-            Assert(m_Stride, "VertexLayout: stride must be > 0");
-        }
-
-        ~VertexLayout() = default;
-
-        VertexLayout(const VertexLayout&) = delete;
-        VertexLayout& operator=(const VertexLayout&) = delete;
-
-        VertexLayout(VertexLayout&& other)
-            : m_Attributes(std::move(other.m_Attributes)),
-            m_Stride(other.m_Stride)
-        {
-            other.m_Stride = 0;
-        }
-
-        VertexLayout& operator=(VertexLayout&& other)
-        {
-            if (this == &other)
-                return *this;
-
-            m_Attributes = std::move(other.m_Attributes);
-            m_Stride = other.m_Stride;
-
-            other.m_Stride = 0;
-            return *this;
-        }
-
-    public:
-        std::span<const VertexAttribute> GetAttributes() const noexcept
-        {
-            return { m_Attributes.data(), m_Attributes.size() };
-        }
-
-        uint32_t GetStride() const noexcept
-        {
-            return m_Stride;
-        }
-
-    private:
-        std::vector<VertexAttribute> m_Attributes{};
-        uint32_t m_Stride = 0;
-    };
-
-
     constexpr uint32_t VertexAttributeTypeSize(VertexAttributeType type)
     {
         switch (type)

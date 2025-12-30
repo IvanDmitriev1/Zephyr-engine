@@ -1,4 +1,4 @@
-module zephyr.app;
+module Zephyr.App;
 
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
@@ -17,23 +17,12 @@ namespace Zephyr
         ConfigureLogging();
 
         m_window = Window::CreateMainWindow(spec);
-        m_window->SetEventCallback(bind_event_fn(this, &Application::OnEvent));
+        m_window->SetEventCallback(bind_event_fn(this, &Application::OnEventDispatch));
         m_uiRenderContext = m_window->CreateUiContext();
-
-        m_swapchain = RHI::Device::CreateSwapchain(*m_window, RHI::SwapchainDesc{
-            .Size = m_window->GetSize(),
-            .ColorFormat = RHI::TextureFormat::RGBA8,
-            .DepthFormat = RHI::TextureFormat::DEPTH24STENCIL8,
-            .DebugName = "MainSwapchain"
-        });
     }
 
     void Application::Run()
     {
-        Zephyr::Renderer::Init({
-            .Swapchain = m_swapchain
-        });
-
         m_Running = true;
         float lastTime = m_window->GetTime();
 
@@ -47,57 +36,43 @@ namespace Zephyr
 
             if (!m_Minimized)
             {
-                m_LayerStack.FlushPendingOps();
-
-                m_LayerStack.OnUpdate(dt);
-                m_LayerStack.OnRender();
+				OnUpdate(dt);
+				OnRender();
 
                 m_uiRenderContext->BeginFrame();
-                m_LayerStack.OnUiRender();
+				OnUiRender();
                 m_uiRenderContext->EndFrame();
 
-                m_swapchain->Present();
+				m_window->SwapBuffers();
             }
         }
-
-        Zephyr::Renderer::ShutDown();
-    }
-
-    LayerStack& Application::GetLayerStack()
-    {
-		return m_LayerStack;
-    }
-
-    LogBuffer& Application::GetLogBuffer()
-    {
-        return *m_LogBuffer;
     }
 
     void Application::ConfigureLogging()
     {
-        m_LogBuffer = CreateRef<LogBuffer>();
+		m_LogBuffer = CreateRef<LogBuffer>();
 
-        LoggerBuilder engineLoggerBuilder;
-        engineLoggerBuilder
-            .SetName("Zephyr")
-            .SetLevel(LogLevel::Info)
-            .SetPattern("%^[%T] [ZEPHYR] %v%$")
-            .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
+		LoggerBuilder engineLoggerBuilder;
+		engineLoggerBuilder
+			.SetName("Zephyr")
+			.SetLevel(LogLevel::Info)
+			.SetPattern("%^[%T] [ZEPHYR] %v%$")
+			.AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
-        LoggerBuilder appLoggerBuilder;
-        appLoggerBuilder
-            .SetName("App")
-            .SetLevel(LogLevel::Info)
-            .SetPattern(std::format("%^[%T] [{}] %v%$", "change later"))
-            .AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
+		LoggerBuilder appLoggerBuilder;
+		appLoggerBuilder
+			.SetName("App")
+			.SetLevel(LogLevel::Info)
+			.SetPattern(std::format("%^[%T] [{}] %v%$", "change later"))
+			.AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
-        ConfigureAppLogger(appLoggerBuilder);
-        ConfigureEngineLogger(engineLoggerBuilder);
+		ConfigureAppLogger(appLoggerBuilder);
+		ConfigureEngineLogger(engineLoggerBuilder);
 
         Log::Initialize(engineLoggerBuilder.Build(), appLoggerBuilder.Build());
     }
 
-    void Application::OnEvent(IEvent& e)
+    void Application::OnEventDispatch(IEvent& e)
     {
         if (e.IsInCategory(EventCategoryApplication) )
         {
@@ -116,14 +91,8 @@ namespace Zephyr
             {
                 m_Running = false;
             }
-
-            if (appEvent.GetEventType() == EventType::WINDOW_RESIZE_EVENT)
-            {
-                //m_swapchain->Resize(glm::ivec2(appEvent.GetWidth(), appEvent.GetHeight()));
-            }
         }
 
-        //m_window->UiContext().OnEvent(e);
-		m_LayerStack.OnEvent(e);
+		OnEvent(e);
     }
 }

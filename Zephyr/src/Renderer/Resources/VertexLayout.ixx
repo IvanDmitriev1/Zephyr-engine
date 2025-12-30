@@ -4,24 +4,62 @@ export import Zephyr.Renderer.Resources.VertexLayoutTypes;
 
 export namespace Zephyr::RHI
 {
-    template<typename Vertex, size_t N>
-        requires std::is_trivially_copyable_v<Vertex>
-    [[nodiscard]] constexpr inline VertexLayout MakeLayoutFromMembers(std::array<VertexAttribute, N>&& attributes)
+	class VertexLayout
     {
-        uint32_t offset = 0;
-        uint32_t location = 0;
+	public:
+		constexpr VertexLayout() noexcept = default;
 
-        for (auto& attr : attributes)
-        {
-            attr.Offset = offset;
-            attr.Location = location;
+		template <size_t N>
+			requires (N <= 16)
+		constexpr VertexLayout(std::array<VertexAttribute, N>&& attributes, uint32_t stride) noexcept
+			: m_Size(static_cast<uint32_t>(N)), m_Stride(stride)
+		{
+			for (size_t i = 0; i < N; ++i)
+			{
+				m_Attributes[i] = std::move(attributes[i]);
+			}
+		}
 
-            offset += VertexAttributeTypeSize(attr.Type);
-            location += VertexAttributeTypeIsMatrix(attr.Type) ? VertexAttributeMatrixColumns(attr.Type) : 1u;
-        }
+		std::span<const VertexAttribute> GetAttributes() const noexcept
+		{
+			return { m_Attributes.data(), m_Size };
+		}
 
-        Assert(offset == sizeof(Vertex), "MakeLayoutFromMembers: calculation error in vertex layout");
+		uint32_t GetStride() const noexcept
+		{
+			return m_Stride;
+		}
 
-        return VertexLayout(std::move(attributes), static_cast<uint32_t>(sizeof(Vertex)));
-    }
+	private:
+		std::array<VertexAttribute, 16> m_Attributes{};
+		uint32_t m_Size;
+		uint32_t m_Stride = 0;
+    };
+
+	template<typename Vertex>
+	concept TriviallyCopyableVertex = std::is_trivially_copyable_v<Vertex>;
+
+
+	template <typename Vertex, size_t N>
+		requires TriviallyCopyableVertex<Vertex> && (N <= 16)
+	[[nodiscard]] consteval inline VertexLayout MakeLayoutFromMembers(std::array<VertexAttribute, N>&& attributes)
+	{
+		uint32_t offset = 0;
+		uint32_t location = 0;
+
+		for (auto& attr : attributes)
+		{
+			attr.Offset = offset;
+			attr.Location = location;
+
+			offset += VertexAttributeTypeSize(attr.Type);
+			location += VertexAttributeTypeIsMatrix(attr.Type)
+				? VertexAttributeMatrixColumns(attr.Type)
+				: 1u;
+		}
+
+		//Assert(offset == sizeof(Vertex), "MakeLayoutFromMembers: calculation error in vertex layout");
+
+		return VertexLayout(std::move(attributes), offset);
+	}
 }

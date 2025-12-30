@@ -2,17 +2,18 @@ module Zephyr.Renderer.Core.Device;
 
 import Zephyr.Renderer.Core.Device;
 import Zephyr.Renderer.OpenGL.Shader;
-import Zephyr.Renderer.OpenGL.GlSwapchain;
+import Zephyr.Renderer.OpenGL.GlFrameBuffer;
 import Zephyr.Renderer.OpenGL.GlCommandList;
 import Zephyr.Renderer.OpenGL.GlPipeline;
 import Zephyr.Renderer.OpenGL.GlBuffers;
 import Zephyr.Renderer.OpenGL.GlVertexArray;
+import Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 namespace Zephyr::RHI::Device
 {
-	Ref<ISwapchain> CreateSwapchain(IWindow& window, SwapchainDesc desc)
+	Ref<IFrameBuffer> CreateFrameBuffer(FrameBufferDesc desc)
 	{
-		return CreateScope<OpenGL::GlSwapchain>(window, desc);
+		return CreateRef<OpenGL::GlFrameBuffer>(std::move(desc));
 	}
 
 	Ref<IShader> CreateShader(ShaderCreateInfo createInfo)
@@ -33,6 +34,11 @@ namespace Zephyr::RHI::Device
 	Ref<IVertexBuffer> CreateVertexBuffer(BufferDesc desc)
 	{
 		return CreateRef<OpenGL::GlVertexBuffer>(std::move(desc));
+	}
+
+	Ref<IUniformBuffer> CreateUniformBuffer(BufferDesc desc)
+	{
+		return CreateRef<OpenGL::GLUniformBuffer>(std::move(desc));
 	}
 
 	Ref<IVertexArray> CreateVertexArray(VertexArrayCreateInfo createInfo)

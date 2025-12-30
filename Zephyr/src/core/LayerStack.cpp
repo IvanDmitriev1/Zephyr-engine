@@ -78,7 +78,10 @@ namespace Zephyr
 	{
 		for (const auto& layer : m_Layers)
 		{
-			layer->OnEvent(event);
+			if (layer->IsEnabled())
+			{
+				layer->OnEvent(event);
+			}
 		}
 	}
 
@@ -86,7 +89,10 @@ namespace Zephyr
 	{
 		for (const auto& layer : m_Layers)
 		{
-			layer->OnUpdate(ts);
+			if (layer->IsEnabled())
+			{
+				layer->OnUpdate(ts);
+			}
 		}
 	}
 
@@ -94,7 +100,10 @@ namespace Zephyr
 	{
 		for (const auto& layer : m_Layers)
 		{
-			layer->OnRender();
+			if (layer->IsEnabled())
+			{
+				layer->OnRender();
+			}
 		}
 	}
 
@@ -102,7 +111,10 @@ namespace Zephyr
 	{
 		for (const auto& layer : m_Layers)
 		{
-			layer->OnUiRender();
+			if (layer->IsEnabled())
+			{
+				layer->OnUiRender();
+			}
 		}
 	}
 }

@@ -31,6 +31,7 @@ public:
         m_Pipeline = RHI::Device::CreatePipeline(RHI::GraphicsPipelineDesc{
             .Shader = m_Shader,
             .Topology = RHI::PrimitiveTopology::Triangles,
+            .Rasterizer = RHI::RasterizerState { .Polygon = RHI::PolygonMode::Wireframe },
             .Depth = {.DepthTestEnable = false, .DepthWriteEnable = false },
             .Blend = {.Enable = false },
             .ColorFormat = RHI::TextureFormat::RGBA8,
@@ -44,6 +45,12 @@ public:
             {{ 0.6f, -0.6f}, {0.f, 0.f, 1.f}},
         };
 
+        const Vertex verts2[3] = {
+            {{ 0.6f,  0.5f}, {1, 1, 0}},
+            {{ 0.3f, -0.3f}, {0, 1, 1}},
+            {{ 0.9f, -0.3f}, {1, 0, 1}},
+        };
+
         auto vb = RHI::Device::CreateVertexBuffer(RHI::BufferDesc{
             .SizeBytes = static_cast<uint32_t>(sizeof(verts)),
             .Usage = RHI::BufferUsage::Vertex,
@@ -51,19 +58,34 @@ public:
             .DebugName = "TriangleVB"
                                              });
 
+		auto vb2 = RHI::Device::CreateVertexBuffer(RHI::BufferDesc{
+			.SizeBytes = static_cast<uint32_t>(sizeof(verts2)),
+			.Usage = RHI::BufferUsage::Vertex,
+			.Access = RHI::BufferAccess::Static,
+			.DebugName = "TriangleVB"
+												  });
+        
         vb->SetData(std::as_bytes(std::span{ verts }));
+        vb2->SetData(std::as_bytes(std::span{ verts2 }));
 
-        auto layout = RHI::MakeLayoutFromMembers<Vertex>(std::array{
+        constexpr auto layout = RHI::MakeLayoutFromMembers<Vertex>(std::array{
              RHI::VertexAttribute{.Name = "aPos",   .Type = RHI::VertexAttributeType::Float2 },
              RHI::VertexAttribute{.Name = "aColor", .Type = RHI::VertexAttributeType::Float3 },
-                                                         });
+        });
 
         m_Vao = RHI::Device::CreateVertexArray(RHI::VertexArrayCreateInfo{
             .VertexBuffer = std::move(vb),
-            .Layout = std::move(layout),
+            .Layout = layout,
             .IndexBuffer = nullptr,
             .DebugName = "TriangleVAO"
-                                             });
+        });
+
+        m_Vao2 = RHI::Device::CreateVertexArray(RHI::VertexArrayCreateInfo{
+                    .VertexBuffer = std::move(vb2),
+                    .Layout = layout,
+                    .IndexBuffer = nullptr,
+                    .DebugName = "TriangleVAO"
+        });
 	}
 
 	~AppLayer() override = default;
@@ -76,7 +98,7 @@ public:
         const RHI::ColorAttachment colors[] = { ca };
 
         RHI::RenderPassDesc rp{};
-        rp.Target = Zephyr::Renderer::GetMainFrameBuffer();
+        //rp.Target = Zephyr::Renderer::GetMainFrameBuffer();
         rp.Colors = colors;
         rp.DebugName = "MainPass";
 
@@ -84,7 +106,11 @@ public:
 
         m_Cmd->BindPipeline(m_Pipeline);
         m_Cmd->BindVertexArray(m_Vao);
-        m_Cmd->Draw(3);
+        m_Cmd->Draw(3, 0);
+
+		m_Cmd->BindVertexArray(m_Vao2);
+		m_Cmd->Draw(3, 0);
+
         m_Cmd->EndRenderPass();
     }
 
@@ -92,5 +118,6 @@ private:
 	Ref<RHI::IShader> m_Shader;
 	Ref<RHI::ICommandList> m_Cmd;
 	Ref<RHI::IVertexArray> m_Vao;
+    Ref<RHI::IVertexArray> m_Vao2;
     Ref<RHI::IPipeline> m_Pipeline;
 };

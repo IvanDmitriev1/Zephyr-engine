@@ -1,7 +1,7 @@
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
-import zephyr.app;
+import Zephyr.App;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow)
 {

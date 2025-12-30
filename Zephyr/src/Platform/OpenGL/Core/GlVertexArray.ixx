@@ -39,6 +39,6 @@ export namespace Zephyr::RHI::OpenGL
 		uint32_t m_RendererID = 0;
 		Ref<IVertexBuffer> m_VertexBuffer;
 		Ref<IIndexBuffer>  m_IndexBuffer;
-		VertexLayout m_Layout;
+		const VertexLayout m_Layout;
 	};
 }
