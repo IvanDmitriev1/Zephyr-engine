@@ -25,9 +25,10 @@ export namespace Zephyr::RHI
         // Resource binding
         virtual void BindVertexArray(const Ref<IVertexArray>& vao) = 0;
 
-        // Dynamic state
-        virtual void SetViewport(float x, float y, float w, float h) = 0;
-        virtual void SetScissor(int32_t x, int32_t y, uint32_t w, uint32_t h) = 0;
+		//Bind unifirms
+		virtual void BindUniformBuffer(uint32_t binding, const Ref<IBuffer>& buffer) = 0;
+		virtual void SetUniformMat4(uint32_t location, const glm::mat4& value) = 0;
+		virtual void SetUniformFloat3(uint32_t location, const glm::vec3& value) = 0;
 
         // Draw commands
         virtual void Draw(uint32_t vertexCount, uint32_t firstVertex = 0) = 0;

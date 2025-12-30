@@ -6,12 +6,12 @@ module Zephyr.Renderer.OpenGL.GlVertexArray;
 
 import Zephyr.Renderer.OpenGL.Resources.GlVertexArrayTypes;
 import Zephyr.Renderer.OpenGL.Debug;
-import Zephyr.Renderer.OpenGL.GlBuffers;
+import Zephyr.Renderer.OpenGL.GlBuffer;
 
 namespace Zephyr::RHI::OpenGL
 {
 	GlVertexArray::GlVertexArray(VertexArrayCreateInfo createInfo)
-		:m_IndexBuffer(std::move(createInfo.IndexBuffer)),
+		:m_IndexBinding(std::move(createInfo.Index)),
 		m_VertexBuffer(std::move(createInfo.VertexBuffer)),
 		m_Layout{ std::move(createInfo.Layout) }
 	{
@@ -39,7 +39,7 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlVertexArray::BindVertexBuffer()
 	{
-		const auto vbId = (std::static_pointer_cast<GlVertexBuffer>(m_VertexBuffer))->GetUnderlyingBuffer().RendererID();
+		const auto vbId = (std::static_pointer_cast<GlBuffer>(m_VertexBuffer))->RendererID();
 		const GLuint binding = 0;
 
 		glVertexArrayVertexBuffer(
@@ -83,12 +83,16 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlVertexArray::BindIndexBuffer()
 	{
-		if (!m_IndexBuffer)
+		if (!m_IndexBinding)
 		{
 			return;
 		}
 
-		const auto ibId = (std::static_pointer_cast<GlIndexBuffer>(m_IndexBuffer))->GetUnderlyingBuffer().RendererID();
+		const auto& indexBufferRef = m_IndexBinding->Buffer;
+		Assert(indexBufferRef, "GlVertexArray: IndexBuffer is null");
+
+		const auto glVertexBuffer = std::static_pointer_cast<GlBuffer>(indexBufferRef);
+		const auto ibId = glVertexBuffer->RendererID();
 		glVertexArrayElementBuffer(m_RendererID, ibId);
 	}
 }

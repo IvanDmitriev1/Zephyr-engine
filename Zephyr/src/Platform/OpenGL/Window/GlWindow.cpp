@@ -43,7 +43,7 @@ namespace Zephyr::OpenGL
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		m_window = glfwCreateWindow(m_size.x, m_size.y, spec.Title.data(), nullptr, nullptr);
+		m_window = glfwCreateWindow(m_size.Width, m_size.Height, spec.Title.data(), nullptr, nullptr);
 		Assert(m_window, "Failed to create GLFW window!");
 
 		glfwMakeContextCurrent(m_window);

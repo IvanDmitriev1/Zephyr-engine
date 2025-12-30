@@ -28,9 +28,9 @@ namespace Zephyr::RHI::OpenGL
 		return m_ColorAttachments[index];
 	}
 
-	void GlFrameBuffer::Resize(glm::ivec2 newSize)
+	void GlFrameBuffer::Resize(Extent2D newSize)
 	{
-		if (newSize.x == 0 || newSize.y == 0)
+		if (newSize.Width == 0 || newSize.Height == 0)
 			return;
 
 		if (m_Spec.Size == newSize)
@@ -43,7 +43,7 @@ namespace Zephyr::RHI::OpenGL
 	void GlFrameBuffer::Bind()
 	{
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO);
-		glViewport(0, 0, (GLsizei)m_Spec.Size.x, (GLsizei)m_Spec.Size.y);
+		glViewport(0, 0, (GLsizei)m_Spec.Size.Width, (GLsizei)m_Spec.Size.Height);
 	}
 
 	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)

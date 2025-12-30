@@ -18,6 +18,6 @@ export namespace Zephyr::RHI
         virtual const ITexture& GetColorAttachment(size_t index) const = 0;
         virtual std::optional<std::reference_wrapper<const ITexture>> GetDepthAttachment() const = 0;
 
-        virtual void Resize(glm::ivec2 newSize) = 0;
+        virtual void Resize(Extent2D newSize) = 0;
     };
 }

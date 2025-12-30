@@ -11,23 +11,11 @@ export namespace Zephyr::RHI::OpenGL
 		~GlVertexArray() override;
 
 	public:
-		const VertexLayout& GetLayout() const noexcept override
-		{
-			return m_Layout;
-		}
-		const Zephyr::Ref<IVertexBuffer>& GetVertexBuffer() const noexcept override
-		{
-			return m_VertexBuffer;
-		}
-		const Zephyr::Ref<IIndexBuffer>& GetIndexBuffer() const noexcept override
-		{
-			return m_IndexBuffer;
-		}
-		bool HasIndexBuffer() const noexcept override
-		{
-			return (bool)m_IndexBuffer;
-		}
+		const VertexLayout& GetLayout() const noexcept override { return m_Layout; }
+		const Zephyr::Ref<IBuffer>& GetVertexBuffer() const noexcept override { return m_VertexBuffer; }
+		const std::optional<IndexBinding>& GetIndexBinding() const noexcept override { return m_IndexBinding; }
 
+	public:
 		void Bind();
 
 	private:
@@ -37,8 +25,9 @@ export namespace Zephyr::RHI::OpenGL
 
 	private:
 		uint32_t m_RendererID = 0;
-		Ref<IVertexBuffer> m_VertexBuffer;
-		Ref<IIndexBuffer>  m_IndexBuffer;
+
+		const Ref<IBuffer> m_VertexBuffer;
+		const std::optional<IndexBinding> m_IndexBinding;
 		const VertexLayout m_Layout;
 	};
 }

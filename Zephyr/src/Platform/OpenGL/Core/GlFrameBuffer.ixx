@@ -34,7 +34,7 @@ export namespace Zephyr::RHI::OpenGL
 		}
 
 		const ITexture& GetColorAttachment(size_t index) const override;
-		void Resize(glm::ivec2 newSize) override;
+		void Resize(Extent2D newSize) override;
 
 	public:
 		void Bind();

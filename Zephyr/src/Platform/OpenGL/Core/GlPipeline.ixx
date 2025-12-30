@@ -8,12 +8,9 @@ export namespace Zephyr::RHI::OpenGL
 	{
 	public:
 		explicit GlPipeline(GraphicsPipelineDesc desc);
+		~GlPipeline() override = default;
 
-		const GraphicsPipelineDesc& GetDesc() const noexcept override
-		{
-			return m_Desc;
-		}
-
+		const GraphicsPipelineDesc& GetDesc() const noexcept override { return m_Desc; }
 		void ApplyState();
 
 	private:

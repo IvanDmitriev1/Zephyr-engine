@@ -10,11 +10,10 @@ export namespace Zephyr::RHI::OpenGL
 		explicit GlShader(ShaderCreateInfo createInfo);
 		~GlShader() override;
 
+		std::string_view GetName() const noexcept override { return m_Name; }
+
 	public:
-		std::string_view GetName() const noexcept override
-		{
-			return m_Name;
-		}
+		uint32_t GetRendererID() const noexcept { return m_ProgramID; }
 
 		void Bind() const;
 		void Unbind() const;

@@ -99,19 +99,6 @@ void EditorApp::DrawDockSpaceMenuBar()
 {
 	if (ImGui::BeginMenu("File"))
 	{
-		if (ImGui::MenuItem("New", "Ctrl+N"))
-		{
-		}
-		if (ImGui::MenuItem("Open", "Ctrl+O"))
-		{
-		}
-		if (ImGui::MenuItem("Save", "Ctrl+S"))
-		{
-		}
-		if (ImGui::MenuItem("Save As", "Ctrl+Shift+S"))
-		{
-		}
-
 		ImGui::Separator();
 
 		if (ImGui::MenuItem("Exit"))
@@ -179,7 +166,7 @@ void EditorApp::DrawViewPort()
 	const uint32_t desiredH = std::max(1u, (uint32_t)std::lround(avail.y * scale.y));
 
 	// Queue resize
-	if (desiredW != fboSize.x || desiredH != fboSize.y)
+	if (desiredW != fboSize.Width || desiredH != fboSize.Height)
 	{
 		m_PendingW = desiredW;
 		m_PendingH = desiredH;
@@ -193,7 +180,7 @@ void EditorApp::DrawViewPort()
 	// Flip V for GL (0,0 is bottom-left): use UVs (0,1) to (1,0)
 	ImGui::Image(
 		texID,
-		ImVec2((float)fboSize.x, (float)fboSize.y),
+		ImVec2((float)fboSize.Width, (float)fboSize.Height),
 		ImVec2(0, 1), ImVec2(1, 0));
 
 	ImGui::End();

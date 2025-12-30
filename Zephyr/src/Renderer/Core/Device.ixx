@@ -14,7 +14,6 @@ export namespace Zephyr::RHI::Device
 	Ref<IPipeline> CreatePipeline(GraphicsPipelineDesc desc);
 	Ref<ICommandList> CreateCommandList();
 
-	Ref<IVertexBuffer> CreateVertexBuffer(BufferDesc desc);
-	Ref<IUniformBuffer> CreateUniformBuffer(BufferDesc desc);
+	Ref<IBuffer> CreateBuffer(BufferDesc desc);
 	Ref<IVertexArray> CreateVertexArray(VertexArrayCreateInfo createInfo);
 }

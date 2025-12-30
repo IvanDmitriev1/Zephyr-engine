@@ -4,8 +4,6 @@ export module ZephyrEditor.AppLayer;
 export import zephyr.core.Layer;
 export import Zephyr.Renderer.Shader.ShaderLoader;
 
-import Zephyr.Renderer.Renderer;
-
 using namespace Zephyr;
 
 struct Vertex
@@ -51,14 +49,14 @@ public:
             {{ 0.9f, -0.3f}, {1, 0, 1}},
         };
 
-        auto vb = RHI::Device::CreateVertexBuffer(RHI::BufferDesc{
+        auto vb = RHI::Device::CreateBuffer(RHI::BufferDesc{
             .SizeBytes = static_cast<uint32_t>(sizeof(verts)),
             .Usage = RHI::BufferUsage::Vertex,
             .Access = RHI::BufferAccess::Static,
             .DebugName = "TriangleVB"
                                              });
 
-		auto vb2 = RHI::Device::CreateVertexBuffer(RHI::BufferDesc{
+		auto vb2 = RHI::Device::CreateBuffer(RHI::BufferDesc{
 			.SizeBytes = static_cast<uint32_t>(sizeof(verts2)),
 			.Usage = RHI::BufferUsage::Vertex,
 			.Access = RHI::BufferAccess::Static,
@@ -74,16 +72,14 @@ public:
         });
 
         m_Vao = RHI::Device::CreateVertexArray(RHI::VertexArrayCreateInfo{
+			.Layout = layout,
             .VertexBuffer = std::move(vb),
-            .Layout = layout,
-            .IndexBuffer = nullptr,
             .DebugName = "TriangleVAO"
         });
 
         m_Vao2 = RHI::Device::CreateVertexArray(RHI::VertexArrayCreateInfo{
+					.Layout = layout,
                     .VertexBuffer = std::move(vb2),
-                    .Layout = layout,
-                    .IndexBuffer = nullptr,
                     .DebugName = "TriangleVAO"
         });
 	}

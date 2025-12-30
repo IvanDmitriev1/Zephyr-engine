@@ -7,10 +7,14 @@ export namespace Zephyr::RHI
 {
     enum class BufferUsage : uint32_t
     {
+		None = 0,
         Vertex = 1 << 0,
         Index = 1 << 1,
         Uniform = 1 << 2,
         Storage = 1 << 3,
+		Indirect = 1u << 4,
+		CopySrc = 1u << 5,
+		CopyDst = 1u << 6,
     };
 
     enum class BufferAccess : uint8_t
@@ -20,11 +24,7 @@ export namespace Zephyr::RHI
         Streaming // CPU writes every frame
     };
 
-    enum class IndexType : uint8_t
-    {
-        UInt16,
-        UInt32
-    };
+    
 
     struct BufferDesc
     {
@@ -34,34 +34,6 @@ export namespace Zephyr::RHI
 
         std::string_view DebugName{};
     };
-
-    struct IndexBufferDesc : BufferDesc
-    {
-        IndexType Type = IndexType::UInt32;
-
-        inline BufferDesc ToBufferDesc()
-        {
-            return BufferDesc{
-                .SizeBytes = SizeBytes,
-                .Usage = Usage,
-                .Access = Access,
-                .DebugName = DebugName
-            };
-        }
-    };
-
-    constexpr uint32_t GetIndexSize(IndexType type)
-    {
-        switch (type)
-        {
-        case IndexType::UInt16: return sizeof(uint16_t);
-        case IndexType::UInt32: return sizeof(uint32_t);
-        default:
-            break;
-        }
-
-        throw std::runtime_error("GetIndexSize: unsupported IndexType");
-    }
 }
 
 export namespace EnumBitmask

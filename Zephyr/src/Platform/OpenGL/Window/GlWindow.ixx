@@ -14,17 +14,8 @@ export namespace Zephyr::OpenGL
 
 	public:
 		Scope<IUiRenderContext> CreateUiContext() const noexcept override;
-
-		void* GetNativeHandle() const noexcept override
-		{
-			return m_window;
-		}
-
-		glm::ivec2 GetSize() const noexcept override
-		{
-			return m_size;
-		}
-
+		void* GetNativeHandle() const noexcept override { return m_window; }
+		Extent2D GetSize() const noexcept override { return m_size; }
 		float GetTime() const noexcept override;
 
 		void SetEventCallback(const EventCallbackFn& callback) override;
@@ -39,7 +30,7 @@ export namespace Zephyr::OpenGL
 	private:
 		GLFWwindow* m_window = nullptr;
 		EventCallbackFn m_eventCallback;
-		glm::ivec2 m_size{};
+		Extent2D m_size{};
 		bool m_vsync{};
 	};
 }

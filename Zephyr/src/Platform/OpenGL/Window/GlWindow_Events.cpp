@@ -22,8 +22,8 @@ namespace Zephyr::OpenGL
 	{
 		auto* self = reinterpret_cast<GlWindow*>(glfwGetWindowUserPointer(window));
 
-		self->m_size.x = width;
-		self->m_size.y = height;
+		self->m_size.Width = width;
+		self->m_size.Height = height;
 
 		WindowResizeEvent e(width, height);
 		self->m_eventCallback(e);

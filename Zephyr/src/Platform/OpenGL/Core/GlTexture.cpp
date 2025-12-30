@@ -59,7 +59,7 @@ namespace Zephyr::RHI::OpenGL
 		GLenum dataFmt = ToGLFormat(m_desc.Format);
 		GLenum dataType = ToGLType(m_desc.Format);
 
-		glTextureStorage2D(m_Id, 1, internalFmt, m_desc.Size.x, m_desc.Size.y);
+		glTextureStorage2D(m_Id, 1, internalFmt, m_desc.Size.Width, m_desc.Size.Height);
 
 		glTextureParameteri(m_Id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_Id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

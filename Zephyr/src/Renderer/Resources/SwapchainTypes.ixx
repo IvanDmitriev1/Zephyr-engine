@@ -6,7 +6,7 @@ export namespace Zephyr::RHI
 {
 	struct SwapchainDesc
 	{
-		glm::ivec2 Size{};
+		Extent2D Size{};
 		TextureFormat ColorFormat = TextureFormat::RGBA8;
 		TextureFormat DepthFormat = TextureFormat::DEPTH24STENCIL8;
 

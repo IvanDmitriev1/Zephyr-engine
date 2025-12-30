@@ -11,7 +11,7 @@ export namespace Zephyr::RHI
 
     struct FrameBufferDesc
     {
-        glm::ivec2 Size{};
+		Extent2D Size{};
         std::vector<FrameBufferAttachmentDesc> ColorAttachments{};
         std::optional<FrameBufferAttachmentDesc> DepthStencilAttachment{};
 

@@ -3,7 +3,6 @@ module Zephyr.App;
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
 import zephyr.events.ApplicationEvents;
-import Zephyr.Renderer.Renderer;
 import glm;
 
 import <spdlog/spdlog.h>;

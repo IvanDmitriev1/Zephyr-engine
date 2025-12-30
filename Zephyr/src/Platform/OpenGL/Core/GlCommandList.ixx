@@ -7,6 +7,10 @@ export namespace Zephyr::RHI::OpenGL
 	class GlCommandList final : public ICommandList
 	{
 	public:
+		GlCommandList() = default;
+		~GlCommandList() override = default;
+
+	public:
 		void Begin() override;
 		void End() override;
 
@@ -20,13 +24,17 @@ export namespace Zephyr::RHI::OpenGL
 		// Resource binding
 		void BindVertexArray(const Ref<IVertexArray>& vao) override;
 
-		// Dynamic state
-		void SetViewport(float x, float y, float w, float h) override;
-		void SetScissor(int32_t x, int32_t y, uint32_t w, uint32_t h) override;
+		//Bind unifirms
+		void BindUniformBuffer(uint32_t binding, const Ref<IBuffer>& buffer) override;
+		void SetUniformMat4(uint32_t location, const glm::mat4& value) override;
+		void SetUniformFloat3(uint32_t location, const glm::vec3& value) override;
 
 		// Draw commands
 		void Draw(uint32_t vertexCount, uint32_t firstVertex) override;
 		void DrawIndexed(uint32_t indexCount, uint32_t firstIndex) override;
+
+	private:
+		uint32_t GetCurrentShaderProgram() const;
 
 	private:
 		bool m_IsInRenderPass{};

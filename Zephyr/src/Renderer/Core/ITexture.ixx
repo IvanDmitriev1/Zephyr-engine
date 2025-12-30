@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.Core.ITexture;
 
 export import Zephyr.Renderer.Resources.TextureTypes;
+export import std.compat;
 
 export namespace Zephyr::RHI
 {

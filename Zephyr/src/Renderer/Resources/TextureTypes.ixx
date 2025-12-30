@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.Resources.TextureTypes;
 
-export import std.compat;
 export import Zephyr.Core.EnumBitmask;
-export import glm;
+export import Zephyr.Renderer.Resources.CommonTypes;
+export import std.compat;
 
 export namespace Zephyr::RHI
 {
@@ -46,7 +46,7 @@ export namespace Zephyr::RHI
 
 	struct TextureDesc
 	{
-		glm::ivec2 Size{};
+		Extent2D Size{};
 		TextureFormat Format = TextureFormat::RGBA8;
 		TextureUsage Usage = TextureUsage::ShaderRead;
 
