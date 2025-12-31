@@ -3,6 +3,7 @@ export module Zephyr.Renderer.Core.ICommandList;
 export import Zephyr.Renderer.Resources.RenderPassTypes;
 export import Zephyr.Renderer.Core.IPipeline;
 export import Zephyr.Renderer.Core.IVertexArray;
+export import Zephyr.Renderer.Resources.CommandListTypes;
 
 export namespace Zephyr::RHI
 {
@@ -10,10 +11,6 @@ export namespace Zephyr::RHI
     {
     public:
         virtual ~ICommandList() = default;
-
-        // Recording state
-        virtual void Begin() = 0;
-        virtual void End() = 0;
 
         // Render pass
         virtual void BeginRenderPass(const RenderPassDesc& rp) = 0;
@@ -25,10 +22,7 @@ export namespace Zephyr::RHI
         // Resource binding
         virtual void BindVertexArray(const Ref<IVertexArray>& vao) = 0;
 
-		//Bind unifirms
-		virtual void BindUniformBuffer(uint32_t binding, const Ref<IBuffer>& buffer) = 0;
-		virtual void SetUniformMat4(uint32_t location, const glm::mat4& value) = 0;
-		virtual void SetUniformFloat3(uint32_t location, const glm::vec3& value) = 0;
+		virtual void BindResources(std::span<ResourceBinding> bindings) = 0;
 
         // Draw commands
         virtual void Draw(uint32_t vertexCount, uint32_t firstVertex = 0) = 0;

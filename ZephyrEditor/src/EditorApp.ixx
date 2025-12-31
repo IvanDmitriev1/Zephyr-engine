@@ -2,6 +2,7 @@ export module ZephyrEditor.App;
 
 import Zephyr.App;
 import Zephyr.Renderer.Core.IFrameBuffer;
+import Zephyr.Renderer.Core.ICommandList;
 
 import <imgui.h>;
 
@@ -26,6 +27,7 @@ private:
 
 private:
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
+	Ref<RHI::ICommandList> m_CommandList;
 
 	bool m_ResizeRequested = false;
 	uint32_t m_PendingW = 0;

@@ -26,8 +26,8 @@ export namespace Zephyr::RHI::OpenGL
 	private:
 		uint32_t m_RendererID = 0;
 
+		const VertexLayout m_Layout;
 		const Ref<IBuffer> m_VertexBuffer;
 		const std::optional<IndexBinding> m_IndexBinding;
-		const VertexLayout m_Layout;
 	};
 }

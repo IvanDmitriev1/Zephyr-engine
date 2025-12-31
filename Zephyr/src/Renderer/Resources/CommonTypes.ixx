@@ -19,4 +19,16 @@ export namespace Zephyr
 			return !(*this == other);
 		}
 	};
+
+	struct Offset2D
+	{
+		int32_t X{};
+		int32_t Y{};
+	};
+
+	struct Rect2D
+	{
+		Offset2D Offset{};
+		Extent2D Extent{};
+	};
 }

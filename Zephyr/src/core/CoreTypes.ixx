@@ -48,7 +48,7 @@ export namespace Zephyr
 	{
 		if constexpr (Zephyr::Build::SafeCast)
 		{
-			if (auto* p = dynamic_cast<To*>(from.get()))
+			if (auto* p = static_cast<To*>(from.get()))
 			{
 				return *p;
 			}

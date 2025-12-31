@@ -16,7 +16,7 @@ export namespace Zephyr::RHI
 	{
 		Ref<IBuffer> Buffer{};
 		IndexType Type{ IndexType::UInt32 };
-		uint64_t OffsetBytes{ 0 }; // start of index data inside the buffer
+		uint64_t OffsetBytes{ 0 };
 	};
 
 	struct VertexArrayCreateInfo

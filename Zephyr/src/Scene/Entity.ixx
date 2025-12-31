@@ -4,11 +4,11 @@ import std.compat;
 
 export namespace Zephyr
 {
-	using EntityId = std::uint32_t;
+	using EntityId = uint32_t;
 
 	class Entity
 	{
-	public:
-
+	private:
+		EntityId Id{};
 	};
 }

@@ -8,23 +8,12 @@ import Zephyr.Renderer.OpenGL.GlFrameBuffer;
 import Zephyr.Renderer.OpenGL.GlPipeline;
 import Zephyr.Renderer.OpenGL.GlVertexArray;
 import Zephyr.Renderer.OpenGL.GlBuffer;
+import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
 
 namespace Zephyr::RHI::OpenGL
 {
-	void GlCommandList::Begin()
-	{
-		m_IsInRenderPass = false;
-		m_BoundedPipeline.reset();
-		m_BoundedVao.reset();
-	}
-
-	void GlCommandList::End()
-	{
-		Assert(!m_IsInRenderPass, "GlCommandList: End called while still in render pass");
-	}
-
 	void GlCommandList::BeginRenderPass(const RenderPassDesc& rp)
 	{
         Assert(!m_IsInRenderPass, "GlCommandList: BeginRenderPass called while already in a render pass");
@@ -38,6 +27,8 @@ namespace Zephyr::RHI::OpenGL
     {
         Assert(m_IsInRenderPass, "GlCommandList: EndRenderPass called without BeginRenderPass");
         m_IsInRenderPass = false;
+		m_BoundedPipeline.reset();
+		m_BoundedVao.reset();
 
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     }
@@ -58,29 +49,29 @@ namespace Zephyr::RHI::OpenGL
         m_BoundedVao = vao;
     }
 
-	void GlCommandList::BindUniformBuffer(uint32_t binding, const Ref<IBuffer>& buffer)
+	void GlCommandList::BindResources(std::span<ResourceBinding> bindings)
 	{
-		Assert(buffer, "GlCommandList: BindUniformBuffer received null buffer");
+		for (const ResourceBinding& binding : bindings)
+		{
+			if (binding.UniformBuffer)
+			{
+				auto& glBuf = StaticCastRef<GlBuffer>(binding.UniformBuffer);
+				const uint32_t id = glBuf.RendererID();
+				glBindBufferBase(GL_UNIFORM_BUFFER, binding.Slot, id);
+			}
 
-		auto& glBuffer = StaticCastRef<GlBuffer>(buffer);
-		glBindBufferBase(GL_UNIFORM_BUFFER, binding, glBuffer.RendererID());
-	}
+			if (binding.Texture)
+			{
+				auto& glTex = StaticCastRef<GlTexture>(binding.Texture);
+				const GLuint texId = glTex.GetId();
+				glBindTextureUnit(binding.Slot, texId);
+			}
 
-	void GlCommandList::SetUniformMat4(uint32_t location, const glm::mat4 & value)
-	{
-		Assert(m_BoundedPipeline, "GlCommandList: SetUniformMat4 called without bound pipeline");
-
-		uint32_t program = GetCurrentShaderProgram();
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
-
-	}
-
-	void GlCommandList::SetUniformFloat3(uint32_t location, const glm::vec3 & value)
-	{
-		Assert(m_BoundedPipeline, "GlCommandList: SetUniformFloat3 called without bound pipeline");
-
-		uint32_t program = GetCurrentShaderProgram();
-		glUniform3fv(location, 1, glm::value_ptr(value));
+			if (binding.Sampler)
+			{
+				//TODO
+			}
+		}
 	}
 
     void GlCommandList::Draw(uint32_t vertexCount, uint32_t firstVertex)

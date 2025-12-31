@@ -24,8 +24,6 @@ export namespace Zephyr::RHI
         Streaming // CPU writes every frame
     };
 
-    
-
     struct BufferDesc
     {
         uint32_t SizeBytes = 0;

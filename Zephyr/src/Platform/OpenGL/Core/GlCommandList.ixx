@@ -11,9 +11,6 @@ export namespace Zephyr::RHI::OpenGL
 		~GlCommandList() override = default;
 
 	public:
-		void Begin() override;
-		void End() override;
-
 		// Render pass
 		void BeginRenderPass(const RenderPassDesc& rp) override;
 		void EndRenderPass() override;
@@ -24,10 +21,7 @@ export namespace Zephyr::RHI::OpenGL
 		// Resource binding
 		void BindVertexArray(const Ref<IVertexArray>& vao) override;
 
-		//Bind unifirms
-		void BindUniformBuffer(uint32_t binding, const Ref<IBuffer>& buffer) override;
-		void SetUniformMat4(uint32_t location, const glm::mat4& value) override;
-		void SetUniformFloat3(uint32_t location, const glm::vec3& value) override;
+		void BindResources(std::span<ResourceBinding> bindings) override;
 
 		// Draw commands
 		void Draw(uint32_t vertexCount, uint32_t firstVertex) override;
