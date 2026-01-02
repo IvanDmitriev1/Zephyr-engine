@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h>
 
-module Zephyr.Renderer.OpenGL.GlCommandList;
+module Zephyr.Renderer.OpenGL.GlRenderPassEncoder;
 
 import Zephyr.Renderer.OpenGL.GlFrameBuffer;
 import Zephyr.Renderer.OpenGL.GlPipeline;
@@ -14,26 +14,19 @@ import Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
 
 namespace Zephyr::RHI::OpenGL
 {
-	void GlCommandList::BeginRenderPass(const RenderPassDesc& rp)
+	GlRenderPassEncoder::GlRenderPassEncoder(const RenderPassDesc& rp)
 	{
-        Assert(!m_IsInRenderPass, "GlCommandList: BeginRenderPass called while already in a render pass");
-        m_IsInRenderPass = true;
-
-        auto& glFb = StaticCastRef<GlFrameBuffer>(rp.Target);
-        glFb.Bind();
-        glFb.ClearForRenderPass(rp);
+		auto& glFb = StaticCastRef<GlFrameBuffer>(rp.Target);
+		glFb.Bind();
+		glFb.ClearForRenderPass(rp);
 	}
-    void GlCommandList::EndRenderPass()
-    {
-        Assert(m_IsInRenderPass, "GlCommandList: EndRenderPass called without BeginRenderPass");
-        m_IsInRenderPass = false;
-		m_BoundedPipeline.reset();
-		m_BoundedVao.reset();
 
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    }
+	GlRenderPassEncoder::~GlRenderPassEncoder()
+	{
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	}
 
-    void GlCommandList::BindPipeline(const Ref<IPipeline>& pipeline)
+	void GlRenderPassEncoder::BindPipeline(const Ref<IPipeline>& pipeline)
     {
         auto& glp = StaticCastRef<GlPipeline>(pipeline);
         glp.ApplyState();
@@ -41,7 +34,7 @@ namespace Zephyr::RHI::OpenGL
         m_BoundedPipeline = pipeline;
     }
 
-    void GlCommandList::BindVertexArray(const Ref<IVertexArray>& vao)
+    void GlRenderPassEncoder::BindVertexArray(const Ref<IVertexArray>& vao)
     {
         auto& glvao = StaticCastRef<GlVertexArray>(vao);
         glvao.Bind();
@@ -49,7 +42,7 @@ namespace Zephyr::RHI::OpenGL
         m_BoundedVao = vao;
     }
 
-	void GlCommandList::BindResources(std::span<ResourceBinding> bindings)
+	void GlRenderPassEncoder::BindResources(std::span<ResourceBinding> bindings)
 	{
 		for (const ResourceBinding& binding : bindings)
 		{
@@ -74,7 +67,7 @@ namespace Zephyr::RHI::OpenGL
 		}
 	}
 
-    void GlCommandList::Draw(uint32_t vertexCount, uint32_t firstVertex)
+    void GlRenderPassEncoder::Draw(uint32_t vertexCount, uint32_t firstVertex)
     {
 		Assert(m_IsInRenderPass, "GlCommandList: Draw called outside render pass");
 		Assert(m_BoundedPipeline, "GlCommandList: Draw called without bound pipeline");
@@ -84,7 +77,7 @@ namespace Zephyr::RHI::OpenGL
 		glDrawArrays(mode, static_cast<GLint>(firstVertex), static_cast<GLsizei>(vertexCount));
     }
 
-    void GlCommandList::DrawIndexed(uint32_t indexCount, uint32_t firstIndex)
+    void GlRenderPassEncoder::DrawIndexed(uint32_t indexCount, uint32_t firstIndex)
     {
 		Assert(m_IsInRenderPass, "GlCommandList: DrawIndexed called outside render pass");
 		Assert(m_BoundedPipeline, "GlCommandList: DrawIndexed called without bound pipeline");
@@ -102,7 +95,7 @@ namespace Zephyr::RHI::OpenGL
 		glDrawElements(mode, static_cast<GLsizei>(indexCount), glIndexType, offset);
 	}
 
-	uint32_t GlCommandList::GetCurrentShaderProgram() const
+	uint32_t GlRenderPassEncoder::GetCurrentShaderProgram() const
 	{
 		Assert(m_BoundedPipeline, "No pipeline bound");
 

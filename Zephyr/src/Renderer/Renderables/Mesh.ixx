@@ -4,11 +4,21 @@ export import Zephyr.Renderer.Core.IVertexArray;
 
 export namespace Zephyr
 {
+	struct MeshCreateDesc
+	{
+		Ref<RHI::IVertexArray> Vao;
+		uint32_t VertexCount{};
+		uint32_t IndexCount{};
+	};
+
 	class Mesh
 	{
 	public:
-		Mesh(Ref<RHI::IVertexArray> vao)
-			:m_VertexArray(std::move(vao)) {}
+		Mesh(MeshCreateDesc desc)
+			:m_VertexArray(std::move(desc.Vao)),
+			m_VertexCount(desc.VertexCount),
+			m_IndexCount(desc.IndexCount)
+		{}
 
 		void SetVertexCount(uint32_t count) { m_VertexCount = count; }
 

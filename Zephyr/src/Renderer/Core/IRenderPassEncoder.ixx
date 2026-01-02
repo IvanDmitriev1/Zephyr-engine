@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Core.ICommandList;
+export module Zephyr.Renderer.Core.IRenderPassEncoder;
 
 export import Zephyr.Renderer.Resources.RenderPassTypes;
 export import Zephyr.Renderer.Core.IPipeline;
@@ -7,21 +7,13 @@ export import Zephyr.Renderer.Resources.CommandListTypes;
 
 export namespace Zephyr::RHI
 {
-    class ICommandList
+    class IRenderPassEncoder
     {
     public:
-        virtual ~ICommandList() = default;
+        virtual ~IRenderPassEncoder() = default;
 
-        // Render pass
-        virtual void BeginRenderPass(const RenderPassDesc& rp) = 0;
-        virtual void EndRenderPass() = 0;
-
-        // Pipeline binding
-        virtual void BindPipeline(const Ref<IPipeline>& pipeline) = 0;
-
-        // Resource binding
+		virtual void BindPipeline(const Ref<IPipeline>& pipeline) = 0;
         virtual void BindVertexArray(const Ref<IVertexArray>& vao) = 0;
-
 		virtual void BindResources(std::span<ResourceBinding> bindings) = 0;
 
         // Draw commands

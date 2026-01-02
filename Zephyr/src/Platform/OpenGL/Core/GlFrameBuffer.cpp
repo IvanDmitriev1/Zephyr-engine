@@ -6,7 +6,6 @@ module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
-import Zephyr.Renderer.OpenGL.Resources.GlFrameBufferHelpers;
 import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
@@ -48,7 +47,49 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)
 	{
-		ClearNamedFbo(rp, m_FBO);
+		// Color clears
+		for (size_t i = 0; i < rp.Colors.size(); ++i)
+		{
+			if (rp.Colors[i].Load != LoadOp::Clear)
+				continue;
+
+			const std::array<float, 4> arr = {
+				rp.Colors[i].Clear.R,
+				rp.Colors[i].Clear.G,
+				rp.Colors[i].Clear.B,
+				rp.Colors[i].Clear.A
+			};
+
+			glClearNamedFramebufferfv(m_FBO, GL_COLOR, (GLint)i, arr.data());
+		}
+
+		// Depth / stencil clears
+		if (!rp.Depth)
+			return;
+
+		const bool clearDepth = (rp.Depth->Load == LoadOp::Clear);
+		const bool clearStencil = rp.Depth->ClearStencilEnable;
+
+		if (clearDepth && clearStencil)
+		{
+			glClearNamedFramebufferfi(
+				m_FBO,
+				GL_DEPTH_STENCIL,
+				0,
+				rp.Depth->ClearDepth,
+				(GLint)rp.Depth->ClearStencil
+			);
+		}
+		else if (clearDepth)
+		{
+			const auto depth = rp.Depth->ClearDepth;
+			glClearNamedFramebufferfv(m_FBO, GL_DEPTH, 0, &depth);
+		}
+		else if (clearStencil)
+		{
+			const auto stencil = (GLint)rp.Depth->ClearStencil;
+			glClearNamedFramebufferiv(m_FBO, GL_STENCIL, 0, &stencil);
+		}
 	}
 
 	void GlFrameBuffer::Destroy() noexcept
@@ -69,12 +110,11 @@ namespace Zephyr::RHI::OpenGL
 
 		glCreateFramebuffers(1, &m_FBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+		Debug::SetGlDebugLabel(GL_FRAMEBUFFER, m_FBO, m_Spec.DebugName);
 
 		CreateAttachments();
 		AttachTextures();
 		CheckStatus();
-
-		Debug::SetGlDebugLabel(GL_FRAMEBUFFER, m_FBO, m_Spec.DebugName);
 	}
 
 	void GlFrameBuffer::CreateAttachments()

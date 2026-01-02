@@ -7,12 +7,18 @@ export import glm;
 
 export namespace Zephyr
 {
+	struct MaterialCreateDesc
+	{
+		std::string Name{};
+		Ref<RHI::IPipeline> Pipeline{};
+	};
+
 	class Material final
 	{
 	public:
-		Material(std::string name, Ref<RHI::IPipeline> pipeline)
-			:m_Name(std::move(name)),
-			m_Pipeline(std::move(pipeline)) 
+		Material(const MaterialCreateDesc& desc)
+			:m_Name(std::move(desc.Name)),
+			m_Pipeline(std::move(desc.Pipeline))
 		{
 
 		}

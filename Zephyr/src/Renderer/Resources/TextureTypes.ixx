@@ -6,6 +6,8 @@ export import std.compat;
 
 export namespace Zephyr::RHI
 {
+	using TextureHandle = uint32_t;
+
 	enum class TextureFormat : uint8_t
 	{
 		None = 0,

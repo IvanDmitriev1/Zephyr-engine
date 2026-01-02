@@ -1,26 +1,19 @@
-export module Zephyr.Renderer.OpenGL.GlCommandList;
+export module Zephyr.Renderer.OpenGL.GlRenderPassEncoder;
 
-export import Zephyr.Renderer.Core.ICommandList;
+export import Zephyr.Renderer.Core.IRenderPassEncoder;
 
 export namespace Zephyr::RHI::OpenGL
 {
-	class GlCommandList final : public ICommandList
+	class GlRenderPassEncoder final : public IRenderPassEncoder
 	{
 	public:
-		GlCommandList() = default;
-		~GlCommandList() override = default;
+		explicit GlRenderPassEncoder(const RenderPassDesc& rp);
+		~GlRenderPassEncoder() override;
 
 	public:
-		// Render pass
-		void BeginRenderPass(const RenderPassDesc& rp) override;
-		void EndRenderPass() override;
 
-		// Pipeline binding
 		void BindPipeline(const Ref<IPipeline>& pipeline) override;
-
-		// Resource binding
 		void BindVertexArray(const Ref<IVertexArray>& vao) override;
-
 		void BindResources(std::span<ResourceBinding> bindings) override;
 
 		// Draw commands

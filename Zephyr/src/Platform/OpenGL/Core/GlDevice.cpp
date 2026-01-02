@@ -3,7 +3,7 @@ module Zephyr.Renderer.Core.Device;
 import Zephyr.Renderer.Core.Device;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.GlFrameBuffer;
-import Zephyr.Renderer.OpenGL.GlCommandList;
+import Zephyr.Renderer.OpenGL.GlRenderPassEncoder;
 import Zephyr.Renderer.OpenGL.GlPipeline;
 import Zephyr.Renderer.OpenGL.GlBuffer;
 import Zephyr.Renderer.OpenGL.GlVertexArray;
@@ -26,9 +26,9 @@ namespace Zephyr::RHI::Device
 		return CreateRef<OpenGL::GlPipeline>(std::move(desc));
 	}
 
-	Ref<ICommandList> CreateCommandList()
+	Scope<IRenderPassEncoder> CreateRenderPassEncoder(const RenderPassDesc& rp)
 	{
-		return CreateRef<OpenGL::GlCommandList>();
+		return CreateScope<OpenGL::GlRenderPassEncoder>(rp);
 	}
 
 	Ref<IBuffer> CreateBuffer(BufferDesc desc)

@@ -20,8 +20,7 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec) : Application(spec
 	};
 
 	m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
-	m_CommandList = RHI::Device::CreateCommandList();
-
+	
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
 }
@@ -48,11 +47,9 @@ void EditorApp::OnRender()
 		.Colors = std::move(colors)
 	};
 
-	m_CommandList->BeginRenderPass(rp);
+	auto cmd = RHI::Device::CreateRenderPassEncoder(rp);
 
 
-
-	m_CommandList->EndRenderPass();
 }
 
 void EditorApp::OnUiRender()

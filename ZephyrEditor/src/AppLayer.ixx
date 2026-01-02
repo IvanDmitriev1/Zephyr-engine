@@ -24,7 +24,6 @@ public:
 		};
 
 		m_Shader = ShaderLoader::Load("Triangle", shaderStages);
-		m_Cmd = RHI::Device::CreateCommandList();
 
         m_Pipeline = RHI::Device::CreatePipeline(RHI::GraphicsPipelineDesc{
             .Shader = m_Shader,
@@ -98,21 +97,18 @@ public:
         rp.Colors = colors;
         rp.DebugName = "MainPass";
 
-        m_Cmd->BeginRenderPass(rp);
+		auto cmd = RHI::Device::CreateRenderPassEncoder(rp);
 
-        m_Cmd->BindPipeline(m_Pipeline);
-        m_Cmd->BindVertexArray(m_Vao);
-        m_Cmd->Draw(3, 0);
+		cmd->BindPipeline(m_Pipeline);
+		cmd->BindVertexArray(m_Vao);
+		cmd->Draw(3, 0);
 
-		m_Cmd->BindVertexArray(m_Vao2);
-		m_Cmd->Draw(3, 0);
-
-        m_Cmd->EndRenderPass();
+		cmd->BindVertexArray(m_Vao2);
+		cmd->Draw(3, 0);
     }
 
 private:
 	Ref<RHI::IShader> m_Shader;
-	Ref<RHI::ICommandList> m_Cmd;
 	Ref<RHI::IVertexArray> m_Vao;
     Ref<RHI::IVertexArray> m_Vao2;
     Ref<RHI::IPipeline> m_Pipeline;
