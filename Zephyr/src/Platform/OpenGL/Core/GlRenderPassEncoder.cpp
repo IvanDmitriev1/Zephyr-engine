@@ -42,34 +42,41 @@ namespace Zephyr::RHI::OpenGL
         m_BoundedVao = vao;
     }
 
-	void GlRenderPassEncoder::BindResources(std::span<ResourceBinding> bindings)
+	void GlRenderPassEncoder::BindResources(std::span<const ResourceBinding> bindings)
 	{
 		for (const ResourceBinding& binding : bindings)
 		{
-			if (binding.UniformBuffer)
+			std::visit([slot = binding.BindingSlot](auto&& resource)
 			{
-				auto& glBuf = StaticCastRef<GlBuffer>(binding.UniformBuffer);
-				const uint32_t id = glBuf.RendererID();
-				glBindBufferBase(GL_UNIFORM_BUFFER, binding.Slot, id);
-			}
+				using ResourceT = std::decay_t<decltype(resource)>;
 
-			if (binding.Texture)
-			{
-				auto& glTex = StaticCastRef<GlTexture>(binding.Texture);
-				const GLuint texId = glTex.GetId();
-				glBindTextureUnit(binding.Slot, texId);
-			}
+				if constexpr (std::is_same_v<ResourceT, Ref<IBuffer>>)
+				{
+					auto& glBuf = StaticCastRef<GlBuffer>(resource);
+					Assert(HasFlag(glBuf.GetDesc().Usage, BufferUsage::Uniform),
+						   "GlRenderPassEncoder::BindResources: Buffer is not uniform.");
 
-			if (binding.Sampler)
-			{
-				//TODO
-			}
+					const uint32_t id = glBuf.RendererID();
+					glBindBufferBase(GL_UNIFORM_BUFFER, slot, id);
+				}
+				else if constexpr (std::is_same_v<ResourceT, Ref<ITexture>>)
+				{
+					auto& glTex = StaticCastRef<GlTexture>(resource);
+					const GLuint texId = glTex.GetId();
+					glBindTextureUnit(slot, texId);
+				}
+				else if constexpr (std::is_same_v<ResourceT, Ref<ISampler>>)
+				{
+					// TODO: bind sampler to unit 'slot'
+					// auto& glSampler = StaticCastRef<GlSampler>(resource);
+					// glBindSampler(slot, glSampler.GetId());
+				}
+			}, binding.Resource);
 		}
 	}
 
     void GlRenderPassEncoder::Draw(uint32_t vertexCount, uint32_t firstVertex)
     {
-		Assert(m_IsInRenderPass, "GlCommandList: Draw called outside render pass");
 		Assert(m_BoundedPipeline, "GlCommandList: Draw called without bound pipeline");
 		Assert(m_BoundedVao, "GlCommandList: Draw called without bound VAO");
 
@@ -79,7 +86,6 @@ namespace Zephyr::RHI::OpenGL
 
     void GlRenderPassEncoder::DrawIndexed(uint32_t indexCount, uint32_t firstIndex)
     {
-		Assert(m_IsInRenderPass, "GlCommandList: DrawIndexed called outside render pass");
 		Assert(m_BoundedPipeline, "GlCommandList: DrawIndexed called without bound pipeline");
 		Assert(m_BoundedVao && m_BoundedVao->GetIndexBinding().has_value(),
 			   "GlCommandList: DrawIndexed called without bound index buffer");

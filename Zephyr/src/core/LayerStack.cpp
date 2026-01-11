@@ -1,4 +1,4 @@
-module zephyr.core.LayerStack;
+module Zephyr.Core.LayerStack;
 
 namespace Zephyr
 {

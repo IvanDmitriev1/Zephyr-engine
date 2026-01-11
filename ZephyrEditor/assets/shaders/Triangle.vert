@@ -1,14 +1,22 @@
 #version 450 core
-layout(location = 0) in vec2 aPos;
-layout(location = 1) in vec3 aColor;
+layout(location = 0) in vec2 a_Position;
+layout(location = 1) in vec3 a_Color;
 
-layout(location = 0) out vec3 vColor;
+layout(std140, binding = 0) uniform Camera
+{
+    mat4 u_ViewProjection;
+    vec3 u_CameraPosition;
+};
 
-layout(location = 0) uniform mat4 u_Transform;
-layout(location = 1) uniform mat4 u_ViewProjection;
+layout(std140, binding = 1) uniform PerObject
+{
+    mat4 u_Model;
+};
+
+out vec3 v_Color;
 
 void main()
 {
-    vColor = aColor;
-    gl_Position = vec4(aPos, 0.0, 1.0);
+    v_Color = a_Color;
+    gl_Position = u_ViewProjection * u_Model * vec4(a_Position, 0.0, 1.0);
 }

@@ -5,6 +5,7 @@ module;
 module ZephyrEditor.App;
 
 import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.Renderer;
 
 using namespace Zephyr;
 
@@ -20,6 +21,10 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec) : Application(spec
 	};
 
 	m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
+	m_MainLayer = CreateScope<MainLayer>();
+
+	m_Camera.ViewProjection = glm::mat4(1.0f);
+	m_Camera.Position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
@@ -32,24 +37,17 @@ void EditorApp::OnUpdate(float dt)
 		m_Framebuffer->Resize({ m_PendingW, m_PendingH });
 		m_ResizeRequested = false;
 	}
+
+	m_MainLayer->OnUpdate(dt);
 }
 
 void EditorApp::OnRender()
 {
-	const Zephyr::RHI::ColorAttachment colors[] =
-	{
-		{.Load = Zephyr::RHI::LoadOp::Clear, .Clear = { 0.05f, 0.07f, 0.10f, 1.0f } },
-	};
+	Renderer::BeginFrame(m_Camera);
 
-	Zephyr::RHI::RenderPassDesc rp =
-	{
-		.Target = m_Framebuffer,
-		.Colors = std::move(colors)
-	};
+	m_MainLayer->OnRender();
 
-	auto cmd = RHI::Device::CreateRenderPassEncoder(rp);
-
-
+	Renderer::RenderFrame(m_Framebuffer);
 }
 
 void EditorApp::OnUiRender()

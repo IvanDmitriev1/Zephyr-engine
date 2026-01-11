@@ -1,8 +1,12 @@
 #version 450 core
-layout(location = 0) in vec3 vColor;
-layout(location = 0) out vec4 oColor;
+// Input: interpolated color from vertex shader
+in vec3 v_Color;
+
+// Output: final pixel color
+layout(location = 0) out vec4 o_Color;
 
 void main()
 {
-    oColor = vec4(vColor, 1.0);
+    // Output RGB color with full alpha
+    o_Color = vec4(v_Color, 1.0);
 }

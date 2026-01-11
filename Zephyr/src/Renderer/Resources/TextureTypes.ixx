@@ -71,9 +71,3 @@ export namespace Zephyr::RHI
 		return fmt == TextureFormat::DEPTH24STENCIL8;
 	}
 }
-
-export namespace EnumBitmask
-{
-	template <>
-	inline constexpr bool IsEnabled<Zephyr::RHI::TextureUsage> = true;
-}

@@ -11,10 +11,9 @@ export namespace Zephyr::RHI::OpenGL
 		~GlRenderPassEncoder() override;
 
 	public:
-
 		void BindPipeline(const Ref<IPipeline>& pipeline) override;
 		void BindVertexArray(const Ref<IVertexArray>& vao) override;
-		void BindResources(std::span<ResourceBinding> bindings) override;
+		void BindResources(std::span<const ResourceBinding> bindings) override;
 
 		// Draw commands
 		void Draw(uint32_t vertexCount, uint32_t firstVertex) override;
@@ -24,8 +23,6 @@ export namespace Zephyr::RHI::OpenGL
 		uint32_t GetCurrentShaderProgram() const;
 
 	private:
-		bool m_IsInRenderPass{};
-
 		Ref<IPipeline> m_BoundedPipeline{};
 		Ref<IVertexArray> m_BoundedVao{};
 	};

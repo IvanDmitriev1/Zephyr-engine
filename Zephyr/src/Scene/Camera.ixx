@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Camera;
+export module Zephyr.Scene.Camera;
 
 export import glm;
 export import std.compat;

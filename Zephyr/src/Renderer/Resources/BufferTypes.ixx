@@ -33,9 +33,3 @@ export namespace Zephyr::RHI
         std::string_view DebugName{};
     };
 }
-
-export namespace EnumBitmask
-{
-    template <>
-    inline constexpr bool IsEnabled<Zephyr::RHI::BufferUsage> = true;
-}

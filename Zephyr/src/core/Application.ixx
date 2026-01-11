@@ -1,7 +1,7 @@
 export module Zephyr.App;
 
 export import Zephyr.Core.CoreTypes;
-export import zephyr.core.LayerStack;
+export import Zephyr.Core.LayerStack;
 export import zephyr.events.IEvent;
 export import zephyr.logging.LoggerBuilder;
 export import zephyr.logging.LogBuffer;

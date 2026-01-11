@@ -1,38 +1,28 @@
 export module Zephyr.Renderer.Renderables.Material;
 
-export import Zephyr.Renderer.Core.IPipeline;
-export import Zephyr.Renderer.Core.IBuffer;
-export import Zephyr.Renderer.Core.ITexture;
-export import glm;
+export import Zephyr.Renderer.Resources.MaterialTypes;
 
 export namespace Zephyr
 {
-	struct MaterialCreateDesc
-	{
-		std::string Name{};
-		Ref<RHI::IPipeline> Pipeline{};
-	};
-
 	class Material final
 	{
 	public:
-		Material(const MaterialCreateDesc& desc)
-			:m_Name(std::move(desc.Name)),
-			m_Pipeline(std::move(desc.Pipeline))
-		{
-
-		}
-
+		explicit Material(const MaterialDesc& desc);
 		~Material() = default;
 
 		std::string_view GetName() const noexcept { return m_Name; }
-		const Ref<Zephyr::RHI::IPipeline>& GetPipeline() const noexcept { return m_Pipeline; }
-		//const Ref<Zephyr::RHI::IBuffer>& GetParams() const noexcept { return m_Params; }
+		const Ref<RHI::IShader>& GetShader() const noexcept { return m_Shader; }
+		AlphaMode GetType() const noexcept { return m_Type; }
+
+		const MaterialProperties& GetProperties() const noexcept { return m_Properties; }
+		std::span<const RHI::ResourceBinding> GetBindings() const noexcept { return { m_Bindings.data(), m_Bindings.size() }; }
 
 	private:
 		std::string m_Name;
+		Ref<RHI::IShader> m_Shader;
+		AlphaMode m_Type;
 
-		Ref<RHI::IPipeline> m_Pipeline;
-		//Ref<RHI::IBuffer> m_Params;
+		MaterialProperties m_Properties;
+		std::vector<RHI::ResourceBinding> m_Bindings;
 	};
 }

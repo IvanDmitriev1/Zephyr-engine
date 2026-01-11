@@ -1,7 +1,7 @@
-export module zephyr.core.LayerStack;
+export module Zephyr.Core.LayerStack;
 
 export import Zephyr.Core.CoreTypes;
-export import zephyr.core.Layer;
+export import Zephyr.Core.Layer;
 
 export namespace Zephyr
 {

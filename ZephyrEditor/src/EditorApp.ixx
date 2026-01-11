@@ -1,9 +1,12 @@
 export module ZephyrEditor.App;
 
+import ZephyrEditor.MainLayer;
+
 import Zephyr.App;
 import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Renderer.Core.IRenderPassEncoder;
 import Zephyr.Scene.World;
+import Zephyr.Renderer.SceneRenderer;
 
 import <imgui.h>;
 
@@ -28,8 +31,9 @@ private:
 
 private:
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
-	Ref<RHI::IRenderPassEncoder> m_CommandList;
+	Scope<MainLayer> m_MainLayer;
 	World m_Scene;
+	CameraUniformData m_Camera;
 
 	bool m_ResizeRequested = false;
 	uint32_t m_PendingW = 0;

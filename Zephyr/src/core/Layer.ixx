@@ -1,4 +1,4 @@
-export module zephyr.core.Layer;
+export module Zephyr.Core.Layer;
 
 export import zephyr.events.IEvent;
 

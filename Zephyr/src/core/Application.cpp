@@ -3,7 +3,7 @@ module Zephyr.App;
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
 import zephyr.events.ApplicationEvents;
-import glm;
+import Zephyr.Renderer.Renderer;
 
 import <spdlog/spdlog.h>;
 
@@ -22,6 +22,8 @@ namespace Zephyr
 
     void Application::Run()
     {
+		Renderer::Init();
+
         m_Running = true;
         float lastTime = m_window->GetTime();
 
@@ -45,6 +47,8 @@ namespace Zephyr
 				m_window->SwapBuffers();
             }
         }
+
+		Renderer::Shutdown();
     }
 
     void Application::ConfigureLogging()

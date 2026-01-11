@@ -20,8 +20,6 @@ export namespace Zephyr
 			m_IndexCount(desc.IndexCount)
 		{}
 
-		void SetVertexCount(uint32_t count) { m_VertexCount = count; }
-
 		Ref<RHI::IVertexArray> GetVertexArray() const { return m_VertexArray; }
 		uint32_t GetVertexCount() const { return m_VertexCount; }
 		uint32_t GetIndexCount() const { return m_IndexCount; }
