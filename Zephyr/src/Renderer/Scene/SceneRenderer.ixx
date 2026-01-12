@@ -19,8 +19,7 @@ export namespace Zephyr
 		void Submit(std::span<const DrawItem> items);
 
 		void BeginFrame(const CameraUniformData& cameraData);
-		void RenderFrame(const Ref<RHI::IFrameBuffer>& target);
-		void EndFrame();
+		void ExecutePass(const RHI::RenderPassDesc& passDesc);
 
 	private:
 		void SortQueues();
@@ -28,7 +27,7 @@ export namespace Zephyr
 		void ConfigurePipelineForQueue(RHI::GraphicsPipelineDesc& desc, RenderQueue queue, AlphaMode alphaMode);
 
 	private:
-		std::array<std::vector<DrawItem>, 5> m_Queues{};
+		RenderQueueArray<std::vector<DrawItem>> m_Queues;
 
 		Ref<RHI::IBuffer> m_CameraUniformBuffer;
 		Ref<RHI::IBuffer> m_ObjectUniformBuffer;

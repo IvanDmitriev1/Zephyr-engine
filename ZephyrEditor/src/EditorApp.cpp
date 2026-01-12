@@ -27,7 +27,17 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec) : Application(spec
 	m_Camera.Position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("assets/fonts/Inter-VariableFont.ttf", 18);
+	io.Fonts->AddFontFromFileTTF("Assets/Fonts/Inter-VariableFont.ttf", 18);
+}
+
+void EditorApp::OnInit()
+{
+	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
+		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
+		.Execute([this](SceneRenderer& renderer)
+	{
+		m_MainLayer->OnRender();
+	});
 }
 
 void EditorApp::OnUpdate(float dt)
@@ -44,10 +54,7 @@ void EditorApp::OnUpdate(float dt)
 void EditorApp::OnRender()
 {
 	Renderer::BeginFrame(m_Camera);
-
-	m_MainLayer->OnRender();
-
-	Renderer::RenderFrame(m_Framebuffer);
+	Renderer::Render();
 }
 
 void EditorApp::OnUiRender()

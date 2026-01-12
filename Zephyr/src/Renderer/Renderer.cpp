@@ -5,10 +5,12 @@ import Zephyr.Renderer.SceneRenderer;
 namespace Zephyr::Renderer
 {
 	SceneRenderer* g_SceneRenderer = nullptr;
+	RenderGraph* g_renderGraph = nullptr;
 
 	void Init()
 	{
 		g_SceneRenderer = new SceneRenderer();
+		g_renderGraph = new RenderGraph();
 	}
 
 	void Shutdown()
@@ -18,6 +20,17 @@ namespace Zephyr::Renderer
 			delete g_SceneRenderer;
 			g_SceneRenderer = nullptr;
 		}
+
+		if (g_renderGraph)
+		{
+			delete g_renderGraph;
+			g_renderGraph = nullptr;
+		}
+	}
+
+	RenderGraph& GetRenderGraph()
+	{
+		return *g_renderGraph;
 	}
 
 	void Submit(const DrawItem& item)
@@ -35,8 +48,8 @@ namespace Zephyr::Renderer
 		g_SceneRenderer->BeginFrame(cameraData);
 	}
 
-	void RenderFrame(const Ref<RHI::IFrameBuffer>&target)
+	void Render()
 	{
-		g_SceneRenderer->RenderFrame(target);
+		g_renderGraph->Execute(*g_SceneRenderer);
 	}
 }

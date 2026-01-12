@@ -13,16 +13,8 @@ export namespace Zephyr
 		Overlay        // UI, debug lines, gizmos (no sorting, rendered last)
 	};
 
-	[[nodiscard]] constexpr std::string_view RenderQueueToString(RenderQueue queue) noexcept
-	{
-		switch (queue)
-		{
-		case RenderQueue::Background: return "Background";
-		case RenderQueue::Geometry: return "Geometry";
-		case RenderQueue::AlphaTest: return "AlphaTest";
-		case RenderQueue::Transparent: return "Transparent";
-		case RenderQueue::Overlay: return "Overlay";
-		default: return "Unknown";
-		}
-	}
+	constexpr std::size_t RenderQueueCount = std::to_underlying(RenderQueue::Overlay) + 1;
+
+	template <class T>
+	using RenderQueueArray = std::array<T, RenderQueueCount>;
 }

@@ -53,27 +53,10 @@ namespace Zephyr
 		);
 	}
 
-	void SceneRenderer::RenderFrame(const Ref<RHI::IFrameBuffer>& target)
+
+	void SceneRenderer::ExecutePass(const RHI::RenderPassDesc& passDesc)
 	{
 		SortQueues();
-
-		RenderPassDesc passDesc{};
-		passDesc.Target = target;
-		passDesc.Depth =
-		{
-			.Load = LoadOp::Clear,
-		};
-
-		ColorAttachment colorAttachment[] =
-		{
-			{	
-				.Load = LoadOp::Clear,
-				.Store = StoreOp::Store,
-				.Clear = { 0.1f, 0.1f, 0.1f, 1.0f }
-			}
-		};
-
-		passDesc.Colors = colorAttachment;
 
 		auto cameraBinding = std::to_array<ResourceBinding>(
 		{
@@ -83,16 +66,10 @@ namespace Zephyr
 		auto encoder = Device::CreateRenderPassEncoder(passDesc);
 		encoder->BindResources(cameraBinding);
 
-		ConfigureRenderQueue(encoder.get(), RenderQueue::Background);
-		ConfigureRenderQueue(encoder.get(), RenderQueue::Geometry);
-		ConfigureRenderQueue(encoder.get(), RenderQueue::AlphaTest);
-		ConfigureRenderQueue(encoder.get(), RenderQueue::Transparent);
-		ConfigureRenderQueue(encoder.get(), RenderQueue::Overlay);
-	}
-
-	void SceneRenderer::EndFrame()
-	{
-
+		for (RenderQueue queue : passDesc.QueuesFilter)
+		{
+			ConfigureRenderQueue(encoder.get(), queue);
+		}
 	}
 
 	void SceneRenderer::SortQueues()
@@ -179,4 +156,5 @@ namespace Zephyr
 			break;
 		}
 	}
+
 }

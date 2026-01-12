@@ -22,6 +22,7 @@ export namespace Zephyr
         void Run();
 
     protected:
+		virtual void OnInit() = 0;
 		virtual void OnUpdate(float dt) = 0;
 		virtual void OnRender() = 0;
 		virtual void OnUiRender() = 0;

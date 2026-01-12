@@ -23,6 +23,7 @@ namespace Zephyr
     void Application::Run()
     {
 		Renderer::Init();
+		OnInit();
 
         m_Running = true;
         float lastTime = m_window->GetTime();

@@ -17,6 +17,7 @@ class EditorApp final : public Zephyr::Application
 public:
 	EditorApp(const Zephyr::WindowSpecification& spec);
 
+	void OnInit() override;
 	void OnUpdate(float dt) override;
 	void OnRender() override;
 	void OnUiRender() override;

@@ -71,6 +71,8 @@ namespace Zephyr::RHI::OpenGL
 					// auto& glSampler = StaticCastRef<GlSampler>(resource);
 					// glBindSampler(slot, glSampler.GetId());
 				}
+				else
+					static_assert(false, "non-exhaustive visitor!");
 			}, binding.Resource);
 		}
 	}
