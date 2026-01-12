@@ -1,6 +1,5 @@
 	project "Sandbox"
 		language "C++"
-		configurations { "EditorDebug", "EditorRelease", "Dist" }
 
 	includedirs
 	{
@@ -29,18 +28,8 @@
 		kind "WindowedApp"
 		systemversion "latest"
 
-	filter "configurations:EditorDebug or configurations:EditorRelease"
+	filter "configurations:Debug or configurations:Release"
 		kind "SharedLib"
-
-	filter "configurations:EditorDebug"
-		defines { "_DEBUG" }
-		symbols "On"
-		runtime "Debug"
-
-	filter "configurations:EditorRelease"
-		optimize "Speed"
-		runtime "Release"
-		linktimeoptimization "On"
 
 	filter "configurations:Dist"
 		optimize "Full"

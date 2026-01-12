@@ -9,11 +9,11 @@ workspace "Zephyr"
 
     startproject "ZephyrEditor"
 
-    configurations { "Debug", "Release" }
+    configurations { "Debug", "Release", "Dist" }
     platforms { "Opengl" }
     flags { "MultiProcessorCompile" }
 
-    debugdir    ('.bin/'	 .. output_dir .. '/%{prj.name}')
+    debugdir "%{prj.location}"
     targetdir   ('.bin/'	 .. output_dir .. '/%{prj.name}')
     objdir      ('.bin_int/' .. output_dir .. '/%{prj.name}')
 
@@ -23,6 +23,11 @@ workspace "Zephyr"
         runtime "Debug"
 
     filter "configurations:Release"
+        optimize "Speed"
+        runtime "Release"
+        linktimeoptimization "On"
+
+    filter "configurations:Dist"
         optimize "Speed"
         runtime "Release"
         linktimeoptimization "On"

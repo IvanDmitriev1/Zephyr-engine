@@ -18,6 +18,8 @@ namespace Zephyr
         m_window = Window::CreateMainWindow(spec);
         m_window->SetEventCallback(bind_event_fn(this, &Application::OnEventDispatch));
         m_uiRenderContext = m_window->CreateUiContext();
+
+		log::Info("Current working path: {}", std::filesystem::current_path().string());
     }
 
     void Application::Run()
