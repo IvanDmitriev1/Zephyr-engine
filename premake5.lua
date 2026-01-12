@@ -1,10 +1,11 @@
-output_dir = '%{cfg.buildcfg}_%{cfg.system}'
+output_dir = '%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{cfg.platform}'
 include "Dependencies.lua"
 
 workspace "Zephyr"
     architecture "x86_64"
     language "C++"
     cppdialect "C++23"
+    defines { "SPDLOG_COMPILED_LIB" }
 
     startproject "ZephyrEditor"
 
@@ -28,10 +29,9 @@ workspace "Zephyr"
 
     filter "system:windows"
         buildoptions { "/utf-8" }
+
+    filter "action:vs2022"
         toolset "v145"
-
-
-    removefiles { "**/vendor/**" }
 
 group "Dependencies"
 	include "Zephyr/vendor/glad"
@@ -42,3 +42,4 @@ group ""
 
 include "Zephyr"
 include "ZephyrEditor"
+include "Sandbox"

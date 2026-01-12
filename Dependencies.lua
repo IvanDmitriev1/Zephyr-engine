@@ -8,4 +8,5 @@ IncludeDir["imgui"] = "%{wks.location}/Zephyr/vendor/imgui/include"
 IncludeDir["imguiOpengl"] = "%{wks.location}/Zephyr/vendor/imgui/platform/opengl"
 
 Library = {}
-Library["glfw"] = "%{wks.location}/Zephyr/vendor/glfw/lib/glfw3.lib"
+LibraryDir = {}
+LibraryDir["glfw"] = "%{wks.location}/Zephyr/vendor/glfw/lib"

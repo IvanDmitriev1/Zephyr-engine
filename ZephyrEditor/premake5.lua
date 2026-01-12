@@ -1,5 +1,4 @@
 project "ZephyrEditor"
-    language "C++"
 
     includedirs
 	{
@@ -9,12 +8,6 @@ project "ZephyrEditor"
 		"%{IncludeDir.imgui}",
 	}
 
-    defines
-    {
-        "SPDLOG_COMPILED_LIB"
-    }
-
-    debugdir "%{prj.location}"
     links {"Zephyr"}
 
 	files
@@ -25,6 +18,7 @@ project "ZephyrEditor"
         "src/**.ixx",
         "src/**.glsl",
     }
+    removefiles { "**/vendor/**" }
 
     filter "files:**.glsl"
         buildaction "None"
