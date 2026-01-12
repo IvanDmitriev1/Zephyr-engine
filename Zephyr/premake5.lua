@@ -1,12 +1,10 @@
 project "Zephyr"
     kind "StaticLib"
-    language "C++"
     staticruntime "off"
 
     defines
     {
         "GLFW_INCLUDE_NONE",
-        "SPDLOG_COMPILED_LIB"
     }
 
     includedirs
@@ -17,7 +15,8 @@ project "Zephyr"
         "%{IncludeDir.imgui}",
     }
 
-    links { "%{Library.glfw}", "imgui", "spdlog" }
+    libdirs { "%{LibraryDir.glfw}" }
+    links { "glfw3", "imgui", "spdlog" }
 
     files
     {
@@ -27,6 +26,7 @@ project "Zephyr"
         "src/**.ixx",
         "src/**.glsl",
     }
+    removefiles { "**/vendor/**" }
 
     filter "files:**.glsl"
         buildaction "None"
