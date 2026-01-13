@@ -23,17 +23,22 @@ workspace "Zephyr"
         runtime "Debug"
 
     filter "configurations:Release"
+        symbols "On"
         optimize "Speed"
         runtime "Release"
         linktimeoptimization "On"
 
     filter "configurations:Dist"
-        optimize "Speed"
+        optimize "Full"
         runtime "Release"
         linktimeoptimization "On"
 
     filter "system:windows"
         buildoptions { "/utf-8" }
+        defines
+		{
+			"ZEPHYR_PLATFORM_WINDOWS",
+		}
 
     filter "action:vs2022"
         toolset "v145"

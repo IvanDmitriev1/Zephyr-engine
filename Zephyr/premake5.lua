@@ -10,13 +10,12 @@ project "Zephyr"
     includedirs
     {
         "src",
-        "%{IncludeDir.glm}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.imgui}",
     }
 
     libdirs { "%{LibraryDir.glfw}" }
-    links { "glfw3", "imgui", "spdlog" }
+    links { "glfw3", "imgui", "spdlog"}
 
     files
     {

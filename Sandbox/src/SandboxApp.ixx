@@ -12,7 +12,10 @@ public:
 	{
 	}
 
-	void OnInit() override { }
+	void OnInit() override
+	{
+
+	}
 	void OnUpdate(float) override { }
 	void OnRender() override { }
 	void OnUiRender() override { }

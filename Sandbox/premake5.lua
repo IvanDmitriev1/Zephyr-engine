@@ -9,6 +9,11 @@
 		"%{IncludeDir.imgui}",
 	}
 
+	defines
+    {
+        "ZEPHYR_MODULE_BUILD"
+    }
+
 	links { "Zephyr" }
 
 	files
@@ -30,8 +35,3 @@
 
 	filter "configurations:Debug or configurations:Release"
 		kind "SharedLib"
-
-	filter "configurations:Dist"
-		optimize "Full"
-		runtime "Release"
-		linktimeoptimization "On"

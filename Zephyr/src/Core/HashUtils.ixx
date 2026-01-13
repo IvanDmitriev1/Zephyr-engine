@@ -2,7 +2,7 @@ export module Zephyr.Core.HashUtils;
 
 import std.compat;
 
-namespace Zephyr::Unitls
+export namespace Zephyr::Unitls
 {
 	constexpr std::size_t kHashMagic = 0x9e3779b97f4a7c15ull;
 

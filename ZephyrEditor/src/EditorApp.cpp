@@ -32,6 +32,9 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec) : Application(spec
 
 void EditorApp::OnInit()
 {
+	m_GameModule = CreateScope<GameModule>("F:/Zephyr/.bin/Debug_windows_x86_64_Opengl/Sandbox/Sandbox.dll");
+	m_GameModule->Load();
+
 	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
 		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
 		.Execute([this](SceneRenderer& renderer)

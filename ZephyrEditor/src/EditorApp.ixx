@@ -7,6 +7,8 @@ import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Renderer.Core.IRenderPassEncoder;
 import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
+import Zephyr.Core.GameModule;
+
 
 import <imgui.h>;
 
@@ -35,6 +37,7 @@ private:
 	Scope<MainLayer> m_MainLayer;
 	World m_Scene;
 	CameraUniformData m_Camera;
+	Scope<GameModule> m_GameModule;
 
 	bool m_ResizeRequested = false;
 	uint32_t m_PendingW = 0;
@@ -46,8 +49,19 @@ private:
 	bool m_ShowDemoWindow = false;
 };
 
+struct Person
+{
+	std::string first_name;
+	std::string last_name = "Simpson";
+	std::string town = "Springfield";
+	unsigned int age;
+	std::vector<Person> children;
+};
+
 export Zephyr::Application* Zephyr::CreateApplication()
 {
+	
+
 	Zephyr::WindowSpecification spec{};
 	spec.Width = 1920;
 	spec.Height = 1080;
