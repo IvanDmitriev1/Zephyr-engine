@@ -38,6 +38,7 @@ workspace "Zephyr"
         defines
 		{
 			"ZEPHYR_PLATFORM_WINDOWS",
+            "NOMINMAX"
 		}
 
     filter "action:vs2022"
@@ -47,6 +48,7 @@ group "Dependencies"
 	include "Zephyr/vendor/glad"
 	include "Zephyr/vendor/glm"
     include "Zephyr/vendor/spdlog"
+    include "Zephyr/vendor/reflect-cpp"
     include "Zephyr/vendor/imgui"
 group ""
 

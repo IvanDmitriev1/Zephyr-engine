@@ -5,7 +5,6 @@
 	{
 		"%{wks.location}/Zephyr/src",
 		"src",
-		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
 	}
 

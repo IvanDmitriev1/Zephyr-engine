@@ -12,10 +12,11 @@ project "Zephyr"
         "src",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.imgui}",
+        "%{IncludeDir.reflectcpp}",
     }
 
     libdirs { "%{LibraryDir.glfw}" }
-    links { "glfw3", "imgui", "spdlog"}
+    links { "glfw3", "imgui", "spdlog", "reflect-cpp" }
 
     files
     {

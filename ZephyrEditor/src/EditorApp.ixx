@@ -9,7 +9,6 @@ import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
 import Zephyr.Core.GameModule;
 
-
 import <imgui.h>;
 
 using namespace Zephyr;
@@ -60,8 +59,6 @@ struct Person
 
 export Zephyr::Application* Zephyr::CreateApplication()
 {
-	
-
 	Zephyr::WindowSpecification spec{};
 	spec.Width = 1920;
 	spec.Height = 1080;

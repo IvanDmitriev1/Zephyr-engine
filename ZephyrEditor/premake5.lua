@@ -5,6 +5,7 @@ project "ZephyrEditor"
 		"%{wks.location}/Zephyr/src",
         "src",
 		"%{IncludeDir.imgui}",
+        "%{IncludeDir.reflectcpp}",
 	}
 
     links {"Zephyr"}
