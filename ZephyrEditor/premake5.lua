@@ -1,11 +1,14 @@
 project "ZephyrEditor"
+    filter "system:windows"
+		kind "WindowedApp"
+		systemversion "latest"
 
     includedirs
 	{
 		"%{wks.location}/Zephyr/src",
         "src",
 		"%{IncludeDir.imgui}",
-        "%{IncludeDir.reflectcpp}",
+        IncludeDir["reflectcpp"],
 	}
 
     links {"Zephyr"}
@@ -18,11 +21,12 @@ project "ZephyrEditor"
         "src/**.ixx",
         "src/**.glsl",
     }
-    removefiles { "**/vendor/**" }
+
+    removefiles
+    {
+        "**/Templates/**",
+    }
+
 
     filter "files:**.glsl"
         buildaction "None"
-	
-    filter "system:windows"
-		kind "WindowedApp"
-		systemversion "latest"

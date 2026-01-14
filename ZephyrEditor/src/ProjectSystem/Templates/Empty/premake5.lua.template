@@ -1,13 +1,13 @@
 output_dir = '%{cfg.buildcfg}_%{cfg.system}_%{cfg.architecture}_%{cfg.platform}'
-include "Dependencies.lua"
 
-workspace "Zephyr"
+external_dir = 'Release_windows_x86_64_Opengl'
+external_bin_int_dir = "../{{ENGINE_ROOT}}" .. "/.bin_int/" .. external_dir .. "/Zephyr"
+external_bin_dir     = "../{{ENGINE_ROOT}}" .. "/.bin/"     .. external_dir .. "/Zephyr"
+
+workspace "{{PROJECT_NAME}}"
     architecture "x86_64"
-    language "C++"
     cppdialect "C++23"
-    startproject "ZephyrEditor"
-
-    defines { "SPDLOG_COMPILED_LIB" }
+    startproject "{{PROJECT_NAME}}"
 
     configurations { "Debug", "Release", "Dist" }
     platforms { "Opengl" }
@@ -44,14 +44,42 @@ workspace "Zephyr"
     filter "action:vs2022"
         toolset "v145"
 
-group "Dependencies"
-	include "Zephyr/vendor/glad"
-	include "Zephyr/vendor/glm"
-    include "Zephyr/vendor/spdlog"
-    include "Zephyr/vendor/reflect-cpp"
-    include "Zephyr/vendor/imgui"
-group ""
+project "{{PROJECT_NAME}}"
 
-include "Zephyr"
-include "ZephyrEditor"
-include "Sandbox"
+    filter "system:windows"
+		kind "WindowedApp"
+		systemversion "latest"
+        buildoptions { '/reference "Zephyr.Scene.ComponentPool=' .. external_bin_int_dir .. '/ComponentPool.ifc"' }
+
+	filter "configurations:Debug or configurations:Release"
+		kind "SharedLib"
+
+    defines
+    {
+        "ZEPHYR_MODULE_BUILD"
+    }
+
+    includedirs
+	{
+		"{{ENGINE_ROOT}}/src",
+		"src",
+	}
+
+    libdirs
+    {
+        external_bin_dir
+    }
+
+    links { "Zephyr" }
+
+    files
+	{
+		"src/**.cpp",
+		"src/**.hpp",
+		"src/**.h",
+		"src/**.ixx",
+		"src/**.glsl",
+	}
+
+    filter "files:**.glsl"
+		buildaction "None"

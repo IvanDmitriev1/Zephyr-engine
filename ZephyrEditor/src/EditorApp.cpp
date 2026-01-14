@@ -9,9 +9,14 @@ import Zephyr.Renderer.Renderer;
 
 using namespace Zephyr;
 
-EditorApp::EditorApp(const Zephyr::WindowSpecification& spec) : Application(spec)
+EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
+	:Application(spec)
 {
 	Zephyr::applog::Info("Creating Zephyr Editor application");
+
+	m_CreateProjectDialog = CreateScope<ZephyrEditor::CreateProjectDialog>(
+		ZephyrEditor::CreateProjectDialog::CreateInfo{ "F:/Zephyr/Zephyr", "F:/Zephyr/ZephyrEditor/src/ProjectSystem/Templates" },
+		bind_event_fn(this, &EditorApp::OnProjectCreated));
 
 	RHI::FrameBufferDesc desc
 	{
@@ -120,6 +125,9 @@ void EditorApp::DrawDockSpaceMenuBar()
 {
 	if (ImGui::BeginMenu("File"))
 	{
+		if (ImGui::MenuItem("File/New Project..."))
+			m_CreateProjectDialog->Open();
+
 		ImGui::Separator();
 
 		if (ImGui::MenuItem("Exit"))
@@ -129,6 +137,8 @@ void EditorApp::DrawDockSpaceMenuBar()
 
 		ImGui::EndMenu();
 	}
+
+	m_CreateProjectDialog->Draw();
 
 	if (ImGui::BeginMenu("Edit"))
 	{
@@ -206,3 +216,6 @@ void EditorApp::DrawViewPort()
 
 	ImGui::End();
 }
+
+void EditorApp::OnProjectCreated(const ZephyrEditor::ProjectFile& file)
+{}

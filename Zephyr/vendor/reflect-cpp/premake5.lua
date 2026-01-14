@@ -5,8 +5,7 @@ project "reflect-cpp"
 	
     includedirs
     {
-        "reflect-cpp/include",
-        "vendor"
+        IncludeDir["reflectcpp"],
     }
 
     files

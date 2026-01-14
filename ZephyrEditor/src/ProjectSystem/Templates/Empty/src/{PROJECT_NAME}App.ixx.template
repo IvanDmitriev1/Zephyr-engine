@@ -1,0 +1,33 @@
+export module {{PROJECT_NAME}}.App;
+
+import Zephyr.App;
+
+using namespace Zephyr;
+
+class {{PROJECT_NAME}}App final : public Zephyr::Application
+{
+public:
+	{{PROJECT_NAME}}App(const Zephyr::WindowSpecification& spec)
+		: Zephyr::Application(spec)
+	{
+	}
+
+	void OnInit() override
+	{
+
+	}
+	void OnUpdate(float) override { }
+	void OnRender() override { }
+	void OnUiRender() override { }
+	void OnEvent(Zephyr::IEvent&) override { }
+};
+
+export Zephyr::Application* Zephyr::CreateApplication()
+{
+	Zephyr::WindowSpecification spec{};
+	spec.Width = 1280;
+	spec.Height = 720;
+	spec.Title = "{{PROJECT_NAME}}";
+
+	return new {{PROJECT_NAME}}App(spec);
+}

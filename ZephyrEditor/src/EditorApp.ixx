@@ -9,6 +9,8 @@ import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
 import Zephyr.Core.GameModule;
 
+import ZephyrEditor.Ui.CreateProjectDialog;
+
 import <imgui.h>;
 
 using namespace Zephyr;
@@ -32,11 +34,15 @@ private:
 	void DrawViewPort();
 
 private:
+	void OnProjectCreated(const ZephyrEditor::ProjectFile& file);
+
+private:
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
 	Scope<MainLayer> m_MainLayer;
 	World m_Scene;
 	CameraUniformData m_Camera;
 	Scope<GameModule> m_GameModule;
+	Scope<ZephyrEditor::CreateProjectDialog> m_CreateProjectDialog;
 
 	bool m_ResizeRequested = false;
 	uint32_t m_PendingW = 0;

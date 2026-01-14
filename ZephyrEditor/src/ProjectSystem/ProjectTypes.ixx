@@ -1,6 +1,10 @@
+module;
+
+#include <rfl.hpp>
+
 export module ZephyrEditor.ProjectTypes;
 
-import std.compat;
+export import std.compat;
 
 export namespace ZephyrEditor
 {
@@ -10,14 +14,8 @@ export namespace ZephyrEditor
 
 		uint32_t Version = 1;
 		std::string Name{};
-		std::filesystem::path RootPath{};
 
-		// Build
-		std::filesystem::path SolutionPath{};
-		BuildConfig ActiveBuildConfig = BuildConfig::Debug;
-
-		// Artifact
-		std::filesystem::path OutputDllPath{};
+		rfl::Skip<std::filesystem::path>RootPath{};
 	};
 
 	namespace Utils
@@ -33,7 +31,7 @@ export namespace ZephyrEditor
 			case ProjectFile::BuildConfig::Distribution:
 				return "Dist";
 			default:
-				return "Unknown";
+				return "Debug";
 			}
 		}
 	}

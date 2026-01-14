@@ -1,5 +1,4 @@
 	project "Sandbox"
-		language "C++"
 
 	includedirs
 	{
