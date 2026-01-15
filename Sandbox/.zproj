@@ -1,0 +1,3 @@
+Version = 1
+Name = 'Sandbox'
+BinDirectory = '../.bin/Debug_windows_x86_64_Opengl/Sandbox'

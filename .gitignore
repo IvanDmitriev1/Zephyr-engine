@@ -369,3 +369,4 @@ FodyWeavers.xsd
 *.filters
 *.sln
 ZephyrEditor/imgui.ini
+/ZephyrEditor/_runtime

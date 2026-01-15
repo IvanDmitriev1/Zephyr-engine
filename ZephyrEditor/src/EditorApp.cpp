@@ -33,12 +33,13 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("Assets/Fonts/Inter-VariableFont.ttf", 18);
+
+	m_ProjectManager.OpenProject("F:/Zephyr/Sandbox/.zproj");
 }
 
 void EditorApp::OnInit()
 {
-	m_GameModule = CreateScope<GameModule>("F:/Zephyr/.bin/Debug_windows_x86_64_Opengl/Sandbox/Sandbox.dll");
-	m_GameModule->Load();
+	m_ProjectManager.Build();
 
 	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
 		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)

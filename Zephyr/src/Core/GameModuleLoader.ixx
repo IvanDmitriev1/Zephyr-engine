@@ -1,21 +1,21 @@
-export module Zephyr.Core.GameModule;
+export module Zephyr.Core.GameModuleLoader;
 
 export import Zephyr.Core.IGameModule;
 export import std;
 
 export namespace Zephyr
 {
-	class GameModule
+	class GameModuleLoader
 	{
 	public:
-		explicit GameModule(std::filesystem::path libraryPath);
-		~GameModule();
+		explicit GameModuleLoader(std::filesystem::path libraryPath);
+		~GameModuleLoader();
 
-		GameModule(const GameModule&) = delete;
-		GameModule& operator=(const GameModule&) = delete;
+		GameModuleLoader(const GameModuleLoader&) = delete;
+		GameModuleLoader& operator=(const GameModuleLoader&) = delete;
 
-		GameModule(GameModule&& other) = delete;
-		GameModule& operator=(GameModule&& other) = delete;
+		GameModuleLoader(GameModuleLoader&& other) = delete;
+		GameModuleLoader& operator=(GameModuleLoader&& other) = delete;
 
 	public:
 		bool Load();

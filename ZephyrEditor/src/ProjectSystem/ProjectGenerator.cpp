@@ -61,7 +61,6 @@ namespace ZephyrEditor
 		ProjectFile pf
 		{
 			.Name = desc.ProjectName,
-			.RootPath = desc.ProjectRoot,
 		};
 
 		std::ofstream outFile{ projectFilePath, std::ios::binary };

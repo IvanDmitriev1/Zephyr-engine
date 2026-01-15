@@ -6,24 +6,24 @@ module;
 	#error "Unsupported platform"
 #endif
 
-module Zephyr.Core.GameModule;
+module Zephyr.Core.GameModuleLoader;
 
 import zephyr.logging.LogHelpers;
 
 namespace Zephyr
 {
-	GameModule::GameModule(std::filesystem::path libraryPath)
+	GameModuleLoader::GameModuleLoader(std::filesystem::path libraryPath)
 		:m_LibraryPath(std::move(libraryPath))
 	{
 		
 	}
 
-	GameModule::~GameModule()
+	GameModuleLoader::~GameModuleLoader()
 	{
 		Unload();
 	}
 
-	bool GameModule::Load()
+	bool GameModuleLoader::Load()
 	{
 		if (IsLoaded())
 			return true;
@@ -59,7 +59,7 @@ namespace Zephyr
 #endif
 	}
 
-	void GameModule::Unload() noexcept
+	void GameModuleLoader::Unload() noexcept
 	{
 		if (m_Module)
 		{

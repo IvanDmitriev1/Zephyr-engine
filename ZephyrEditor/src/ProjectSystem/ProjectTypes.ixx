@@ -10,29 +10,9 @@ export namespace ZephyrEditor
 {
 	struct ProjectFile
 	{
-		enum class BuildConfig { Debug, Release, Distribution };
-
 		uint32_t Version = 1;
 		std::string Name{};
 
-		rfl::Skip<std::filesystem::path>RootPath{};
+		std::filesystem::path BinDirectory{};
 	};
-
-	namespace Utils
-	{
-		inline constexpr std::string_view BuildConfigToString(ProjectFile::BuildConfig config) noexcept
-		{
-			switch (config)
-			{
-			case ProjectFile::BuildConfig::Debug:
-				return "Debug";
-			case ProjectFile::BuildConfig::Release:
-				return "Release";
-			case ProjectFile::BuildConfig::Distribution:
-				return "Dist";
-			default:
-				return "Debug";
-			}
-		}
-	}
 }

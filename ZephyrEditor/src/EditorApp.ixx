@@ -7,9 +7,10 @@ import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Renderer.Core.IRenderPassEncoder;
 import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
-import Zephyr.Core.GameModule;
 
 import ZephyrEditor.Ui.CreateProjectDialog;
+
+import ZephyrEditor.ProjectManager;
 
 import <imgui.h>;
 
@@ -41,7 +42,8 @@ private:
 	Scope<MainLayer> m_MainLayer;
 	World m_Scene;
 	CameraUniformData m_Camera;
-	Scope<GameModule> m_GameModule;
+
+	ZephyrEditor::ProjectManager m_ProjectManager{};
 	Scope<ZephyrEditor::CreateProjectDialog> m_CreateProjectDialog;
 
 	bool m_ResizeRequested = false;
