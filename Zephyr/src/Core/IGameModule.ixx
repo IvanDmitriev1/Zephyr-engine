@@ -4,7 +4,6 @@ module;
 
 export module Zephyr.Core.IGameModule;
 
-export import Zephyr.Renderer.SceneRenderer;
 export import zephyr.events.IEvent;
 
 export namespace Zephyr
@@ -16,7 +15,7 @@ export namespace Zephyr
 
 		virtual void OnInit() = 0;
 		virtual void OnUpdate(float deltaTime) = 0;
-		virtual void OnRender(SceneRenderer& renderer) = 0;
+		virtual void OnRender() = 0;
 		virtual void OnEvent(IEvent& event) {}
 	};
 

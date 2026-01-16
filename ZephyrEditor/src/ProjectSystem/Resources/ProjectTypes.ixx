@@ -1,9 +1,21 @@
-export module ZephyrEditor.ProjectRuntime;
+module;
 
-export import std;
+#include <rfl.hpp>
+
+export module ZephyrEditor.ProjectTypes;
+
+export import std.compat;
 
 export namespace ZephyrEditor
 {
+	struct ProjectFile
+	{
+		uint32_t Version = 1;
+		std::string Name{};
+
+		std::filesystem::path BinDirectory{};
+	};
+
 	struct ProjectRuntime
 	{
 		enum class BuildConfig { Debug, Release, Distribution };

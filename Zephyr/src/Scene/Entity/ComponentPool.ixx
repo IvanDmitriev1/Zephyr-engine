@@ -1,10 +1,18 @@
 export module Zephyr.Scene.ComponentPool;
 
-export import Zephyr.Scene.IComponentPool;
 export import Zephyr.Core.CoreTypes;
+export import Zephyr.Scene.Entity;
 
 export namespace Zephyr
 {
+	class IComponentPool
+	{
+	public:
+		virtual ~IComponentPool() = default;
+		virtual void Remove(EntityId id) = 0;
+		virtual bool Contains(EntityId id) const = 0;
+	};
+
 	template<typename T>
 	class ComponentPool final : public IComponentPool
 	{
@@ -55,7 +63,6 @@ export namespace Zephyr
 		m_Entities.emplace_back(e);
 		m_Sparse[e] = dataIndex;
 		return m_Data.back();
-
 	}
 
 	template<typename T>

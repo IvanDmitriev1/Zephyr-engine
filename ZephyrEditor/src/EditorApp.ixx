@@ -19,7 +19,10 @@ using namespace Zephyr;
 class EditorApp final : public Zephyr::Application
 {
 public:
+	static EditorApp& Instance();
+
 	EditorApp(const Zephyr::WindowSpecification& spec);
+	~EditorApp() override;
 
 	void OnInit() override;
 	void OnUpdate(float dt) override;
@@ -38,6 +41,8 @@ private:
 	void OnProjectCreated(const ZephyrEditor::ProjectFile& file);
 
 private:
+	inline static EditorApp* s_Instance = nullptr;
+
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
 	Scope<MainLayer> m_MainLayer;
 	World m_Scene;

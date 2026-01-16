@@ -1,6 +1,6 @@
 export module ZephyrEditor.IProjectBuilder;
 
-export import ZephyrEditor.ProjectRuntime;
+export import ZephyrEditor.ProjectTypes;
 
 export namespace ZephyrEditor
 {

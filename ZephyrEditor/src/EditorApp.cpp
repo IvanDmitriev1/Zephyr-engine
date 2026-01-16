@@ -9,9 +9,16 @@ import Zephyr.Renderer.Renderer;
 
 using namespace Zephyr;
 
+EditorApp& EditorApp::Instance()
+{
+	Assert(s_Instance, "EditorApp::Instance called before construction");
+	return *s_Instance;
+}
+
 EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	:Application(spec)
 {
+	s_Instance = this;
 	Zephyr::applog::Info("Creating Zephyr Editor application");
 
 	m_CreateProjectDialog = CreateScope<ZephyrEditor::CreateProjectDialog>(
@@ -37,10 +44,13 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	m_ProjectManager.OpenProject("F:/Zephyr/Sandbox/.zproj");
 }
 
+EditorApp::~EditorApp()
+{
+	s_Instance = nullptr;
+}
+
 void EditorApp::OnInit()
 {
-	m_ProjectManager.Build();
-
 	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
 		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
 		.Execute([this](SceneRenderer& renderer)

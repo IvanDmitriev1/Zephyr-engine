@@ -26,11 +26,6 @@ namespace ZephyrEditor
 		Assert(HasProject(), "Cannot get project if its not loaded");
 		return *m_Project;
 	}
-	IGameModule* ProjectManager::GetLoadedGameModule() const noexcept
-	{
-		Assert(HasProject(), "Cannot get game module if its not loaded");
-		return m_ModuleLoader->GetModule();
-	}
 
 	std::expected<void, std::string> ProjectManager::OpenProject(const std::filesystem::path& zprojPath)
 	{
@@ -75,7 +70,7 @@ namespace ZephyrEditor
 			return std::unexpected(built.error());
 
 		m_Project->LastDllWrite = fs::last_write_time(m_Project->DllPath);
-		return LoadModuleFromDll(m_Project->DllPath);
+		return {};
 	}
 
 	std::expected<void, std::string> ProjectManager::Rebuild()
@@ -85,57 +80,6 @@ namespace ZephyrEditor
 
 	void ProjectManager::CloseProject()
 	{
-		DisableHotReload();
-		UnloadModule();
 		m_Project.reset();
-	}
-
-	void ProjectManager::EnableHotReload(GameModuleReloadedCallback callback)
-	{
-		m_ReloadedCallback = std::move(callback);
-	}
-
-	void ProjectManager::DisableHotReload()
-	{
-		m_ReloadedCallback = {};
-	}
-
-	std::expected<void, std::string> ProjectManager::LoadModuleFromDll(const std::filesystem::path& builtDll)
-	{
-		const fs::path dir = fs::current_path() / "_runtime";
-		fs::create_directories(dir);
-
-		const auto stamp = std::to_string(static_cast<uint64_t>(std::time(nullptr)));
-		const fs::path dllCopyPath = dir / (builtDll.stem().string() + "_runtime_" + stamp + builtDll.extension().string());
-		fs::copy_file(builtDll, dllCopyPath, fs::copy_options::overwrite_existing);
-
-		UnloadModule();
-
-		m_ModuleLoader = CreateScope<GameModuleLoader>(dllCopyPath);
-		m_Project->LoadedRuntimeDllPath = dllCopyPath;
-
-		if (!m_ModuleLoader->Load())
-		{
-			UnloadModule();
-			return std::unexpected("Failed to load game module DLL: " + dllCopyPath.string());
-		}
-
-		if (m_ReloadedCallback)
-			m_ReloadedCallback(m_ModuleLoader->GetModule());
-
-		return {};
-	}
-	void ProjectManager::UnloadModule()
-	{
-		if (!m_ModuleLoader)
-			return;
-
-		m_ModuleLoader.reset();
-
-		if (m_Project->LoadedRuntimeDllPath)
-		{
-			fs::remove(*m_Project->LoadedRuntimeDllPath);
-			m_Project->LoadedRuntimeDllPath.reset();
-		}
 	}
 }

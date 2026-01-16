@@ -18,7 +18,7 @@ export namespace Zephyr
 
 	public:
 		virtual void OnAttach(){}
-		virtual void OnDetach(){}
+		virtual void OnDetach() {}
 
 		virtual void OnEvent(IEvent& event) {}
 		virtual void OnUpdate(float ts) {}

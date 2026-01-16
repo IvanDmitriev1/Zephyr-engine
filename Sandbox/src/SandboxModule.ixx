@@ -20,7 +20,7 @@ export class SandboxModule final : public Zephyr::IGameModule
 		
 	}
 
-	void OnRender(SceneRenderer& renderer) override
+	void OnRender() override
 	{
 		
 	}

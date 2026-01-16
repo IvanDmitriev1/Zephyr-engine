@@ -4,6 +4,8 @@ export import std.compat;
 
 export namespace Zephyr
 {
+	class World;
+
 	using EntityId = uint32_t;
 	constexpr EntityId NullEntity = 0;
 
@@ -12,35 +14,15 @@ export namespace Zephyr
 		friend class World;
 
 	public:
+		inline Entity(EntityId id, const World* world) noexcept : m_Id(id), m_World(world) {}
+		Entity() noexcept = default;
+		~Entity() = default;
+
 		EntityId GetId() const noexcept { return m_Id; }
 		bool IsValid() const noexcept { return m_Id != NullEntity && m_World != nullptr; }
 
-		template<typename T>
-		T& GetComponent();
-
-		template<typename T>
-		bool HasComponent() const;
-
-	private:
-		Entity(EntityId id, World* world) : m_Id(id), m_World(world) {}
-
 	private:
 		EntityId m_Id = NullEntity;
-		World* m_World = nullptr;
+		const World* m_World = nullptr;
 	};
-
-	template<typename T>
-	T& Entity::GetComponent()
-	{
-
-	}
-
-
-	template<typename T>
-	bool Entity::HasComponent() const
-	{
-
-	}
-
-
 }
