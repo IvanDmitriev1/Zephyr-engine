@@ -1,15 +1,13 @@
 export module ZephyrEditor.App;
 
-import ZephyrEditor.MainLayer;
-
 import Zephyr.App;
 import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Renderer.Core.IRenderPassEncoder;
 import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
+import Zephyr.Scene;
 
 import ZephyrEditor.Ui.CreateProjectDialog;
-
 import ZephyrEditor.ProjectManager;
 
 import <imgui.h>;
@@ -44,12 +42,8 @@ private:
 	inline static EditorApp* s_Instance = nullptr;
 
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
-	Scope<MainLayer> m_MainLayer;
-	World m_Scene;
-	CameraUniformData m_Camera;
-
-	ZephyrEditor::ProjectManager m_ProjectManager{};
-	Scope<ZephyrEditor::CreateProjectDialog> m_CreateProjectDialog;
+	Scene m_Scene{};
+	Entity m_Camera;
 
 	bool m_ResizeRequested = false;
 	uint32_t m_PendingW = 0;

@@ -43,23 +43,29 @@ export namespace Zephyr
 	concept Polymorphic = std::is_polymorphic_v<From>;
 
 	template <class To, class From>
-		requires Related<To, From> && Polymorphic<From>
+	requires Related<To, From> && Polymorphic<From>
 	[[nodiscard]] constexpr inline To& StaticCastRef(const Ref<From>& from)
 	{
-		if constexpr (Zephyr::Build::SafeCast)
+		if (auto* p = static_cast<To*>(from.get()))
 		{
-			if (auto* p = static_cast<To*>(from.get()))
-			{
-				return *p;
-			}
+			return *p;
+		}
 
-			DebugBreak();
-			throw std::bad_cast{};
-		}
-		else
+		DebugBreak();
+		throw std::bad_cast{};
+	}
+
+	template <class To, class From>
+		requires Related<To, From>&& Polymorphic<From>
+	[[nodiscard]] constexpr inline To& StaticCastScope(const Scope<From>& from)
+	{
+		if (auto* p = static_cast<To*>(from.get()))
 		{
-			return static_cast<To&>(*from);
+			return *p;
 		}
+
+		DebugBreak();
+		throw std::bad_cast{};
 	}
 
 

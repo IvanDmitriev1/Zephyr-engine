@@ -9,8 +9,8 @@ export namespace Zephyr
 	public:
 		virtual ~ISystem() = default;
 
-		virtual void OnAttach(World& world) {}
-		virtual void OnDetach(World& world) noexcept {}
+		inline virtual void OnAttach(World& world) {}
+		inline virtual void OnDetach(World& world) noexcept {}
 
 		virtual void OnUpdate(World& world, float deltaTime) = 0;
 	};

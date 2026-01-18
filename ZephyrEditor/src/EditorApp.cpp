@@ -7,6 +7,13 @@ module ZephyrEditor.App;
 import Zephyr.Renderer.Core.Device;
 import Zephyr.Renderer.Renderer;
 
+import Zephyr.Scene.Systems.TransformSystem;
+import Zephyr.Scene.Systems.RenderingSystem;
+import Zephyr.Scene.Systems.CameraSystem;
+
+import ZephyrEditor.SceneSetup;
+import Zephyr.Scene.Components.CameraComponent;
+
 using namespace Zephyr;
 
 EditorApp& EditorApp::Instance()
@@ -21,10 +28,6 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	s_Instance = this;
 	Zephyr::applog::Info("Creating Zephyr Editor application");
 
-	m_CreateProjectDialog = CreateScope<ZephyrEditor::CreateProjectDialog>(
-		ZephyrEditor::CreateProjectDialog::CreateInfo{ "F:/Zephyr/Zephyr", "F:/Zephyr/ZephyrEditor/src/ProjectSystem/Templates" },
-		bind_event_fn(this, &EditorApp::OnProjectCreated));
-
 	RHI::FrameBufferDesc desc
 	{
 		.Size = {spec.Width, spec.Height},
@@ -33,15 +36,9 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	};
 
 	m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
-	m_MainLayer = CreateScope<MainLayer>();
-
-	m_Camera.ViewProjection = glm::mat4(1.0f);
-	m_Camera.Position = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("Assets/Fonts/Inter-VariableFont.ttf", 18);
-
-	m_ProjectManager.OpenProject("F:/Zephyr/Sandbox/.zproj");
 }
 
 EditorApp::~EditorApp()
@@ -51,11 +48,19 @@ EditorApp::~EditorApp()
 
 void EditorApp::OnInit()
 {
+	m_Scene.AddSystem<TransformSystem>();
+	m_Scene.AddSystem<CameraSystem>();
+	m_Scene.AddSystem<RenderingSystem>();
+
+	auto& world = m_Scene.GetWorld();
+	ZephyrEditor::SceneSetup::CreateTestScene(world);
+	m_Camera = ZephyrEditor::SceneSetup::CreateEditorCamera(world, 16.0f / 9.f);
+
 	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
 		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
 		.Execute([this](SceneRenderer& renderer)
 	{
-		m_MainLayer->OnRender();
+		
 	});
 }
 
@@ -65,14 +70,16 @@ void EditorApp::OnUpdate(float dt)
 	{
 		m_Framebuffer->Resize({ m_PendingW, m_PendingH });
 		m_ResizeRequested = false;
+
+		auto& component = m_Scene.GetWorld().GetComponent<CameraComponent>(m_Camera);
+		component.AspectRatio = static_cast<float>(m_PendingW) / static_cast<float>(m_PendingH);
 	}
 
-	m_MainLayer->OnUpdate(dt);
+	m_Scene.OnUpdate(dt);
 }
 
 void EditorApp::OnRender()
 {
-	Renderer::BeginFrame(m_Camera);
 	Renderer::Render();
 }
 
@@ -137,7 +144,9 @@ void EditorApp::DrawDockSpaceMenuBar()
 	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::MenuItem("File/New Project..."))
-			m_CreateProjectDialog->Open();
+		{
+
+		}
 
 		ImGui::Separator();
 
@@ -148,8 +157,6 @@ void EditorApp::DrawDockSpaceMenuBar()
 
 		ImGui::EndMenu();
 	}
-
-	m_CreateProjectDialog->Draw();
 
 	if (ImGui::BeginMenu("Edit"))
 	{

@@ -24,11 +24,17 @@ namespace Zephyr
 
 		auto& runtime = world.GetComponent<CameraRuntimeComponent>(entity);
 
+		runtime.Projection = glm::perspective(
+			glm::radians(camera.Fov),
+			camera.AspectRatio,
+			camera.Near,
+			camera.Far
+		);
+
 		runtime.Position = transform.Position;
-		runtime.Forward = glm::normalize(transform.Rotation * glm::vec3(0, 0, -1));
-		runtime.Up = glm::normalize(transform.Rotation * glm::vec3(0, 1, 0));
+		runtime.Forward = glm::normalize(transform.Rotation * glm::vec3(0.0f, 0.0f, -1.0f));
+		runtime.Up = glm::normalize(transform.Rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 		runtime.Right = glm::cross(runtime.Forward, runtime.Up);
-		runtime.Projection = glm::perspective(glm::radians(camera.Fov), camera.AspectRatio, camera.Near, camera.Far);
 
 		runtime.View = glm::lookAt(
 			runtime.Position,

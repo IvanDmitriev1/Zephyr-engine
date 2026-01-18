@@ -34,7 +34,7 @@ export namespace Zephyr
 		template<typename... Components>
 		std::vector<Entity> GetEntitiesWith() const;
 
-		bool IsAlive(EntityId id) const noexcept { return id < m_AliveEntities.size() && m_AliveEntities[id] != 0; }
+		inline bool IsAlive(EntityId id) const noexcept { return id < m_AliveEntities.size() && m_AliveEntities[id] != 0; }
 
 	private:
 		void EnsureAlive(EntityId id);
@@ -51,7 +51,6 @@ export namespace Zephyr
 
 	private:
 		EntityId m_NextEntityId = 1;
-		EntityId m_MainCameraId = NullEntity;
 
 		std::vector<bool> m_AliveEntities;
 		std::unordered_map<std::type_index, Scope<IComponentPool>> m_Pools;
@@ -166,5 +165,39 @@ export namespace Zephyr
 			return nullptr;
 
 		return static_cast<const ComponentPool<T>*>(it->second.get());
+	}
+
+	inline Entity World::CreateEntity()
+	{
+		const EntityId id = m_NextEntityId++;
+
+		EnsureAlive(id);
+		m_AliveEntities[id] = true;
+		return Entity{ id, const_cast<World*>(this) };
+	}
+
+	inline void World::DestroyEntity(Entity entity)
+	{
+		if (!Owns(entity))
+			return;
+
+		const EntityId id = entity.GetId();
+		m_AliveEntities[id] = false;
+
+		for (auto& [_, pool] : m_Pools)
+		{
+			pool->Remove(id);
+		}
+	}
+
+	inline void World::EnsureAlive(EntityId id)
+	{
+		if (id >= m_AliveEntities.size())
+			m_AliveEntities.resize(static_cast<size_t>(id) + 1, 0);
+	}
+
+	inline bool World::Owns(Entity e) const noexcept
+	{
+		return e.m_World == this && e.m_Id != NullEntity && IsAlive(e.m_Id);
 	}
 }

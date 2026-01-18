@@ -10,11 +10,13 @@ export namespace Zephyr
 		glm::quat Rotation{ 1.0f, 0.0f, 0.0f, 0.0f };
 		glm::vec3 Scale{ 1.0f };
 
-		glm::mat4 GetTransform() const
-		{
-			return glm::translate(glm::mat4(1.0f), Position)
-				* glm::mat4_cast(Rotation)
-				* glm::scale(glm::mat4(1.0f), Scale);
-		}
+		bool IsDirty = true;
+	};
+
+	struct TransformRuntimeComponent
+	{
+		glm::mat4 LocalToWorld{ 1.0f };
+		glm::mat4 WorldToLocal{ 1.0f };
+		glm::vec3 WorldPosition{ 0.0f };
 	};
 }

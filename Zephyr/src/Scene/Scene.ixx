@@ -21,8 +21,8 @@ export namespace Zephyr
 	public:
 		void OnUpdate(float deltaTime);
 
-		World& GetWorld() noexcept { return m_World; }
-		const World& GetWorld() const noexcept { return m_World; }
+		inline World& GetWorld() noexcept { return m_World; }
+		inline const World& GetWorld() const noexcept { return m_World; }
 
 	private:
 		void DetachAll() noexcept;
@@ -36,8 +36,13 @@ export namespace Zephyr
 	template<SystemType TSystem, typename ...Args>
 	TSystem& Scene::AddSystem(Args && ...args)
 	{
-		m_Systems.emplace_back(args...);
-		m_Systems.back()->OnAttach(m_World);
+		auto sys = std::make_unique<TSystem>(std::forward<Args>(args)...);
+		TSystem& ref = *sys;
+
+		m_Systems.emplace_back(std::move(sys));
+		ref.OnAttach(m_World);
+
+		return ref;
 	}
 
 	template<SystemType TSystem>

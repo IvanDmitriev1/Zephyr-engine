@@ -25,14 +25,18 @@ namespace Zephyr
 		Renderer::BeginFrame(cameraData);
 
 		auto renderables = world.GetEntitiesWith<TransformComponent, MeshComponent, MeshComponent>();
+		for (Entity entity : renderables)
+		{
+			SubmitEntity(world, entity, cameraRuntime.Position);
+		}
 	}
 
 	void RenderingSystem::SubmitEntity(World& world, Entity entity, const glm::vec3& cameraPos)
 	{
-		auto& transform = world.GetComponent<TransformComponent>(entity);
+		auto& transform = world.GetComponent<TransformRuntimeComponent>(entity);
 		auto& mesh = world.GetComponent<MeshComponent>(entity);
 
-		auto distanceFromCamera = glm::distance(cameraPos, transform.Position);
+		auto distanceFromCamera = glm::distance(cameraPos, transform.WorldPosition);
 		bool isVisible = true; //TODO
 
 		if (!isVisible)
@@ -42,7 +46,7 @@ namespace Zephyr
 		{
 			.Mesh = mesh.MeshData,
 			.Material = mesh.MaterialInstance,
-			.Transform = transform.GetTransform(),
+			.Transform = transform.LocalToWorld,
 			.Queue = GetDefaultQueue(mesh.MaterialInstance->GetType()),
 			.DistanceFromCamera = distanceFromCamera,
 		};

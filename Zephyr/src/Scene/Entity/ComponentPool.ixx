@@ -87,14 +87,14 @@ export namespace Zephyr
 	template<typename T>
 	T& ComponentPool<T>::Get(EntityId id)
 	{
-		Assert(!Contains(id), "ComponentPool::Get: entity does not have component");
+		Assert(Contains(id), "ComponentPool::Get: entity does not have component");
 		return m_Data[m_Sparse[id]];
 	}
 
 	template<typename T>
 	const T& ComponentPool<T>::Get(EntityId id) const
 	{
-		Assert(!Contains(id), "ComponentPool::Get: entity does not have component");
+		Assert(Contains(id), "ComponentPool::Get: entity does not have component");
 		return m_Data[m_Sparse[id]];
 	}
 }
