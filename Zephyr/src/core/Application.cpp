@@ -72,8 +72,6 @@ namespace Zephyr
 			.SetPattern(std::format("%^[%T] [{}] %v%$", "change later"))
 			.AddSink(CreateRef<BufferedLogSink>(m_LogBuffer));
 
-		ConfigureAppLogger(appLoggerBuilder);
-		ConfigureEngineLogger(engineLoggerBuilder);
 
         Log::Initialize(engineLoggerBuilder.Build(), appLoggerBuilder.Build());
     }

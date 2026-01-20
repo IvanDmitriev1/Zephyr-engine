@@ -12,7 +12,7 @@ import Zephyr.Scene.Systems.RenderingSystem;
 import Zephyr.Scene.Systems.CameraSystem;
 
 import ZephyrEditor.SceneSetup;
-import Zephyr.Scene.Components.CameraComponent;
+import ZephyrEditor.ViewportPanel;
 
 using namespace Zephyr;
 
@@ -28,15 +28,6 @@ EditorApp::EditorApp(const Zephyr::WindowSpecification& spec)
 	s_Instance = this;
 	Zephyr::applog::Info("Creating Zephyr Editor application");
 
-	RHI::FrameBufferDesc desc
-	{
-		.Size = {spec.Width, spec.Height},
-		.ColorAttachments = { {RHI::TextureFormat::RGBA8 }},
-		.DepthStencilAttachment = { { RHI::TextureFormat::DEPTH24STENCIL8 }}
-	};
-
-	m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
-	
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("Assets/Fonts/Inter-VariableFont.ttf", 18);
 }
@@ -54,27 +45,13 @@ void EditorApp::OnInit()
 
 	auto& world = m_Scene.GetWorld();
 	ZephyrEditor::SceneSetup::CreateTestScene(world);
-	m_Camera = ZephyrEditor::SceneSetup::CreateEditorCamera(world, 16.0f / 9.f);
 
-	Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
-		.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
-		.Execute([this](SceneRenderer& renderer)
-	{
-		
-	});
+	m_PanelHost.Add<ZephyrEditor::ViewportPanel>("Viewport", world);
 }
 
 void EditorApp::OnUpdate(float dt)
 {
-	if (m_ResizeRequested)
-	{
-		m_Framebuffer->Resize({ m_PendingW, m_PendingH });
-		m_ResizeRequested = false;
-
-		auto& component = m_Scene.GetWorld().GetComponent<CameraComponent>(m_Camera);
-		component.AspectRatio = static_cast<float>(m_PendingW) / static_cast<float>(m_PendingH);
-	}
-
+	m_PanelHost.OnUpdate(dt);
 	m_Scene.OnUpdate(dt);
 }
 
@@ -86,7 +63,7 @@ void EditorApp::OnRender()
 void EditorApp::OnUiRender()
 {
 	DrawDockSpace();
-	DrawViewPort();
+	m_PanelHost.Render();
 
 	if (m_ShowDemoWindow)
 	{
@@ -172,7 +149,7 @@ void EditorApp::DrawDockSpaceMenuBar()
 
 	if (ImGui::BeginMenu("View"))
 	{
-		ImGui::MenuItem("Viewport", nullptr, &m_ShowViewport);
+		//ImGui::MenuItem("Viewport", nullptr, &m_ShowViewport);
 		ImGui::MenuItem("Console", nullptr, &m_ShowConsole);
 		ImGui::MenuItem("Demo window", nullptr, &m_ShowDemoWindow);
 		ImGui::EndMenu();
@@ -198,42 +175,3 @@ void EditorApp::BuildDefaultDockLayout(ImGuiID dock_main_id)
 
 	ImGui::DockBuilderFinish(dock_main_id);
 }
-
-void EditorApp::DrawViewPort()
-{
-	if (!m_ShowViewport)
-		return;
-
-	auto fboSize = m_Framebuffer->GetDesc().Size;
-
-	ImGui::Begin("Viewport", nullptr,
-				 ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-	const ImVec2 avail = ImGui::GetContentRegionAvail();
-
-	const ImVec2 scale = ImGui::GetIO().DisplayFramebufferScale;
-	const uint32_t desiredW = std::max(1u, (uint32_t)std::lround(avail.x * scale.x));
-	const uint32_t desiredH = std::max(1u, (uint32_t)std::lround(avail.y * scale.y));
-
-	// Queue resize
-	if (desiredW != fboSize.Width || desiredH != fboSize.Height)
-	{
-		m_PendingW = desiredW;
-		m_PendingH = desiredH;
-		m_ResizeRequested = true;
-	}
-
-	// Show the color attachment as an image
-	const auto& texture = m_Framebuffer->GetColorAttachment(0);
-
-	const ImTextureID texID = (ImTextureID)(intptr_t)texture.GetId();
-	// Flip V for GL (0,0 is bottom-left): use UVs (0,1) to (1,0)
-	ImGui::Image(
-		texID,
-		ImVec2((float)fboSize.Width, (float)fboSize.Height),
-		ImVec2(0, 1), ImVec2(1, 0));
-
-	ImGui::End();
-}
-
-void EditorApp::OnProjectCreated(const ZephyrEditor::ProjectFile& file)
-{}

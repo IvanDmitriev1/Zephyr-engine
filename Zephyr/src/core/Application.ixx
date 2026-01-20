@@ -28,13 +28,9 @@ export namespace Zephyr
 		virtual void OnUiRender() = 0;
 		virtual void OnEvent(IEvent& e) = 0;
 
-        virtual void ConfigureEngineLogger(LoggerBuilder& builder) { }
-        virtual void ConfigureAppLogger(LoggerBuilder& builder) { }
-
     private:
         void ConfigureLogging();
 		void OnEventDispatch(IEvent& e);
-        
 
     private:
         Scope<IWindow> m_window;

@@ -1,8 +1,7 @@
 export module Zephyr.Scene.World;
 
 export import Zephyr.Scene.Entity;
-export import Zephyr.Scene.ComponentPool;
-export import Zephyr.Scene.Camera;
+import Zephyr.Scene.ComponentPool;
 
 export namespace Zephyr
 {
@@ -26,13 +25,13 @@ export namespace Zephyr
 		bool HasComponent(Entity entity) const;
 
 		template<typename T>
-		T& GetComponent(Entity entity);
+		[[nodiscard]] T& GetComponent(Entity entity);
 
 		template<typename T>
-		const T& GetComponent(Entity entity) const;
+		[[nodiscard]] const T& GetComponent(Entity entity) const;
 
 		template<typename... Components>
-		std::vector<Entity> GetEntitiesWith() const;
+		[[nodiscard]] std::vector<Entity> GetEntitiesWith() const;
 
 		inline bool IsAlive(EntityId id) const noexcept { return id < m_AliveEntities.size() && m_AliveEntities[id] != 0; }
 

@@ -1,6 +1,7 @@
 export module Zephyr.Scene.Systems.RenderingSystem;
 
 export import Zephyr.Scene.Systems.ISystem;
+import  glm;
 
 export namespace Zephyr
 {

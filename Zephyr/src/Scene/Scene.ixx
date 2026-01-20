@@ -36,7 +36,7 @@ export namespace Zephyr
 	template<SystemType TSystem, typename ...Args>
 	TSystem& Scene::AddSystem(Args && ...args)
 	{
-		auto sys = std::make_unique<TSystem>(std::forward<Args>(args)...);
+		auto sys = CreateScope<TSystem>(std::forward<Args>(args)...);
 		TSystem& ref = *sys;
 
 		m_Systems.emplace_back(std::move(sys));

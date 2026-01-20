@@ -7,7 +7,7 @@ import Zephyr.Scene.World;
 import Zephyr.Renderer.SceneRenderer;
 import Zephyr.Scene;
 
-import ZephyrEditor.Ui.CreateProjectDialog;
+import ZephyrEditor.UiPanelHost;
 import ZephyrEditor.ProjectManager;
 
 import <imgui.h>;
@@ -33,35 +33,15 @@ private:
 	void DrawDockSpaceMenuBar();
 	void BuildDefaultDockLayout(ImGuiID dock_main_id);
 
-	void DrawViewPort();
-
-private:
-	void OnProjectCreated(const ZephyrEditor::ProjectFile& file);
-
 private:
 	inline static EditorApp* s_Instance = nullptr;
 
 	Ref<RHI::IFrameBuffer> m_Framebuffer;
+	ZephyrEditor::UiPanelHost m_PanelHost{};
 	Scene m_Scene{};
-	Entity m_Camera;
 
-	bool m_ResizeRequested = false;
-	uint32_t m_PendingW = 0;
-	uint32_t m_PendingH = 0;
-	bool m_ViewportFocused = false;
-	bool m_ViewportHovered = false;
-	bool m_ShowViewport = true;
 	bool m_ShowConsole = true;
 	bool m_ShowDemoWindow = false;
-};
-
-struct Person
-{
-	std::string first_name;
-	std::string last_name = "Simpson";
-	std::string town = "Springfield";
-	unsigned int age;
-	std::vector<Person> children;
 };
 
 export Zephyr::Application* Zephyr::CreateApplication()
