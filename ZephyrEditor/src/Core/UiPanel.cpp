@@ -11,16 +11,10 @@ namespace ZephyrEditor
 			return;
 		}
 
-		std::string windowName;
-		windowName.reserve(GetTitle().size() + 2 + GetId().size());
-		windowName.append(GetTitle());
-		windowName.append("##");
-		windowName.append(GetId());
-
 		bool open = m_IsOpen;
 		const ImGuiWindowFlags flags = GetWindowFlags();
 
-		const bool began = ImGui::Begin(windowName.c_str(), &open, flags);
+		const bool began = ImGui::Begin(GetTitle().data(), &open, flags);
 		m_IsOpen = open;
 
 		if (began)

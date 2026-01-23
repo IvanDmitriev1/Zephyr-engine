@@ -16,7 +16,7 @@ export namespace Zephyr
 		void DestroyEntity(Entity entity);
 
 		template<typename T>
-		void AddComponent(Entity entity, T&& component);
+		T& AddComponent(Entity entity, T&& component);
 
 		template<typename T>
 		void RemoveComponent(Entity entity);
@@ -56,12 +56,12 @@ export namespace Zephyr
 	};
 
 	template<typename T>
-	void World::AddComponent(Entity entity, T&& component)
+	T& World::AddComponent(Entity entity, T&& component)
 	{
 		using U = std::remove_cvref_t<T>;
 		Assert(Owns(entity), "AddComponent: invalid entity or wrong world");
 
-		GetOrCreatePool<U>().Emplace(entity.GetId(), std::forward<T>(component));
+		return GetOrCreatePool<U>().Emplace(entity.GetId(), std::forward<T>(component));
 	}
 
 	template<typename T>

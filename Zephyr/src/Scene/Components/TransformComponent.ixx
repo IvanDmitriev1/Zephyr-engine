@@ -11,6 +11,17 @@ export namespace Zephyr
 		glm::vec3 Scale{ 1.0f };
 
 		bool IsDirty = true;
+
+		glm::vec3 GetEulerAngles() const
+		{
+			return glm::degrees(glm::eulerAngles(Rotation));
+		}
+
+		void SetEulerAngles(const glm::vec3& eulerDegrees)
+		{
+			Rotation = glm::quat(glm::radians(eulerDegrees));
+			IsDirty = true;
+		}
 	};
 
 	struct TransformRuntimeComponent

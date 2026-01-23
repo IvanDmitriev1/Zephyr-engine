@@ -13,6 +13,9 @@ import Zephyr.Scene.Systems.CameraSystem;
 
 import ZephyrEditor.SceneSetup;
 import ZephyrEditor.ViewportPanel;
+import ZephyrEditor.SceneHierarchyPanel;
+import ZephyrEditor.InspectorPanel;
+import ZephyrEditor.DemoSystem;
 
 using namespace Zephyr;
 
@@ -39,6 +42,7 @@ EditorApp::~EditorApp()
 
 void EditorApp::OnInit()
 {
+	m_Scene.AddSystem<ZephyrEditor::DemoSystem>();
 	m_Scene.AddSystem<TransformSystem>();
 	m_Scene.AddSystem<CameraSystem>();
 	m_Scene.AddSystem<RenderingSystem>();
@@ -47,6 +51,15 @@ void EditorApp::OnInit()
 	ZephyrEditor::SceneSetup::CreateTestScene(world);
 
 	m_PanelHost.Add<ZephyrEditor::ViewportPanel>("Viewport", world);
+	auto& hierarchy = m_PanelHost.Add<ZephyrEditor::SceneHierarchyPanel>(world);
+	auto& inspector = m_PanelHost.Add<ZephyrEditor::InspectorPanel>(world);
+
+	hierarchy.m_OnSelectionChanged = [&](Entity entity)
+	{
+		inspector.SetSelectedEntity(entity);
+	};
+
+	SetupMenuBar();
 }
 
 void EditorApp::OnUpdate(float dt)
@@ -62,7 +75,7 @@ void EditorApp::OnRender()
 
 void EditorApp::OnUiRender()
 {
-	DrawDockSpace();
+	//DrawDockSpace();
 	m_PanelHost.Render();
 
 	if (m_ShowDemoWindow)
@@ -76,102 +89,51 @@ void EditorApp::OnEvent(Zephyr::IEvent& e)
 	
 }
 
-void EditorApp::DrawDockSpace()
+void EditorApp::SetupMenuBar()
 {
-	static bool dockspaceOpen = true;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	auto& menuBar = m_PanelHost.GetMenuBar();
 
-	ImGuiWindowFlags window_flags =
-		ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking |
-		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-
-	const ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
-	ImGui::SetNextWindowViewport(viewport->ID);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-
-
-	ImGui::Begin("Zephyr editor", &dockspaceOpen, window_flags);
-	ImGui::PopStyleVar();
-
-	ImGuiID dockspace_id = ImGui::GetID("Editor dockspace");
-	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-
-	static bool first_time = true;
-	if (first_time)
+	menuBar.AddMenu("File")
+		.AddItem("New Scene", [this]()
 	{
-		first_time = false;
-		BuildDefaultDockLayout(dockspace_id);
-	}
-
-	if (ImGui::BeginMenuBar())
+		// TODO: New scene
+	}, "Ctrl+N")
+		.AddItem("Open Scene", [this]()
 	{
-		DrawDockSpaceMenuBar();
-		ImGui::EndMenuBar();
-	}
-
-	ImGui::End(); //Zephyr editor
-}
-
-void EditorApp::DrawDockSpaceMenuBar()
-{
-	if (ImGui::BeginMenu("File"))
+		// TODO: Open scene dialog
+	}, "Ctrl+O")
+		.AddItem("Save Scene", [this]()
 	{
-		if (ImGui::MenuItem("File/New Project..."))
-		{
-
-		}
-
-		ImGui::Separator();
-
-		if (ImGui::MenuItem("Exit"))
-		{
-
-		}
-
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Edit"))
+		// TODO: Save scene
+	}, "Ctrl+S")
+		.AddSeparator()
+		.AddItem("Exit", [this]()
 	{
-		if (ImGui::MenuItem("Undo", "Ctrl+Z"))
-		{
-		}
-		if (ImGui::MenuItem("Redo", "Ctrl+Y"))
-		{
-		}
+		// TODO: Trigger shutdown
+	}, "Alt+F4");
 
-		ImGui::EndMenu();
-	}
 
-	if (ImGui::BeginMenu("View"))
+	menuBar.AddMenu("View")
+		.AddItem("Reset Layout", [this]()
 	{
-		//ImGui::MenuItem("Viewport", nullptr, &m_ShowViewport);
-		ImGui::MenuItem("Console", nullptr, &m_ShowConsole);
-		ImGui::MenuItem("Demo window", nullptr, &m_ShowDemoWindow);
-		ImGui::EndMenu();
-	}
-}
+		
+	})
+		.AddSeparator()
+		.AddItem("Scene Hierarchy", [this]()
+	{
+		
+	})
+		.AddItem("Inspector", [this]()
+	{
+		
+	})
+		.AddItem("Viewport", [this]()
+	{
+		
+	})
+		.AddItem("Stats", [this]()
+	{
+		
+	});
 
-void EditorApp::BuildDefaultDockLayout(ImGuiID dock_main_id)
-{
-	// Clear out existing layout
-	ImGui::DockBuilderRemoveNode(dock_main_id);
-	ImGui::DockBuilderAddNode(dock_main_id, ImGuiDockNodeFlags_DockSpace);
-	ImGui::DockBuilderSetNodeSize(dock_main_id, ImGui::GetMainViewport()->Size);
-
-	ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.2f, nullptr, &dock_main_id);
-	ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.25f, nullptr, &dock_main_id);
-	ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.3f, nullptr, &dock_main_id);
-
-	ImGui::DockBuilderDockWindow("Hierarchy", dock_id_left);
-	ImGui::DockBuilderDockWindow("Viewport", dock_main_id);
-	ImGui::DockBuilderDockWindow("Inspector", dock_id_right);
-	ImGui::DockBuilderDockWindow("Content Browser", dock_id_bottom);
-	ImGui::DockBuilderDockWindow("Debug log", dock_id_bottom);
-
-	ImGui::DockBuilderFinish(dock_main_id);
 }

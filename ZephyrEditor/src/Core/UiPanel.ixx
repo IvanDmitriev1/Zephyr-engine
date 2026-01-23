@@ -16,7 +16,6 @@ export namespace ZephyrEditor
 		virtual void OnUpdate(float deltaTime) {}
 		void Render();
 
-		virtual std::string_view GetId() const noexcept = 0;
 		virtual std::string_view GetTitle() const noexcept = 0;
 		virtual ImGuiWindowFlags GetWindowFlags() const noexcept = 0;
 

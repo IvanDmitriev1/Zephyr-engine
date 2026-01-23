@@ -1,5 +1,7 @@
 module ZephyrEditor.SceneSetup;
 
+import ZephyrEditor.DemoSystem;
+
 using namespace Zephyr;
 
 namespace ZephyrEditor
@@ -18,17 +20,34 @@ namespace ZephyrEditor
 		};
 		auto material = CreateRef<Material>(matDesc);
 
-		auto cubeMesh = GeometryGenerator::CreateCube(1.0f);
+		auto cubeMesh = GeometryGenerator::CreateCube(1);
+		auto sphereMesh = GeometryGenerator::CreateSphere(2);
 
 		Entity centerCube = world.CreateEntity();
+		Entity sphere = world.CreateEntity();
+
 		world.AddComponent(centerCube, TransformComponent{
-			.Position = {0.0f, 1.5f, 0.0f},
+			.Position = {0.0f, 0.f, 0.0f},
 			.Scale = {1.5f, 1.5f, 1.5f},
 						   });
+
 		world.AddComponent(centerCube, MeshComponent{
 			.MeshData = cubeMesh,
 			.MaterialInstance = material
 						   });
+
+		world.AddComponent(centerCube, DemoComponent{});
+
+		world.AddComponent(sphere, TransformComponent{
+			.Position = {0.0f, 0.f, 0.0f},
+			.Scale = {1.5f, 1.5f, 1.5f},
+											 });
+
+		world.AddComponent(sphere, MeshComponent{
+			.MeshData = sphereMesh,
+			.MaterialInstance = material
+						   });
+
 	}
 
 	Entity SceneSetup::CreateEditorCamera(World& world, float aspectRatio)

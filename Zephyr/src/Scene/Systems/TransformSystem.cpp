@@ -27,13 +27,14 @@ namespace Zephyr
 
 		// Compute local-to-world matrix
 		glm::mat4 translation = glm::translate(glm::mat4(1.0f), transform.Position);
-		glm::mat4 rotation = glm::mat4_cast(transform.Rotation);
+		glm::mat4 rotation = glm::mat4_cast(glm::normalize(transform.Rotation));
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.Scale);
 
 		runtime.LocalToWorld = translation * rotation * scale;
 		runtime.WorldToLocal = glm::inverse(runtime.LocalToWorld);
-		runtime.WorldPosition = transform.Position;
+		runtime.WorldPosition = glm::vec3(runtime.LocalToWorld[3]);
 
-		transform.IsDirty = true;
+
+		transform.IsDirty = false;
 	}
 }

@@ -18,10 +18,9 @@ export namespace ZephyrEditor
 		void OnUpdate(float deltaTime) override;
 
 		inline std::string_view GetTitle() const noexcept { return m_Title; }
-		inline std::string_view GetId() const noexcept override { return GetTitle(); }
 		inline ImGuiWindowFlags GetWindowFlags() const noexcept override
 		{
-			return ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
+			return ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse;
 		}
 
 		void OnImGuiRender() override;
@@ -32,6 +31,7 @@ export namespace ZephyrEditor
 
 		Ref<RHI::IFrameBuffer> m_Framebuffer;
 		Entity m_CameraEntity;
+
 		bool m_ResizeRequested = false;
 		Extent2D m_newSize;
 	};

@@ -29,9 +29,7 @@ public:
 	void OnEvent(Zephyr::IEvent& e) override;
 
 private:
-	void DrawDockSpace();
-	void DrawDockSpaceMenuBar();
-	void BuildDefaultDockLayout(ImGuiID dock_main_id);
+	void SetupMenuBar();
 
 private:
 	inline static EditorApp* s_Instance = nullptr;

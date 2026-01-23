@@ -58,6 +58,139 @@ namespace ZephyrEditor
 		return CreateMeshFromData(vertices, indices);
 	}
 
+	Ref<Mesh> GeometryGenerator::CreateSphere(
+		float radius /*= 0.5f*/,
+		uint32_t stacks /*= 16*/,
+		uint32_t slices /*= 32*/)
+	{
+		// Minimums for a valid sphere
+		stacks = std::max(stacks, 2u);
+		slices = std::max(slices, 3u);
+
+		const float pi = glm::pi<float>();
+		const float twoPi = glm::two_pi<float>();
+
+		std::vector<Vertex3D> vertices;
+		std::vector<uint32_t> indices;
+
+		// Vertex count: top + rings + bottom
+		const uint32_t ringCount = stacks - 1;                 // excludes poles
+		const uint32_t ringVerts = slices + 1;                 // seam duplicate
+		const uint32_t vertexCount = 2u + ringCount * ringVerts;
+
+		vertices.reserve(vertexCount);
+
+		// --- Top pole ---
+		{
+			const glm::vec3 pos{ 0.0f, radius, 0.0f };
+			const glm::vec3 nrm{ 0.0f, 1.0f, 0.0f };
+			const glm::vec2 uv{ 0.0f, 0.0f };                  // arbitrary at pole
+			vertices.push_back(Vertex3D{ pos, nrm, uv });
+		}
+
+		// --- Rings (theta from 0..pi, excluding poles) ---
+		for (uint32_t i = 1; i <= stacks - 1; ++i)
+		{
+			const float v = static_cast<float>(i) / static_cast<float>(stacks); // (0,1)
+			const float theta = v * pi;                                         // (0,pi)
+
+			const float sinT = std::sin(theta);
+			const float cosT = std::cos(theta);
+
+			for (uint32_t j = 0; j <= slices; ++j)
+			{
+				const float u = static_cast<float>(j) / static_cast<float>(slices); // [0,1]
+				const float phi = u * twoPi;                                         // [0,2pi]
+
+				const float sinP = std::sin(phi);
+				const float cosP = std::cos(phi);
+
+				const glm::vec3 unitPos{
+					sinT * cosP,
+					cosT,
+					sinT * sinP
+				};
+
+				const glm::vec3 pos = unitPos * radius;
+				const glm::vec3 nrm = unitPos;                // already unit length
+				const glm::vec2 uv{ u, v };                  // v down from top
+
+				vertices.push_back(Vertex3D{ pos, nrm, uv });
+			}
+		}
+
+		// --- Bottom pole ---
+		const uint32_t bottomIndex = static_cast<uint32_t>(vertices.size());
+		{
+			const glm::vec3 pos{ 0.0f, -radius, 0.0f };
+			const glm::vec3 nrm{ 0.0f, -1.0f, 0.0f };
+			const glm::vec2 uv{ 0.0f, 1.0f };                  // arbitrary at pole
+			vertices.push_back(Vertex3D{ pos, nrm, uv });
+		}
+
+		// --- Indices ---
+		// Top cap: triangles fan from top pole to first ring
+		const uint32_t topIndex = 0;
+		const uint32_t firstRingStart = 1;
+
+		indices.reserve(
+			(slices * 3u) +                       // top cap
+			((ringCount > 1 ? (ringCount - 1) : 0) * slices * 6u) + // middle
+			(slices * 3u)                         // bottom cap
+		);
+
+		// Top cap
+		for (uint32_t j = 0; j < slices; ++j)
+		{
+			const uint32_t a = firstRingStart + j;
+			const uint32_t b = firstRingStart + j + 1;
+
+			// Winding chosen for outward-facing triangles (CCW front face in OpenGL).
+			indices.push_back(topIndex);
+			indices.push_back(b);
+			indices.push_back(a);
+		}
+
+		// Middle quads between rings (if we have 2+ rings)
+		for (uint32_t ring = 0; ring + 1 < ringCount; ++ring)
+		{
+			const uint32_t curr = firstRingStart + ring * ringVerts;
+			const uint32_t next = curr + ringVerts;
+
+			for (uint32_t j = 0; j < slices; ++j)
+			{
+				const uint32_t a = curr + j;
+				const uint32_t d = curr + j + 1;
+				const uint32_t b = next + j;
+				const uint32_t c = next + j + 1;
+
+				// Two triangles per quad
+				indices.push_back(a);
+				indices.push_back(b);
+				indices.push_back(d);
+
+				indices.push_back(d);
+				indices.push_back(b);
+				indices.push_back(c);
+			}
+		}
+
+		// Bottom cap: triangles fan to bottom pole from last ring
+		const uint32_t lastRingStart = firstRingStart + (ringCount - 1) * ringVerts;
+
+		for (uint32_t j = 0; j < slices; ++j)
+		{
+			const uint32_t a = lastRingStart + j;
+			const uint32_t b = lastRingStart + j + 1;
+
+			indices.push_back(bottomIndex);
+			indices.push_back(a);
+			indices.push_back(b);
+		}
+
+		return CreateMeshFromData(vertices, indices);
+	}
+
 	Ref<Mesh> GeometryGenerator::CreateMeshFromData(const std::vector<Vertex3D>& vertices, const std::vector<uint32_t>& indices)
 	{
 		RHI::BufferDesc vbDesc{
