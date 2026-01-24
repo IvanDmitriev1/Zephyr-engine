@@ -4,13 +4,13 @@ export import std;
 
 export namespace ZephyrEditor
 {
-	using MenuCallback = std::function<void()>;
-
 	struct MenuItem
 	{
+		using CallbackFun = std::function<void()>;
+
 		std::string Label;
 		std::string Shortcut;
-		MenuCallback Callback;
+		CallbackFun Callback;
 
 		bool IsEnabled = true;
 		bool IsSeparator = false;
@@ -32,7 +32,7 @@ export namespace ZephyrEditor
 		void Render();
 
 		MenuBar& AddMenu(std::string label);
-		MenuBar& AddItem(std::string label, MenuCallback callback, std::string shortcut = "");
+		MenuBar& AddItem(std::string label, MenuItem::CallbackFun callback, std::string shortcut = "");
 		MenuBar& AddSeparator();
 
 	private:

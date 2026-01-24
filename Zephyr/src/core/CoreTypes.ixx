@@ -3,19 +3,11 @@ export module Zephyr.Core.CoreTypes;
 export import zephyr.logging.LogHelpers;
 
 export import Zephyr.Core.BuildConfig;
+export import Zephyr.Core.Assert;
 export import std;
 
 export namespace Zephyr
 {
-	inline void DebugBreak()
-	{
-#ifdef _DEBUG
-	#ifdef Zephyr_PLATFORM_WINDOWS
-		__debugbreak();
-	#endif
-#endif
-	}
-
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 
@@ -36,69 +28,40 @@ export namespace Zephyr
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
 
+
+	namespace detail
+	{
+		template<class Holder>
+		constexpr auto* ptr(Holder&& holder) noexcept
+		{
+			if constexpr (std::is_pointer_v<std::remove_reference_t<Holder>>)
+				return holder;                           // raw pointer
+			else
+				return std::forward<Holder>(holder).get(); // Ref/Scope/etc.
+		}
+
+		template<class Holder>
+		using pointee_t = std::remove_pointer_t<decltype(ptr(std::declval<Holder&&>()))>;
+	}
+
 	template<class To, class From>
 	concept Related = std::is_base_of_v<From, To> || std::is_base_of_v<To, From>;
 
-	template<class From>
-	concept Polymorphic = std::is_polymorphic_v<From>;
-
-	template <class To, class From>
-	requires Related<To, From> && Polymorphic<From>
-	[[nodiscard]] constexpr inline To& StaticCastRef(const Ref<From>& from)
+	template<class To, class Holder>
+		requires Related<To, detail::pointee_t<Holder>>
+	[[nodiscard]] inline decltype(auto) StaticCast(Holder&& holder)
 	{
-		if (auto* p = static_cast<To*>(from.get()))
-		{
-			return *p;
-		}
+		auto* p = detail::ptr(std::forward<Holder>(holder));
+		Assert(p != nullptr, "StaticCast: null");
 
-		DebugBreak();
-		throw std::bad_cast{};
-	}
+		using FromPointee = detail::pointee_t<Holder>;
+		using Target = std::conditional_t<
+			std::is_const_v<std::remove_reference_t<FromPointee>>,
+			const To,
+			To
+		>;
 
-	template <class To, class From>
-		requires Related<To, From>&& Polymorphic<From>
-	[[nodiscard]] constexpr inline To& StaticCastScope(const Scope<From>& from)
-	{
-		if (auto* p = static_cast<To*>(from.get()))
-		{
-			return *p;
-		}
-
-		DebugBreak();
-		throw std::bad_cast{};
-	}
-
-
-	template <class T>
-	concept BoolTestable = requires(T && t)
-	{
-		{
-			static_cast<bool>(std::forward<T>(t))
-		} -> std::same_as<bool>;
-	};
-
-	template <BoolTestable Condition>
-	inline void Assert(
-		Condition&& condition,
-		std::string_view message,
-		std::source_location location = std::source_location::current())
-	{
-		if constexpr (!Zephyr::Build::EnableAsserts)
-		{
-			return;
-		}
-
-		if (static_cast<bool>(condition))
-			return;
-
-		Zephyr::log::Critical(
-			"Assertion failed: {} at {}:{}",
-			message,
-			location.file_name(),
-			location.line());
-
-		DebugBreak();
-		throw std::runtime_error(std::string(message));
+		return *static_cast<Target*>(p); // To& or const To&
 	}
 
 	template <std::unsigned_integral T = std::uint32_t>

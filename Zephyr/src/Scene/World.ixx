@@ -25,15 +25,15 @@ export namespace Zephyr
 		bool HasComponent(Entity entity) const;
 
 		template<typename T>
-		[[nodiscard]] T& GetComponent(Entity entity);
-
-		template<typename T>
-		[[nodiscard]] const T& GetComponent(Entity entity) const;
+		[[nodiscard]] decltype(auto) GetComponent(this auto& self, Entity entity);
 
 		template<typename... Components>
 		[[nodiscard]] std::vector<Entity> GetEntitiesWith() const;
 
-		inline bool IsAlive(EntityId id) const noexcept { return id < m_AliveEntities.size() && m_AliveEntities[id] != 0; }
+		inline bool IsAlive(EntityId id) const noexcept
+		{
+			return id < m_AliveEntities.size() && m_AliveEntities[id] != 0;
+		}
 
 	private:
 		void EnsureAlive(EntityId id);
@@ -43,10 +43,7 @@ export namespace Zephyr
 		ComponentPool<T>& GetOrCreatePool();
 
 		template<typename T>
-		ComponentPool<T>* FindPool();
-
-		template<typename T>
-		const ComponentPool<T>* FindPool() const;
+		auto* FindPool(this auto& self);
 
 	private:
 		EntityId m_NextEntityId = 1;
@@ -81,33 +78,21 @@ export namespace Zephyr
 		{
 			return pool->Contains(entity.GetId());
 		}
-
 		return false;
 	}
 
 	template<typename T>
-	T& World::GetComponent(Entity entity)
+	decltype(auto) World::GetComponent(this auto& self, Entity entity)
 	{
-		Assert(Owns(entity), "GetComponent: invalid entity or wrong world");
+		Assert(self.Owns(entity), "GetComponent: invalid entity or wrong world");
 
-		auto* pool = FindPool<T>();
+		auto* pool = self.template FindPool<T>();
 		Assert(pool != nullptr && pool->Contains(entity.GetId()), "GetComponent: component missing");
 
 		return pool->Get(entity.GetId());
 	}
 
-	template<typename T>
-	const T& World::GetComponent(Entity entity) const
-	{
-		Assert(Owns(entity), "GetComponent: invalid entity or wrong world");
-
-		auto* pool = FindPool<T>();
-		Assert(pool != nullptr && pool->Contains(entity.GetId()), "GetComponent: component missing");
-
-		return pool->Get(entity.GetId());
-	}
-
-	template<typename ...Components>
+	template<typename... Components>
 	std::vector<Entity> World::GetEntitiesWith() const
 	{
 		using First = std::tuple_element_t<0, std::tuple<Components...>>;
@@ -120,7 +105,7 @@ export namespace Zephyr
 		std::vector<Entity> out;
 		out.reserve(ids.size());
 
-		for (EntityId id : basePool->Entities())
+		for (EntityId id : ids)
 		{
 			if (!IsAlive(id))
 				continue;
@@ -145,25 +130,17 @@ export namespace Zephyr
 	}
 
 	template<typename T>
-	ComponentPool<T>* World::FindPool()
+	auto* World::FindPool(this auto& self)
 	{
+		using Self = std::remove_reference_t<decltype(self)>;
+		using Pool = std::conditional_t<std::is_const_v<Self>, const ComponentPool<T>, ComponentPool<T>>;
+
 		const std::type_index key{ typeid(T) };
-		auto it = m_Pools.find(key);
-		if (it == m_Pools.end())
-			return nullptr;
+		auto it = self.m_Pools.find(key);
+		if (it == self.m_Pools.end())
+			return static_cast<Pool*>(nullptr);
 
-		return static_cast<ComponentPool<T>*>(it->second.get());
-	}
-
-	template<typename T>
-	const ComponentPool<T>* World::FindPool() const
-	{
-		const std::type_index key{ typeid(T) };
-		auto it = m_Pools.find(key);
-		if (it == m_Pools.end())
-			return nullptr;
-
-		return static_cast<const ComponentPool<T>*>(it->second.get());
+		return static_cast<Pool*>(it->second.get());
 	}
 
 	inline Entity World::CreateEntity()

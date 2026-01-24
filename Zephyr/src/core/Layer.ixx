@@ -13,11 +13,8 @@ export namespace Zephyr
 
 		virtual ~Layer() = default;
 
-		Layer(const Layer&) = delete;
-		Layer& operator=(const Layer&) = delete;
-
 	public:
-		virtual void OnAttach(){}
+		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 
 		virtual void OnEvent(IEvent& event) {}
@@ -25,20 +22,9 @@ export namespace Zephyr
 		virtual void OnRender() {}
 		virtual void OnUiRender() {}
 
-		std::string_view GetName()
-		{
-			return m_Name;
-		}
-
-		bool IsEnabled() const noexcept
-		{
-			return m_Enabled;
-		}
-
-		void SetEnabled(bool enabled) noexcept
-		{
-			m_Enabled = enabled;
-		}
+		inline std::string_view GetName() { return m_Name; }
+		inline bool IsEnabled() const noexcept { return m_Enabled; }
+		inline void SetEnabled(bool enabled) noexcept { m_Enabled = enabled; }
 
 	private:
 		const std::string m_Name;

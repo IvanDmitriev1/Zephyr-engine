@@ -66,7 +66,7 @@ namespace Zephyr::RHI::OpenGL::Debug
 		const auto severityStr = GLDebugSeverityToString(severity);
 
 		log::Critical("[OpenGL] [{} - {} ({})]: [{}] {}", severityStr, typeStr, id, sourceStr, message);
-		DebugBreak();
+		Build::DebugBreak();
 	}
 
 	constexpr void InitOpenGLDebugMessageCallback()

@@ -44,7 +44,7 @@ namespace ZephyrEditor
 		return *this;
 	}
 
-	MenuBar& MenuBar::AddItem(std::string label, MenuCallback callback, std::string shortcut)
+	MenuBar& MenuBar::AddItem(std::string label, MenuItem::CallbackFun callback, std::string shortcut)
 	{
 		Zephyr::Assert(!m_Menus.empty(), "MenuBar::AddItem trying to add an item in empty menu");
 

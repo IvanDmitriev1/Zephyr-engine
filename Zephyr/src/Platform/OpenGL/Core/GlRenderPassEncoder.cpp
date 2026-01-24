@@ -16,7 +16,7 @@ namespace Zephyr::RHI::OpenGL
 {
 	GlRenderPassEncoder::GlRenderPassEncoder(const RenderPassDesc& rp)
 	{
-		auto& glFb = StaticCastRef<GlFrameBuffer>(rp.Target);
+		auto& glFb = StaticCast<GlFrameBuffer>(rp.Target);
 		glFb.Bind();
 		glFb.ClearForRenderPass(rp);
 	}
@@ -28,7 +28,7 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlRenderPassEncoder::BindPipeline(const Ref<IPipeline>& pipeline)
     {
-        auto& glp = StaticCastRef<GlPipeline>(pipeline);
+        auto& glp = StaticCast<GlPipeline>(pipeline);
         glp.ApplyState();
 
         m_BoundedPipeline = pipeline;
@@ -36,7 +36,7 @@ namespace Zephyr::RHI::OpenGL
 
     void GlRenderPassEncoder::BindVertexArray(const Ref<IVertexArray>& vao)
     {
-        auto& glvao = StaticCastRef<GlVertexArray>(vao);
+        auto& glvao = StaticCast<GlVertexArray>(vao);
         glvao.Bind();
 
         m_BoundedVao = vao;
@@ -52,7 +52,7 @@ namespace Zephyr::RHI::OpenGL
 
 				if constexpr (std::is_same_v<ResourceT, Ref<IBuffer>>)
 				{
-					auto& glBuf = StaticCastRef<GlBuffer>(resource);
+					auto& glBuf = StaticCast<GlBuffer>(resource);
 					Assert(HasFlag(glBuf.GetDesc().Usage, BufferUsage::Uniform),
 						   "GlRenderPassEncoder::BindResources: Buffer is not uniform.");
 
@@ -61,14 +61,14 @@ namespace Zephyr::RHI::OpenGL
 				}
 				else if constexpr (std::is_same_v<ResourceT, Ref<ITexture>>)
 				{
-					auto& glTex = StaticCastRef<GlTexture>(resource);
+					auto& glTex = StaticCast<GlTexture>(resource);
 					const GLuint texId = glTex.GetId();
 					glBindTextureUnit(slot, texId);
 				}
 				else if constexpr (std::is_same_v<ResourceT, Ref<ISampler>>)
 				{
 					// TODO: bind sampler to unit 'slot'
-					// auto& glSampler = StaticCastRef<GlSampler>(resource);
+					// auto& glSampler = StaticCast<GlSampler>(resource);
 					// glBindSampler(slot, glSampler.GetId());
 				}
 				else
@@ -107,11 +107,11 @@ namespace Zephyr::RHI::OpenGL
 	{
 		Assert(m_BoundedPipeline, "No pipeline bound");
 
-		auto& glPipeline = StaticCastRef<GlPipeline>(m_BoundedPipeline);
+		auto& glPipeline = StaticCast<GlPipeline>(m_BoundedPipeline);
 		auto& shader = glPipeline.GetDesc().Shader;
 		Assert(shader, "GlCommandList: No active shader program");
 
-		auto& glShader = StaticCastRef<GlShader>(shader);
+		auto& glShader = StaticCast<GlShader>(shader);
 		return glShader.GetRendererID();
 	}
 }

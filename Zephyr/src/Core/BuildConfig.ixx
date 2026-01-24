@@ -10,5 +10,12 @@ export namespace Zephyr::Build
 	inline constexpr bool SafeCast = false;
 #endif // NDEBUG
 
-
+	inline void DebugBreak()
+	{
+#ifdef _DEBUG
+	#ifdef Zephyr_PLATFORM_WINDOWS
+		__debugbreak();
+	#endif
+#endif
+	}
 }

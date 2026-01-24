@@ -21,7 +21,7 @@ namespace Zephyr::RHI::OpenGL
         ApplyRasterizerState();
         ApplyDepthState();
 
-        auto& glShader = StaticCastRef<GlShader>(m_Desc.Shader);
+        auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
         glShader.Bind();
     }
 

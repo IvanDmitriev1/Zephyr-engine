@@ -29,10 +29,13 @@ export namespace Zephyr
 		template<typename... Args>
 		T& Emplace(EntityId e, Args&&... args);
 
-		T& Get(EntityId id);
-		const T& Get(EntityId id) const;
+		[[nodiscard]] decltype(auto) Get(this auto& self, EntityId id)
+		{
+			Assert(self.Contains(id), "ComponentPool::Get: entity does not have component");
+			return self.m_Data[self.m_Sparse[id]];
+		}
 
-		std::span<const EntityId> Entities() const { return { m_Entities.data(), m_Entities.size() }; }
+		inline std::span<const EntityId> Entities() const { return { m_Entities.data(), m_Entities.size() }; }
 
 	private:
 		void EnsureSparse(EntityId id)
@@ -82,19 +85,5 @@ export namespace Zephyr
 		m_Data.pop_back();
 		m_Entities.pop_back();
 		m_Sparse[e] = InvalidData;
-	}
-
-	template<typename T>
-	T& ComponentPool<T>::Get(EntityId id)
-	{
-		Assert(Contains(id), "ComponentPool::Get: entity does not have component");
-		return m_Data[m_Sparse[id]];
-	}
-
-	template<typename T>
-	const T& ComponentPool<T>::Get(EntityId id) const
-	{
-		Assert(Contains(id), "ComponentPool::Get: entity does not have component");
-		return m_Data[m_Sparse[id]];
 	}
 }
