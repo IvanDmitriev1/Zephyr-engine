@@ -4,6 +4,7 @@ export import ZephyrEditor.UiPanel;
 
 import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Scene.World;
+import Zephyr.Renderer.Resources.RendererTypes;
 
 using namespace Zephyr;
 
@@ -23,7 +24,9 @@ export namespace ZephyrEditor
 			return ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse;
 		}
 
-		void OnImGuiRender() override;
+		void RenderViewPort();
+
+		void OnDisplay() override;
 
 	private:
 		std::string m_Title;
@@ -31,6 +34,7 @@ export namespace ZephyrEditor
 
 		Ref<RHI::IFrameBuffer> m_Framebuffer;
 		Entity m_CameraEntity;
+		CameraUniformData m_CameraData{};
 
 		bool m_ResizeRequested = false;
 		Extent2D m_newSize;

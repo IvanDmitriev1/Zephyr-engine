@@ -11,7 +11,7 @@ export namespace Zephyr
 		Ref<Mesh> Mesh{};
 		Ref<Material> Material{};
 		glm::mat4 Transform{};
-		RenderQueue Queue = RenderQueue::Geometry;
+		RenderPhase Phase = RenderPhase::Geometry;
 
 		float DistanceFromCamera = 0.0f;
 	};

@@ -1,0 +1,19 @@
+export module Zephyr.Renderer.BaseGeometryPass;
+
+export import Zephyr.Renderer.IRenderGraphPass;
+export import Zephyr.Renderer.Core.IRenderPassEncoder;
+
+export namespace Zephyr
+{
+	class BaseGeometryPass : public IRenderGraphPass
+	{
+	protected:
+		void RenderPhases(
+			RHI::IRenderPassEncoder& encoder,
+			const PassExecutionContext& context,
+			std::span<const RenderPhase> phasesToRender);
+
+	private:
+		void ConfigurePipelineForPhase(RHI::GraphicsPipelineDesc& desc, RenderPhase phase);
+	};
+}

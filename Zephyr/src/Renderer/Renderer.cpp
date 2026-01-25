@@ -1,55 +1,86 @@
 module Zephyr.Renderer.Renderer;
 
-import Zephyr.Renderer.SceneRenderer;
+import Zephyr.Renderer.RenderQueue;
+import Zephyr.Renderer.RenderGraph;
+import Zephyr.Renderer.Core.Device;
+
+import Zephyr.Renderer.Passes.GeometryPass;
 
 namespace Zephyr::Renderer
 {
-	SceneRenderer* g_SceneRenderer = nullptr;
-	RenderGraph* g_renderGraph = nullptr;
+	struct RendererData
+	{
+		RenderQueue Queue;
+		RenderGraph Graph;
+		RenderResources Resources;
+	};
+
+	static RendererData* s_Data = nullptr;
 
 	void Init()
 	{
-		g_SceneRenderer = new SceneRenderer();
-		g_renderGraph = new RenderGraph();
+		s_Data = new RendererData();
+
+		RHI::BufferDesc cameraDesc
+		{
+			.SizeBytes = sizeof(CameraUniformData),
+			.Usage = RHI::BufferUsage::Uniform,
+			.Access = RHI::BufferAccess::Streaming,
+			.DebugName = "Global_CameraUBO"
+		};
+
+		RHI::BufferDesc objectDesc
+		{
+			.SizeBytes = sizeof(ObjectUniformData),
+			.Usage = RHI::BufferUsage::Uniform,
+			.Access = RHI::BufferAccess::Streaming,
+			.DebugName = "Global_ObjectUBO"
+		};
+
+		s_Data->Resources.CameraBuffer = RHI::Device::CreateBuffer(cameraDesc);
+		s_Data->Resources.ObjectBuffer = RHI::Device::CreateBuffer(objectDesc);
+
+		s_Data->Graph.AddPass(CreateScope<GeometryPass>());
 	}
 
 	void Shutdown()
 	{
-		if (g_SceneRenderer)
+		if (s_Data)
 		{
-			delete g_SceneRenderer;
-			g_SceneRenderer = nullptr;
-		}
-
-		if (g_renderGraph)
-		{
-			delete g_renderGraph;
-			g_renderGraph = nullptr;
+			delete s_Data;
 		}
 	}
 
-	RenderGraph& GetRenderGraph()
+	void BeginFrame()
 	{
-		return *g_renderGraph;
+		s_Data->Queue.BeginFrame();
 	}
 
 	void Submit(const DrawItem& item)
 	{
-		g_SceneRenderer->Submit(item);
+		s_Data->Queue.Submit(item);
 	}
 
 	void Submit(std::span<const DrawItem> items)
 	{
-		g_SceneRenderer->Submit(items);
+		s_Data->Queue.Submit(items);
 	}
 
-	void BeginFrame(const CameraUniformData& cameraData)
+	void RenderToTarget(Ref<RHI::IFrameBuffer> target, const CameraUniformData& cameraData)
 	{
-		g_SceneRenderer->BeginFrame(cameraData);
-	}
+		s_Data->Queue.SortQueues();
 
-	void Render()
-	{
-		g_renderGraph->Execute(*g_SceneRenderer);
+		s_Data->Resources.CameraBuffer->SetData(
+			std::as_bytes(std::span{ &cameraData, 1 })
+		);
+
+		PassExecutionContext context
+		{
+			.Queue = s_Data->Queue,
+			.Resources = s_Data->Resources,
+			.Target = std::move(target),
+		};
+
+		s_Data->Graph.Execute(context);
 	}
 }

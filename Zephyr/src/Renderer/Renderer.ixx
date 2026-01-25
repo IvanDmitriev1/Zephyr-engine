@@ -1,16 +1,15 @@
 export module Zephyr.Renderer.Renderer;
 
-export import Zephyr.Renderer.RenderGraph;
+export import Zephyr.Renderer.Resources.RendererTypes;
+export import Zephyr.Renderer.Core.IFrameBuffer;
 
 export namespace Zephyr::Renderer
 {
 	void Init();
 	void Shutdown();
-	RenderGraph& GetRenderGraph();
 
+	void BeginFrame();
 	void Submit(const DrawItem& item);
 	void Submit(std::span<const DrawItem> items);
-
-	void BeginFrame(const CameraUniformData& cameraData);
-	void Render();
+	void RenderToTarget(Ref<RHI::IFrameBuffer> target, const CameraUniformData& cameraData);
 }

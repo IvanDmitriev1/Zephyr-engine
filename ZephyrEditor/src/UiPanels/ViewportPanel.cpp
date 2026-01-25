@@ -22,13 +22,6 @@ namespace ZephyrEditor
 
 		m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
 		m_CameraEntity = ZephyrEditor::SceneSetup::CreateEditorCamera(world, 16.0f / 9.f);
-
-		Renderer::GetRenderGraph().AddPass("MainPass", m_Framebuffer)
-			.ClearColor(0.53f, 0.81f, 0.92f, 1.0f)
-			.Execute([this](SceneRenderer& renderer)
-		{
-
-		});
 	}
 
 	void ViewportPanel::OnUpdate(float deltaTime)
@@ -41,9 +34,24 @@ namespace ZephyrEditor
 			auto& component = m_World.GetComponent<CameraComponent>(m_CameraEntity);
 			component.AspectRatio = static_cast<float>(m_newSize.Width) / static_cast<float>(m_newSize.Height);
 		}
+
+		if (!m_World.HasComponent<CameraRuntimeComponent>(m_CameraEntity))
+			return;
+	
+		auto& cam = m_World.GetComponent<CameraRuntimeComponent>(m_CameraEntity);
+		m_CameraData =
+		{
+			.ViewProjection = cam.ViewProjection,
+			.Position = { cam.Position, 1.0f }
+		};
 	}
 
-	void ViewportPanel::OnImGuiRender()
+	void ViewportPanel::RenderViewPort()
+	{
+		Renderer::RenderToTarget(m_Framebuffer, m_CameraData);
+	}
+
+	void ViewportPanel::OnDisplay()
 	{
 		auto fboSize = m_Framebuffer->GetDesc().Size;
 		const ImVec2 avail = ImGui::GetContentRegionAvail();

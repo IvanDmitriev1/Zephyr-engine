@@ -11,7 +11,7 @@ namespace ZephyrEditor
 	{
 	}
 
-	void SceneHierarchyPanel::OnImGuiRender()
+	void SceneHierarchyPanel::OnDisplay()
 	{
 		auto entities = m_World.GetEntitiesWith<TransformComponent>();
 

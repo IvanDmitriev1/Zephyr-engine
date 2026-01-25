@@ -1,10 +1,10 @@
-export module Zephyr.Renderer.Resources.RenderQueueTypes;
+export module Zephyr.Renderer.Resources.RenderPhase;
 
 import std.compat;
 
 export namespace Zephyr
 {
-	enum class RenderQueue : uint8_t
+	enum class RenderPhase : uint8_t
 	{
 		Background = 0,    // Skybox, background elements (rendered first)
 		Geometry,      // Opaque geometry (front-to-back sorted)
@@ -13,8 +13,8 @@ export namespace Zephyr
 		Overlay        // UI, debug lines, gizmos (no sorting, rendered last)
 	};
 
-	constexpr std::size_t RenderQueueCount = std::to_underlying(RenderQueue::Overlay) + 1;
+	constexpr std::size_t RenderPhaseCount = std::to_underlying(RenderPhase::Overlay) + 1;
 
 	template <class T>
-	using RenderQueueArray = std::array<T, RenderQueueCount>;
+	using RenderPhaseArray = std::array<T, RenderPhaseCount>;
 }

@@ -31,14 +31,11 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlBuffer::SetData(std::span<const std::byte> data, uint64_t dstOffsetBytes)
 	{
-		if (dstOffsetBytes + data.size() > m_Desc.SizeBytes)
-			throw std::runtime_error("GlBuffer::SetData: write out of bounds");
+		Assert(dstOffsetBytes + data.size() <= m_Desc.SizeBytes, "GlBuffer::SetData: write out of bounds");
 
-		glNamedBufferSubData(
-			m_RendererID,
-			static_cast<GLintptr>(dstOffsetBytes),
-			static_cast<GLsizeiptr>(data.size()),
-			data.data()
-		);
+		glNamedBufferSubData(m_RendererID,
+							 static_cast<GLintptr>(dstOffsetBytes),
+							 static_cast<GLsizeiptr>(data.size_bytes()),
+							 data.data());
 	}
 }

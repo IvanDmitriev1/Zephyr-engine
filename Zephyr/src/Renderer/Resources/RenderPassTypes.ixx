@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.Resources.RenderPassTypes;
 
 export import Zephyr.Renderer.Core.IFrameBuffer;
-export import Zephyr.Renderer.Resources.RenderQueueTypes;
+export import Zephyr.Renderer.Resources.RenderPhase;
 import std.compat;
 
 export namespace Zephyr::RHI
@@ -42,7 +42,6 @@ export namespace Zephyr::RHI
         Ref<IFrameBuffer> Target{};
         std::span<const ColorAttachment> Colors{};
         std::optional<DepthAttachment> Depth{};
-		RenderQueueArray<RenderQueue> QueuesFilter{};
 
         std::string_view DebugName{};
     };

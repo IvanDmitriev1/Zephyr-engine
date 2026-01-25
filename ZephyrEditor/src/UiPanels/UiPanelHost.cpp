@@ -22,13 +22,13 @@ namespace ZephyrEditor
 		}
 	}
 
-	void UiPanelHost::Render()
+	void ZephyrEditor::UiPanelHost::OnImGuiRender()
 	{
 		RenderDockspaceRoot();
 
 		for (auto& panel : m_Panels)
 		{
-			panel->Render();
+			panel->OnImGuiRender();
 		}
 	}
 

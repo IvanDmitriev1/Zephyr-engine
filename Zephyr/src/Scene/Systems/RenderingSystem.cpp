@@ -9,25 +9,10 @@ namespace Zephyr
 {
 	void RenderingSystem::OnUpdate(World& world, float deltaTime)
 	{
-		auto mainCameras = world.GetEntitiesWith<MainCameraTag, CameraRuntimeComponent>();
-		if (mainCameras.empty())
-			return;
-
-		Entity mainCamera = mainCameras[0];
-		auto& cameraRuntime = world.GetComponent<CameraRuntimeComponent>(mainCamera);
-
-		CameraUniformData cameraData
-		{
-			.ViewProjection = cameraRuntime.ViewProjection,
-			.Position = { cameraRuntime.Position.x, cameraRuntime.Position.y, cameraRuntime.Position.z , 1.0 }
-		};
-
-		Renderer::BeginFrame(cameraData);
-
 		auto renderables = world.GetEntitiesWith<TransformComponent, MeshComponent, MeshComponent>();
 		for (Entity entity : renderables)
 		{
-			SubmitEntity(world, entity, cameraRuntime.Position);
+			SubmitEntity(world, entity, {});
 		}
 	}
 
@@ -47,7 +32,7 @@ namespace Zephyr
 			.Mesh = mesh.MeshData,
 			.Material = mesh.MaterialInstance,
 			.Transform = transform.LocalToWorld,
-			.Queue = GetDefaultQueue(mesh.MaterialInstance->GetType()),
+			.Phase = GetDefaultPhase(mesh.MaterialInstance->GetType()),
 			.DistanceFromCamera = distanceFromCamera,
 		};
 

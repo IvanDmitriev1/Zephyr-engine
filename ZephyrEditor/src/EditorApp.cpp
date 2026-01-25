@@ -51,6 +51,7 @@ void EditorApp::OnInit()
 	ZephyrEditor::SceneSetup::CreateTestScene(world);
 
 	m_PanelHost.Add<ZephyrEditor::ViewportPanel>("Viewport", world);
+	m_PanelHost.Add<ZephyrEditor::ViewportPanel>("Viewport2", world);
 	auto& hierarchy = m_PanelHost.Add<ZephyrEditor::SceneHierarchyPanel>(world);
 	auto& inspector = m_PanelHost.Add<ZephyrEditor::InspectorPanel>(world);
 
@@ -70,18 +71,19 @@ void EditorApp::OnUpdate(float dt)
 
 void EditorApp::OnRender()
 {
-	Renderer::Render();
+	auto& panel = m_PanelHost.Get("Viewport");
+	auto& viewPort = static_cast<ZephyrEditor::ViewportPanel&>(panel);
+
+	auto& panel2 = m_PanelHost.Get("Viewport2");
+	auto& viewPort2 = static_cast<ZephyrEditor::ViewportPanel&>(panel2);
+
+	viewPort.RenderViewPort();
+	viewPort2.RenderViewPort();
 }
 
 void EditorApp::OnUiRender()
 {
-	//DrawDockSpace();
-	m_PanelHost.Render();
-
-	if (m_ShowDemoWindow)
-	{
-		ImGui::ShowDemoWindow(nullptr);
-	}
+	m_PanelHost.OnImGuiRender();
 }
 
 void EditorApp::OnEvent(Zephyr::IEvent& e)

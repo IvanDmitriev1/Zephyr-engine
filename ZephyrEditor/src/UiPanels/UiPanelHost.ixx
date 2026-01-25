@@ -23,7 +23,7 @@ export namespace ZephyrEditor
 
 	public:
 		void OnUpdate(float deltaTime);
-		void Render();
+		void OnImGuiRender();
 
 		template<typename TUiPanel, typename ... Args>
 			requires(std::is_base_of_v<UiPanel, TUiPanel>)

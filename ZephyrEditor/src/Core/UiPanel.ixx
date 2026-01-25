@@ -14,7 +14,7 @@ export namespace ZephyrEditor
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(float deltaTime) {}
-		void Render();
+		void OnImGuiRender();
 
 		virtual std::string_view GetTitle() const noexcept = 0;
 		virtual ImGuiWindowFlags GetWindowFlags() const noexcept = 0;
@@ -27,7 +27,7 @@ export namespace ZephyrEditor
 		inline bool IsHovered() const noexcept { return m_IsHovered; }
 
 	protected:
-		virtual void OnImGuiRender() = 0;
+		virtual void OnDisplay() = 0;
 
 	private:
 		bool m_IsOpen = true;

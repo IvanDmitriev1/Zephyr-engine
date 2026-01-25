@@ -40,6 +40,7 @@ namespace Zephyr
 
             if (!m_Minimized)
             {
+				Renderer::BeginFrame();
 				OnUpdate(dt);
 				OnRender();
 

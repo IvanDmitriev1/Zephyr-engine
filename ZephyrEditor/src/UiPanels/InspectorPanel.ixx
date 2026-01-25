@@ -18,7 +18,7 @@ export namespace ZephyrEditor
 			return ImGuiWindowFlags_NoCollapse;
 		}
 
-		void OnImGuiRender() override;
+		void OnDisplay() override;
 
 	public:
 		inline void SetSelectedEntity(Entity entity) { m_SelectedEntity = entity; }

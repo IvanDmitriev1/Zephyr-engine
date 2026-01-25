@@ -4,7 +4,6 @@ import Zephyr.App;
 import Zephyr.Renderer.Core.IFrameBuffer;
 import Zephyr.Renderer.Core.IRenderPassEncoder;
 import Zephyr.Scene.World;
-import Zephyr.Renderer.SceneRenderer;
 import Zephyr.Scene;
 
 import ZephyrEditor.UiPanelHost;

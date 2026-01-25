@@ -12,7 +12,7 @@ namespace ZephyrEditor
 	{
 	}
 
-	void InspectorPanel::OnImGuiRender()
+	void InspectorPanel::OnDisplay()
 	{
 		if (!m_SelectedEntity.IsValid())
 		{
@@ -63,19 +63,6 @@ namespace ZephyrEditor
 		if (changed)
 		{
 			transform.IsDirty = true;
-		}
-
-		if (m_World.HasComponent<TransformRuntimeComponent>(entity))
-		{
-			auto& runtime = m_World.GetComponent<TransformRuntimeComponent>(entity);
-
-			ImGui::Separator();
-			ImGui::TextDisabled("Runtime (Read-Only)");
-			ImGui::Text("World Pos: (%.2f, %.2f, %.2f)",
-						runtime.WorldPosition.x,
-						runtime.WorldPosition.y,
-						runtime.WorldPosition.z
-			);
 		}
 
 		ImGui::Unindent();

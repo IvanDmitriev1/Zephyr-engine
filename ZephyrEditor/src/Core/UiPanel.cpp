@@ -2,7 +2,7 @@ module ZephyrEditor.UiPanel;
 
 namespace ZephyrEditor
 {
-	void UiPanel::Render()
+	void UiPanel::OnImGuiRender()
 	{
 		if (!m_IsOpen)
 		{
@@ -22,7 +22,7 @@ namespace ZephyrEditor
 			m_IsFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 			m_IsHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows);
 
-			OnImGuiRender();
+			OnDisplay();
 		}
 		else
 		{
