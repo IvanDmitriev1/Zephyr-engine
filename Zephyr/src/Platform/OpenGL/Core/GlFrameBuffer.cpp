@@ -5,7 +5,7 @@ module;
 module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
 import Zephyr.Renderer.OpenGL.GlTexture;
-import Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
+import Zephyr.Renderer.OpenGL.Types.GlTextureTypes;
 import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL

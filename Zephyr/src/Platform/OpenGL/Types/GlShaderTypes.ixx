@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h> 
 
-export module Zephyr.Renderer.OpenGL.Resources.GlShaderTypes;
+export module Zephyr.Renderer.OpenGL.Types.GlShaderTypes;
 
 import Zephyr.Renderer.RHI.ShaderTypes;
 

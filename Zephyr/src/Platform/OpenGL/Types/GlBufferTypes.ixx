@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h> 
 
-export module Zephyr.Renderer.OpenGL.Resources.GlBufferTypes;
+export module Zephyr.Renderer.OpenGL.Types.GlBufferTypes;
 
 import Zephyr.Renderer.RHI.BufferTypes;
 

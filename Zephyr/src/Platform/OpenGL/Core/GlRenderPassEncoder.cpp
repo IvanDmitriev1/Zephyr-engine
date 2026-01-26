@@ -10,7 +10,7 @@ import Zephyr.Renderer.OpenGL.GlVertexArray;
 import Zephyr.Renderer.OpenGL.GlBuffer;
 import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Shader;
-import Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
+import Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
 
 namespace Zephyr::RHI::OpenGL
 {

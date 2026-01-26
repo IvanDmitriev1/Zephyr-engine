@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h> 
 
-export module Zephyr.Renderer.OpenGL.Resources.GlVertexArrayTypes;
+export module Zephyr.Renderer.OpenGL.Types.GlVertexArrayTypes;
 
 import Zephyr.Renderer.RHI.VertexArrayTypes;
 

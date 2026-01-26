@@ -4,7 +4,7 @@ module;
 
 module Zephyr.Renderer.OpenGL.GlPipeline;
 
-import Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
+import Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.Debug;
 

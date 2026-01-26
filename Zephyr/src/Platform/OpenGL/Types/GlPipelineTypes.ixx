@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h> 
 
-export module Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
+export module Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
 
 import Zephyr.Renderer.RHI.PipelineTypes;
 

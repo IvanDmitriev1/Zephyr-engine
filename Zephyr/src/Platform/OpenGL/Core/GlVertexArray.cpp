@@ -4,7 +4,7 @@ module;
 
 module Zephyr.Renderer.OpenGL.GlVertexArray;
 
-import Zephyr.Renderer.OpenGL.Resources.GlVertexArrayTypes;
+import Zephyr.Renderer.OpenGL.Types.GlVertexArrayTypes;
 import Zephyr.Renderer.OpenGL.Debug;
 import Zephyr.Renderer.OpenGL.GlBuffer;
 

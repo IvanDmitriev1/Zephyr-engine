@@ -2,7 +2,7 @@ module;
 
 #include <glad/glad.h> 
 
-export module Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
+export module Zephyr.Renderer.OpenGL.Types.GlTextureTypes;
 
 import Zephyr.Renderer.RHI.TextureTypes;
 
