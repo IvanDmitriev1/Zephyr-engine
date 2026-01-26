@@ -1,8 +1,8 @@
 export module ZephyrEditor.App;
 
 import Zephyr.App;
-import Zephyr.Renderer.Core.IFrameBuffer;
-import Zephyr.Renderer.Core.IRenderPassEncoder;
+import Zephyr.Renderer.RHI.IFrameBuffer;
+import Zephyr.Renderer.RHI.IRenderPassEncoder;
 import Zephyr.Scene.World;
 import Zephyr.Scene;
 

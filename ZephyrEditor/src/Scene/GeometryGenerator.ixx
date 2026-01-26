@@ -1,8 +1,8 @@
 export module ZephyrEditor.GeometryGenerator;
 
-export import Zephyr.Renderer.Resources.Vertex3d;
+export import Zephyr.Renderer.Types.Vertex3d;
 export import Zephyr.Renderer.Renderables.Mesh;
-export import Zephyr.Renderer.Core.Device;
+export import Zephyr.Renderer.RHI.Device;
 
 using namespace Zephyr;
 
