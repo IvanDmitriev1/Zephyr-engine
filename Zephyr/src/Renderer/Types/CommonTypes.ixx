@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Resources.CommonTypes;
+export module Zephyr.Renderer.Types.CommonTypes;
 
 import std.compat;
 

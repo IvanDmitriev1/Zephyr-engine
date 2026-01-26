@@ -1,7 +1,7 @@
-export module Zephyr.Renderer.Resources.RenderGraphTypes;
+export module Zephyr.Renderer.Types.RenderGraphTypes;
 
-export import Zephyr.Renderer.Core.IBuffer;
-export import Zephyr.Renderer.Core.IFrameBuffer;
+export import Zephyr.Renderer.RHI.IBuffer;
+export import Zephyr.Renderer.RHI.IFrameBuffer;
 export import Zephyr.Renderer.RenderQueue;
 export import Zephyr.Core.CoreTypes;
 

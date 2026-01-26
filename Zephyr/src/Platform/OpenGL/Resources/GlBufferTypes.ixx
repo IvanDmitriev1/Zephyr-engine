@@ -4,7 +4,7 @@ module;
 
 export module Zephyr.Renderer.OpenGL.Resources.GlBufferTypes;
 
-import Zephyr.Renderer.Resources.BufferTypes;
+import Zephyr.Renderer.RHI.BufferTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {

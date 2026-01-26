@@ -1,6 +1,6 @@
-module Zephyr.Renderer.Core.Device;
+module Zephyr.Renderer.RHI.Device;
 
-import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.RHI.Device;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.GlFrameBuffer;
 import Zephyr.Renderer.OpenGL.GlRenderPassEncoder;

@@ -1,9 +1,9 @@
-export module Zephyr.Renderer.Core.IRenderPassEncoder;
+export module Zephyr.Renderer.RHI.IRenderPassEncoder;
 
-export import Zephyr.Renderer.Resources.RenderPassTypes;
-export import Zephyr.Renderer.Core.IPipeline;
-export import Zephyr.Renderer.Core.IVertexArray;
-export import Zephyr.Renderer.Resources.RenderPassEncoderTypes;
+export import Zephyr.Renderer.RHI.RenderPassTypes;
+export import Zephyr.Renderer.RHI.IPipeline;
+export import Zephyr.Renderer.RHI.IVertexArray;
+export import Zephyr.Renderer.RHI.RenderPassEncoderTypes;
 
 export namespace Zephyr::RHI
 {

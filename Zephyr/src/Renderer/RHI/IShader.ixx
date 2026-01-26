@@ -1,6 +1,6 @@
-export module Zephyr.Renderer.Core.IShader;
+export module Zephyr.Renderer.RHI.IShader;
 
-export import Zephyr.Renderer.Resources.ShaderTypes;
+export import Zephyr.Renderer.RHI.ShaderTypes;
 export import glm;
 
 export namespace Zephyr::RHI

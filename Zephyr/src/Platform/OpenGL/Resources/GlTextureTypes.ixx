@@ -4,7 +4,7 @@ module;
 
 export module Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
 
-import Zephyr.Renderer.Resources.TextureTypes;
+import Zephyr.Renderer.RHI.TextureTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {

@@ -2,7 +2,7 @@ module Zephyr.Renderer.Renderer;
 
 import Zephyr.Renderer.RenderQueue;
 import Zephyr.Renderer.RenderGraph;
-import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.RHI.Device;
 
 import Zephyr.Renderer.Passes.GeometryPass;
 

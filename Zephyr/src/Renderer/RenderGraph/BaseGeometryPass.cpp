@@ -1,6 +1,6 @@
 module Zephyr.Renderer.BaseGeometryPass;
 
-import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.RHI.Device;
 
 namespace Zephyr
 {

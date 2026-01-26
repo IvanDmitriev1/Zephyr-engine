@@ -4,7 +4,7 @@ module;
 
 export module Zephyr.Renderer.OpenGL.Resources.GlVertexArrayTypes;
 
-import Zephyr.Renderer.Resources.VertexArrayTypes;
+import Zephyr.Renderer.RHI.VertexArrayTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {

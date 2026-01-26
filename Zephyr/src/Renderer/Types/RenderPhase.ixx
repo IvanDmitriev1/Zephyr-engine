@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Resources.RenderPhase;
+export module Zephyr.Renderer.Types.RenderPhase;
 
 import std.compat;
 

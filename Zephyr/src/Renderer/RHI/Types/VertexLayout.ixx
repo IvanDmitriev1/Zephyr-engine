@@ -1,6 +1,6 @@
-export module Zephyr.Renderer.Resources.VertexLayout;
+export module Zephyr.Renderer.RHI.VertexLayout;
 
-export import Zephyr.Renderer.Resources.VertexLayoutTypes;
+export import Zephyr.Renderer.RHI.VertexLayoutTypes;
 
 export namespace Zephyr::RHI
 {

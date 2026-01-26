@@ -4,7 +4,7 @@ module;
 
 export module Zephyr.Renderer.OpenGL.Resources.GlShaderTypes;
 
-import Zephyr.Renderer.Resources.ShaderTypes;
+import Zephyr.Renderer.RHI.ShaderTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {

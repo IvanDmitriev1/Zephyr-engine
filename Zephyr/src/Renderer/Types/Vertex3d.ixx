@@ -1,6 +1,6 @@
-export module Zephyr.Renderer.Resources.Vertex3d;
+export module Zephyr.Renderer.Types.Vertex3d;
 
-export import Zephyr.Renderer.Resources.VertexLayout;
+export import Zephyr.Renderer.RHI.VertexLayout;
 export import glm;
 
 export namespace Zephyr

@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlRenderPassEncoder;
 
-export import Zephyr.Renderer.Core.IRenderPassEncoder;
+export import Zephyr.Renderer.RHI.IRenderPassEncoder;
 
 export namespace Zephyr::RHI::OpenGL
 {

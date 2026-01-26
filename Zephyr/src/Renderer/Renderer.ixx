@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.Renderer;
 
-export import Zephyr.Renderer.Resources.RendererTypes;
-export import Zephyr.Renderer.Core.IFrameBuffer;
+export import Zephyr.Renderer.Types.RendererTypes;
+export import Zephyr.Renderer.RHI.IFrameBuffer;
 
 export namespace Zephyr::Renderer
 {

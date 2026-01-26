@@ -1,8 +1,8 @@
-export module Zephyr.Renderer.Resources.MaterialTypes;
+export module Zephyr.Renderer.Types.MaterialTypes;
 
-export import Zephyr.Renderer.Resources.RenderPassEncoderTypes;
-export import Zephyr.Renderer.Resources.PipelineTypes;
-export import Zephyr.Renderer.Resources.RenderPhase;
+export import Zephyr.Renderer.RHI.RenderPassEncoderTypes;
+export import Zephyr.Renderer.RHI.PipelineTypes;
+export import Zephyr.Renderer.Types.RenderPhase;
 
 export namespace Zephyr
 {

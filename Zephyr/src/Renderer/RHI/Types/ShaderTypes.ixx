@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Resources.ShaderTypes;
+export module Zephyr.Renderer.RHI.ShaderTypes;
 
 export import std.compat;
 

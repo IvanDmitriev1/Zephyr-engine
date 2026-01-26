@@ -1,6 +1,6 @@
-export module Zephyr.Renderer.Core.IPipeline;
+export module Zephyr.Renderer.RHI.IPipeline;
 
-export import Zephyr.Renderer.Resources.PipelineTypes;
+export import Zephyr.Renderer.RHI.PipelineTypes;
 
 export namespace Zephyr::RHI
 {

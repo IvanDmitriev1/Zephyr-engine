@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.BaseGeometryPass;
 
 export import Zephyr.Renderer.IRenderGraphPass;
-export import Zephyr.Renderer.Core.IRenderPassEncoder;
+export import Zephyr.Renderer.RHI.IRenderPassEncoder;
 
 export namespace Zephyr
 {

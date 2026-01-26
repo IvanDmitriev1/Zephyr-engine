@@ -1,11 +1,11 @@
-export module Zephyr.Renderer.Core.Device;
+export module Zephyr.Renderer.RHI.Device;
 
 export import Zephyr.Core.CoreTypes;
 export import Zephyr.Renderer.IWindow;
-export import Zephyr.Renderer.Core.IShader;
-export import Zephyr.Renderer.Core.IFrameBuffer;
-export import Zephyr.Renderer.Core.IRenderPassEncoder;
-export import Zephyr.Renderer.Core.IBuffer;
+export import Zephyr.Renderer.RHI.IShader;
+export import Zephyr.Renderer.RHI.IFrameBuffer;
+export import Zephyr.Renderer.RHI.IRenderPassEncoder;
+export import Zephyr.Renderer.RHI.IBuffer;
 
 export namespace Zephyr::RHI::Device
 {

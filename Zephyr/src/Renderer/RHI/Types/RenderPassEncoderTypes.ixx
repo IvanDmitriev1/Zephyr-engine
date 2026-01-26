@@ -1,7 +1,7 @@
-export module Zephyr.Renderer.Resources.RenderPassEncoderTypes;
+export module Zephyr.Renderer.RHI.RenderPassEncoderTypes;
 
-export import Zephyr.Renderer.Core.IBuffer;
-export import Zephyr.Renderer.Core.ITexture;
+export import Zephyr.Renderer.RHI.IBuffer;
+export import Zephyr.Renderer.RHI.ITexture;
 export import Zephyr.Core.CoreTypes;
 export import glm;
 

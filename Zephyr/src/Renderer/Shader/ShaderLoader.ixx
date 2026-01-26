@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Shader.ShaderLoader;
 
-export import Zephyr.Renderer.Core.Device;
+export import Zephyr.Renderer.RHI.Device;
 
 export namespace Zephyr
 {

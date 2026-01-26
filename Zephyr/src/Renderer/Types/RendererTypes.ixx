@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.Resources.RendererTypes;
+export module Zephyr.Renderer.Types.RendererTypes;
 
 export import Zephyr.Renderer.Renderables.Mesh;
 export import Zephyr.Renderer.Renderables.Material;

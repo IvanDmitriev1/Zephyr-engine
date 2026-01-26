@@ -4,7 +4,7 @@ module;
 
 export module Zephyr.Renderer.OpenGL.Resources.GlPipelineTypes;
 
-import Zephyr.Renderer.Resources.PipelineTypes;
+import Zephyr.Renderer.RHI.PipelineTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {
