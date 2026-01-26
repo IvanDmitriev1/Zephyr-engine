@@ -3,7 +3,7 @@ export module Zephyr.Renderer.IWindow;
 export import Zephyr.Renderer.WindowTypes;
 export import Zephyr.Renderer.Ui.IUiRenderContext;
 export import Zephyr.Core.CoreTypes;
-export import Zephyr.Renderer.Resources.CommonTypes;
+export import Zephyr.Renderer.Types.CommonTypes;
 export import zephyr.events.IEvent;
 
 export namespace Zephyr

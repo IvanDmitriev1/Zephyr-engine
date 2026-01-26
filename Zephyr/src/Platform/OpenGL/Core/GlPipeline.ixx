@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlPipeline;
 
-export import Zephyr.Renderer.Core.IPipeline;
+export import Zephyr.Renderer.RHI.IPipeline;
 
 export namespace Zephyr::RHI::OpenGL
 {

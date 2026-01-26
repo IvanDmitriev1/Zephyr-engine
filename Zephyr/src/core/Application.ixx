@@ -6,7 +6,7 @@ export import zephyr.events.IEvent;
 export import zephyr.logging.LoggerBuilder;
 export import zephyr.logging.LogBuffer;
 
-export import Zephyr.Renderer.Core.Device;
+export import Zephyr.Renderer.RHI.Device;
 export import Zephyr.Renderer.Window;
 
 import Zephyr.Renderer.Shader.ShaderLoader;

@@ -4,7 +4,7 @@ module;
 
 module ZephyrEditor.App;
 
-import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.RHI.Device;
 import Zephyr.Renderer.Renderer;
 
 import Zephyr.Scene.Systems.TransformSystem;

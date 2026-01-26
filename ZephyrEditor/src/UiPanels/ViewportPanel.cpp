@@ -1,7 +1,7 @@
 module ZephyrEditor.ViewportPanel;
 
 import Zephyr.Scene.Components.CameraComponent;
-import Zephyr.Renderer.Core.Device;
+import Zephyr.Renderer.RHI.Device;
 import Zephyr.Renderer.Renderer;
 
 import ZephyrEditor.SceneSetup;

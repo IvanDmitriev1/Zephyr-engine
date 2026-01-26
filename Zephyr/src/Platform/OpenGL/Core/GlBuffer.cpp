@@ -4,7 +4,7 @@ module;
 
 module Zephyr.Renderer.OpenGL.GlBuffer;
 
-import Zephyr.Renderer.OpenGL.Resources.GlBufferTypes;
+import Zephyr.Renderer.OpenGL.Types.GlBufferTypes;
 import Zephyr.Core.CoreTypes;
 import Zephyr.Renderer.OpenGL.Debug;
 

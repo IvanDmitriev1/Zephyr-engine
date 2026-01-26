@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Renderables.Mesh;
 
-export import Zephyr.Renderer.Core.IVertexArray;
+export import Zephyr.Renderer.RHI.IVertexArray;
 
 export namespace Zephyr
 {

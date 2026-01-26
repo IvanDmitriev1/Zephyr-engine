@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.OpenGL.GlFrameBuffer;
 
-export import Zephyr.Renderer.Core.IFrameBuffer;
+export import Zephyr.Renderer.RHI.IFrameBuffer;
 export import Zephyr.Renderer.OpenGL.GlTexture;
-export import Zephyr.Renderer.Resources.RenderPassTypes;
+export import Zephyr.Renderer.RHI.RenderPassTypes;
 
 export namespace Zephyr::RHI::OpenGL
 {

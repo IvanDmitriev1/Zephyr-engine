@@ -4,7 +4,7 @@ module;
 
 module Zephyr.Renderer.OpenGL.GlTexture;
 
-import Zephyr.Renderer.OpenGL.Resources.GlTextureTypes;
+import Zephyr.Renderer.OpenGL.Types.GlTextureTypes;
 import Zephyr.Core.CoreTypes;
 import Zephyr.Renderer.OpenGL.Debug;
 
