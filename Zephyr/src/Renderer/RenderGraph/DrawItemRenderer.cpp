@@ -72,26 +72,12 @@ namespace Zephyr
 			desc.Rasterizer.Polygon = RHI::PolygonMode::Wireframe;
 			desc.Depth.DepthTestEnable = true;
 			desc.Depth.DepthWriteEnable = false;
-			desc.Depth.DepthCompare = RHI::CompareOp::GreaterEqual;
 			break;
 
 		default:
 			desc.Rasterizer.Polygon = RHI::PolygonMode::Fill;
 			break;
 		}
-
-		// Apply overrides
-		if (config.PolygonModeOverride)
-			desc.Rasterizer.Polygon = *config.PolygonModeOverride;
-
-		if (config.DepthTestOverride)
-			desc.Depth.DepthTestEnable = *config.DepthTestOverride;
-
-		if (config.DepthWriteOverride)
-			desc.Depth.DepthWriteEnable = *config.DepthWriteOverride;
-
-		if (config.BlendOverride)
-			desc.Blend.Enable = *config.BlendOverride;
 	}
 
 	void DrawItemRenderer::RenderItem(RHI::IRenderPassEncoder & encoder, const DrawItem & item, const PassExecutionContext & ctx)

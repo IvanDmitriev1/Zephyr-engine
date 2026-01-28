@@ -24,7 +24,7 @@ namespace Zephyr
 
 		auto& runtime = world.GetComponent<CameraRuntimeComponent>(entity);
 
-		runtime.Projection = glm::perspective(
+		runtime.Projection = glm::perspectiveRH_ZO(
 			glm::radians(camera.Fov),
 			camera.AspectRatio,
 			camera.Near,

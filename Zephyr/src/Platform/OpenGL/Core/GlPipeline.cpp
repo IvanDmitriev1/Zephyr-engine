@@ -72,6 +72,7 @@ namespace Zephyr::RHI::OpenGL
 
         glDepthMask(m_Desc.Depth.DepthWriteEnable ? GL_TRUE : GL_FALSE);
         glDepthFunc(ToGlCompare(m_Desc.Depth.DepthCompare));
+		glDepthMask(GL_TRUE);
     }
 
     void GlPipeline::ApplyBlendState()

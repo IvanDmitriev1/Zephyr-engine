@@ -18,11 +18,6 @@ export namespace Zephyr
 	{
 		DrawCategory Category = DrawCategory::Opaque;
 		ViewportRenderMode RenderMode = ViewportRenderMode::Shaded;
-
-		std::optional<RHI::PolygonMode> PolygonModeOverride{};
-		std::optional<bool> DepthTestOverride{};
-		std::optional<bool> DepthWriteOverride{};
-		std::optional<bool> BlendOverride{};
 	};
 
 	namespace Utils

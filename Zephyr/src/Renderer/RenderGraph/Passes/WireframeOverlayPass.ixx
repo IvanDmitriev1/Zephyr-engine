@@ -26,8 +26,9 @@ export namespace Zephyr
 					}
 				}),
 				.Depth = RHI::DepthAttachment{
-					.Load = RHI::LoadOp::Load,
+					.Load = RHI::LoadOp::Clear,
 					.Store = RHI::StoreOp::Store,
+					.ClearDepth = 1.0f
 				},
 				.DebugName = "WireframeOverlayPass"
 			};
