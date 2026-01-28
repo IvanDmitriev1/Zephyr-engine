@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.Types.DrawItemRendererTypes;
 
+export import Zephyr.Renderer.RHI.RenderPassTypes;
 export import Zephyr.Renderer.Types.DrawCategory;
-export import Zephyr.Renderer.RHI.PipelineTypes;
 
 export namespace Zephyr
 {
@@ -16,6 +16,7 @@ export namespace Zephyr
 
 	struct DrawItemExecutionConfig
 	{
+		RHI::DepthAttachment Depth{};
 		DrawCategory Category = DrawCategory::Opaque;
 		ViewportRenderMode RenderMode = ViewportRenderMode::Shaded;
 	};

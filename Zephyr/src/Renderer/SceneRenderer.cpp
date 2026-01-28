@@ -5,8 +5,10 @@ import Zephyr.Scene.Components.CameraComponent;
 import Zephyr.Scene.Components.TransformComponent;
 import Zephyr.Scene.Components.MeshComponent;
 
+import Zephyr.Renderer.Types.Frustum;
 import Zephyr.Renderer.Passes.GBufferPass;
 import Zephyr.Renderer.Passes.WireframeOverlayPass;
+import Zephyr.Renderer.Passes.DepthPrepass;
 
 namespace Zephyr
 {
@@ -30,6 +32,7 @@ namespace Zephyr
 		m_Resources.CameraBuffer = RHI::Device::CreateBuffer(cameraDesc);
 		m_Resources.ObjectBuffer = RHI::Device::CreateBuffer(objectDesc);
 
+		m_Graph.AddPass<DepthPrepass>();
 		m_Graph.AddPass<GBufferPass>();
 		m_Graph.AddPass<WireframeOverlayPass>();
 	}
@@ -60,17 +63,21 @@ namespace Zephyr
 			std::as_bytes(std::span{ &cameraData, 1 })
 		);
 
+		const Frustum cameraFrustum = Frustum::ExtractFromMatrix(cameraData.ViewProjection);
 		auto renderables = m_World.GetEntitiesWith<TransformComponent, MeshComponent>();
+		const glm::vec3 cameraPosition = glm::vec3(cameraData.Position);
 
 		for (Entity entity : renderables)
 		{
-			auto& transform = m_World.GetComponent<TransformRuntimeComponent>(entity);
-			auto& mesh = m_World.GetComponent<MeshComponent>(entity);
+			const auto& transform = m_World.GetComponent<TransformRuntimeComponent>(entity);
+			const auto& mesh = m_World.GetComponent<MeshComponent>(entity);
 
-			// TODO: Calculate distance from camera for sorting
-			const glm::vec3 cameraPos = glm::vec3(cameraData.Position);
+			const AABB worldBounds = AABB::TransformAabbToWorld(mesh.MeshData->GetBounds(), transform.LocalToWorld);
+			if (!cameraFrustum.IsVisible(worldBounds))
+				continue;
+
 			const glm::vec3 objectPos = glm::vec3(transform.LocalToWorld[3]);
-			const float distance = glm::length(objectPos - cameraPos);
+			const float distance = glm::length(objectPos - cameraPosition);
 
 			DrawItem item{
 				.Mesh = mesh.MeshData,

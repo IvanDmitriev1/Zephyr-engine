@@ -228,7 +228,8 @@ namespace ZephyrEditor
 		return CreateRef<Mesh>(MeshCreateDesc{
 			.Vao = vao,
 			.VertexCount = static_cast<uint32_t>(vertices.size()),
-			.IndexCount = static_cast<uint32_t>(indices.size())
+			.IndexCount = static_cast<uint32_t>(indices.size()),
+			.LocalBounds = AABB::ComputeLocalBounds({vertices.data(), vertices.size()})
 							   });
 	}
 }

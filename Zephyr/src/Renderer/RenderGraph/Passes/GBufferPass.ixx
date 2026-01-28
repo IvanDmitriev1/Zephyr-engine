@@ -8,9 +8,6 @@ export namespace Zephyr
 	class GBufferPass final : public IRenderGraphPass
 	{
 	public:
-		GBufferPass() = default;
-		~GBufferPass() = default;
-
 		std::string_view GetName() const noexcept override { return "GBufferPass"; }
 		void Execute(PassExecutionContext& ctx) override;
 

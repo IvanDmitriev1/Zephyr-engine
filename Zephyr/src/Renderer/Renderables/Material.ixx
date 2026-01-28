@@ -7,7 +7,13 @@ export namespace Zephyr
 	class Material final
 	{
 	public:
-		explicit Material(const MaterialDesc& desc);
+		explicit Material(const MaterialDesc& desc)
+			:m_Name(std::move(desc.Name)),
+			m_Shader(std::move(desc.Shader)),
+			m_Type(desc.Type),
+			m_Properties(desc.Properties),
+			m_Bindings(std::move(desc.Bindings)) {}
+
 		~Material() = default;
 
 		inline std::string_view GetName() const noexcept { return m_Name; }

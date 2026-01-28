@@ -39,27 +39,24 @@ namespace Zephyr
 
 	void DrawItemRenderer::ConfigurePipeline(RHI::GraphicsPipelineDesc& desc, const DrawItemExecutionConfig& config)
 	{
+		desc.Depth.DepthTestEnable = config.Depth.DepthTestEnable;
+		desc.Depth.DepthWriteEnable = config.Depth.DepthWriteEnable;
+
 		// Default settings based on category
 		switch (config.Category)
 		{
 		case DrawCategory::Opaque:
 		case DrawCategory::AlphaMasked:
-			desc.Depth.DepthTestEnable = true;
-			desc.Depth.DepthWriteEnable = true;
 			desc.Blend.Enable = false;
 			desc.Rasterizer.Cull = RHI::CullMode::Back;
 			break;
 
 		case DrawCategory::Transparent:
-			desc.Depth.DepthTestEnable = true;
-			desc.Depth.DepthWriteEnable = false;
 			desc.Blend.Enable = true;
 			desc.Rasterizer.Cull = RHI::CullMode::None;
 			break;
 
 		case DrawCategory::Overlay:
-			desc.Depth.DepthTestEnable = false;
-			desc.Depth.DepthWriteEnable = false;
 			desc.Blend.Enable = true;
 			desc.Rasterizer.Cull = RHI::CullMode::None;
 			break;

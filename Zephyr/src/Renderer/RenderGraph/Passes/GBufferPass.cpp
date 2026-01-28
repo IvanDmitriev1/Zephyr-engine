@@ -18,27 +18,32 @@ namespace Zephyr
 			.Target = ctx.Target,
 			.Colors = std::to_array<RHI::ColorAttachment>(
 			{
-				{.Load = RHI::LoadOp::Clear, .Store = RHI::StoreOp::Store, .Clear = {0.1f, 0.1f, 0.15f, 1.0f} },
-
+				{
+					.Load = RHI::LoadOp::Clear,
+					.Store = RHI::StoreOp::Store,
+					.Clear = {0.1f, 0.1f, 0.15f, 1.0f}
+				},
 			}),
-			.Depth = RHI::DepthAttachment{.Load = RHI::LoadOp::Clear, .Store = RHI::StoreOp::DontCare, .ClearDepth = 1.0f },
-			.DebugName = "GeometryPass"
+			.Depth = RHI::DepthAttachment
+			{
+				.Load = RHI::LoadOp::Load,
+				.Store = RHI::StoreOp::Store,
+				.DepthTestEnable = true,
+				.DepthWriteEnable = false
+			},
+			.DebugName = "ForwardPass"
 		};
 
 		auto encoder = RHI::Device::CreateRenderPassEncoder(passDesc);
 
-		auto cameraBinding = std::to_array<RHI::ResourceBinding>({
-			{ RHI::UniformBindings::Camera, ctx.Resources.CameraBuffer }
-																 });
-		encoder->BindResources(cameraBinding);
-
-
 		DrawItemRenderer::RenderCategory(*encoder, ctx, {
+			.Depth = *passDesc.Depth,
 			.Category = DrawCategory::Opaque,
 			.RenderMode = ctx.RenderMode
 										 });
 
 		DrawItemRenderer::RenderCategory(*encoder, ctx, {
+			.Depth = *passDesc.Depth,
 			.Category = DrawCategory::AlphaMasked,
 			.RenderMode = ctx.RenderMode
 										 });

@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.RHI.RenderPassTypes;
 
 export import Zephyr.Renderer.RHI.IFrameBuffer;
+export import Zephyr.Renderer.RHI.PipelineTypes;
 import std.compat;
 
 export namespace Zephyr::RHI
@@ -31,6 +32,9 @@ export namespace Zephyr::RHI
         LoadOp Load = LoadOp::Clear;
         StoreOp Store = StoreOp::Store;
         float ClearDepth = 1.0f;
+		bool DepthTestEnable = false;
+		bool DepthWriteEnable = false;
+		CompareOp DepthCompare = CompareOp::LessEqual;
 
         uint32_t ClearStencil = 0;
         bool ClearStencilEnable = false;

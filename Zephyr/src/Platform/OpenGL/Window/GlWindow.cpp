@@ -59,6 +59,8 @@ namespace Zephyr::OpenGL
 		glGetIntegerv(GL_MINOR_VERSION, &minor);
 		log::Info("OpenGL version: {}.{}", major, minor);
 
+		glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
+
 		glfwSetWindowUserPointer(m_window, this);
 		glfwSetWindowCloseCallback(m_window, WindowCloseCallBack);
 		glfwSetFramebufferSizeCallback(m_window, FramebufferSizeCallback);
