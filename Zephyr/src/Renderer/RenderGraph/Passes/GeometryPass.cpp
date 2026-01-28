@@ -24,10 +24,6 @@ namespace Zephyr
 																 });
 		encoder->BindResources(cameraBinding);
 
-		RenderPhases(*encoder, ctx, std::to_array<RenderPhase>({
-			RenderPhase::Background,
-				RenderPhase::Geometry,
-				RenderPhase::AlphaTest
-					 }));
+		RenderPhases(*encoder, ctx, std::to_array<DrawCategory>({ DrawCategory::Opaque }));
 	}
 }

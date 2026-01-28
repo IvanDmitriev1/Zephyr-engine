@@ -5,6 +5,7 @@ export import ZephyrEditor.UiPanel;
 import Zephyr.Renderer.RHI.IFrameBuffer;
 import Zephyr.Scene.World;
 import Zephyr.Renderer.Types.RendererTypes;
+import Zephyr.Renderer.SceneRenderer;
 
 using namespace Zephyr;
 
@@ -32,9 +33,9 @@ export namespace ZephyrEditor
 		std::string m_Title;
 		World& m_World;
 
+		SceneRenderer m_SceneRenderer;
 		Ref<RHI::IFrameBuffer> m_Framebuffer;
 		Entity m_CameraEntity;
-		CameraUniformData m_CameraData{};
 
 		bool m_ResizeRequested = false;
 		Extent2D m_newSize;

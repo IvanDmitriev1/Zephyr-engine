@@ -16,7 +16,7 @@ namespace ZephyrEditor
 			.Name = "BasicMaterial",
 			.Shader = shader,
 			.Type = AlphaMode::Opaque,
-			.Phase = RenderPhase::Geometry
+			.Category = DrawCategory::Opaque
 		};
 		auto material = CreateRef<Material>(matDesc);
 

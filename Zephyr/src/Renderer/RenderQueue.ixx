@@ -13,9 +13,9 @@ export namespace Zephyr
 		void SortQueues();
 
 	public:
-		std::span<const DrawItem> GetPhase(RenderPhase phase) const;
+		std::span<const DrawItem> GetCategory(DrawCategory category) const;
 
 	private:
-		RenderPhaseArray<std::vector<DrawItem>> m_Queues;
+		DrawCategoryArray<std::vector<DrawItem>> m_Queues;
 	};
 }

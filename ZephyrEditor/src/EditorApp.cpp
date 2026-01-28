@@ -5,10 +5,8 @@ module;
 module ZephyrEditor.App;
 
 import Zephyr.Renderer.RHI.Device;
-import Zephyr.Renderer.Renderer;
 
 import Zephyr.Scene.Systems.TransformSystem;
-import Zephyr.Scene.Systems.RenderingSystem;
 import Zephyr.Scene.Systems.CameraSystem;
 
 import ZephyrEditor.SceneSetup;
@@ -45,8 +43,7 @@ void EditorApp::OnInit()
 	m_Scene.AddSystem<ZephyrEditor::DemoSystem>();
 	m_Scene.AddSystem<TransformSystem>();
 	m_Scene.AddSystem<CameraSystem>();
-	m_Scene.AddSystem<RenderingSystem>();
-
+	
 	auto& world = m_Scene.GetWorld();
 	ZephyrEditor::SceneSetup::CreateTestScene(world);
 

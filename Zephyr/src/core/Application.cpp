@@ -3,7 +3,6 @@ module Zephyr.App;
 import zephyr.logging.LogHelpers;
 import zephyr.logging.BufferedLogSink;
 import zephyr.events.ApplicationEvents;
-import Zephyr.Renderer.Renderer;
 
 import <spdlog/spdlog.h>;
 
@@ -24,7 +23,6 @@ namespace Zephyr
 
     void Application::Run()
     {
-		Renderer::Init();
 		OnInit();
 
         m_Running = true;
@@ -40,7 +38,6 @@ namespace Zephyr
 
             if (!m_Minimized)
             {
-				Renderer::BeginFrame();
 				OnUpdate(dt);
 				OnRender();
 
@@ -51,8 +48,6 @@ namespace Zephyr
 				m_window->SwapBuffers();
             }
         }
-
-		Renderer::Shutdown();
     }
 
     void Application::ConfigureLogging()

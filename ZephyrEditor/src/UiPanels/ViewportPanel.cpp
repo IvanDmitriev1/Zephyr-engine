@@ -2,7 +2,6 @@ module ZephyrEditor.ViewportPanel;
 
 import Zephyr.Scene.Components.CameraComponent;
 import Zephyr.Renderer.RHI.Device;
-import Zephyr.Renderer.Renderer;
 
 import ZephyrEditor.SceneSetup;
 
@@ -11,7 +10,7 @@ using namespace Zephyr;
 namespace ZephyrEditor
 {
 	ViewportPanel::ViewportPanel(std::string_view title, World& world)
-		:m_Title(title), m_World(world)
+		:m_Title(title), m_World(world), m_SceneRenderer(world)
 	{
 		RHI::FrameBufferDesc desc
 		{
@@ -34,21 +33,14 @@ namespace ZephyrEditor
 			auto& component = m_World.GetComponent<CameraComponent>(m_CameraEntity);
 			component.AspectRatio = static_cast<float>(m_newSize.Width) / static_cast<float>(m_newSize.Height);
 		}
-
-		if (!m_World.HasComponent<CameraRuntimeComponent>(m_CameraEntity))
-			return;
-	
-		auto& cam = m_World.GetComponent<CameraRuntimeComponent>(m_CameraEntity);
-		m_CameraData =
-		{
-			.ViewProjection = cam.ViewProjection,
-			.Position = { cam.Position, 1.0f }
-		};
 	}
 
 	void ViewportPanel::RenderViewPort()
 	{
-		Renderer::RenderToTarget(m_Framebuffer, m_CameraData);
+		m_SceneRenderer.BeginFrame();
+		m_SceneRenderer.RenderWorld(m_CameraEntity);
+
+		m_SceneRenderer.Execute(m_Framebuffer);
 	}
 
 	void ViewportPanel::OnDisplay()

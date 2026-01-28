@@ -2,7 +2,7 @@ export module Zephyr.Renderer.Types.MaterialTypes;
 
 export import Zephyr.Renderer.RHI.RenderPassEncoderTypes;
 export import Zephyr.Renderer.RHI.PipelineTypes;
-export import Zephyr.Renderer.Types.RenderPhase;
+export import Zephyr.Renderer.Types.DrawCategory;
 
 export namespace Zephyr
 {
@@ -28,19 +28,20 @@ export namespace Zephyr
 		Ref<RHI::IShader> Shader{};
 		AlphaMode Type = AlphaMode::Opaque;
 
-		RenderPhase Phase = RenderPhase::Geometry;
+		DrawCategory Category = DrawCategory::Opaque;
 		MaterialProperties Properties{};
 		std::vector<RHI::ResourceBinding> Bindings{};
 	};
 
-	constexpr RenderPhase GetDefaultPhase(AlphaMode mode) noexcept
+	constexpr DrawCategory GetDefaultDrawCategory(AlphaMode mode) noexcept
 	{
 		switch (mode)
 		{
-		case AlphaMode::Opaque: return RenderPhase::Geometry;
-		case AlphaMode::Cutout: return RenderPhase::AlphaTest;
-		case AlphaMode::Transparent: return RenderPhase::Transparent;
-		default: return RenderPhase::Geometry;
+		case AlphaMode::Opaque: return DrawCategory::Opaque;
+		case AlphaMode::Cutout: return DrawCategory::AlphaMasked;
+		case AlphaMode::Transparent: return DrawCategory::Transparent;
+		default:
+			std::unreachable();
 		}
 	}
 }

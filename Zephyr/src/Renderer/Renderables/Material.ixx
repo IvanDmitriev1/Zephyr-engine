@@ -10,12 +10,11 @@ export namespace Zephyr
 		explicit Material(const MaterialDesc& desc);
 		~Material() = default;
 
-		std::string_view GetName() const noexcept { return m_Name; }
-		const Ref<RHI::IShader>& GetShader() const noexcept { return m_Shader; }
-		AlphaMode GetType() const noexcept { return m_Type; }
-
-		const MaterialProperties& GetProperties() const noexcept { return m_Properties; }
-		std::span<const RHI::ResourceBinding> GetBindings() const noexcept { return { m_Bindings.data(), m_Bindings.size() }; }
+		inline std::string_view GetName() const noexcept { return m_Name; }
+		inline const Ref<RHI::IShader>& GetShader() const noexcept { return m_Shader; }
+		inline AlphaMode GetType() const noexcept { return m_Type; }
+		inline const MaterialProperties& GetProperties() const noexcept { return m_Properties; }
+		inline std::span<const RHI::ResourceBinding> GetBindings() const noexcept { return { m_Bindings.data(), m_Bindings.size() }; }
 
 	private:
 		std::string m_Name;

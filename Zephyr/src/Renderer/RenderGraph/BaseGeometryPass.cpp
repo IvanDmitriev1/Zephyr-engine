@@ -7,14 +7,14 @@ namespace Zephyr
 	void BaseGeometryPass::RenderPhases(
 		RHI::IRenderPassEncoder& encoder,
 		const PassExecutionContext& context,
-		std::span<const RenderPhase> phases)
+		std::span<const DrawCategory> categoryToRender)
 	{
 		const Material* currentMaterial = nullptr;
 		Ref<RHI::IPipeline> currentPipeline = nullptr;
 
-		for (RenderPhase phase : phases)
+		for (DrawCategory category : categoryToRender)
 		{
-			auto items = context.Queue.GetPhase(phase);
+			auto items = context.Queue.GetCategory(category);
 
 			for (const auto& item : items)
 			{
@@ -24,7 +24,7 @@ namespace Zephyr
 
 					RHI::GraphicsPipelineDesc pipelineDesc{};
 					pipelineDesc.Shader = currentMaterial->GetShader();
-					ConfigurePipelineForPhase(pipelineDesc, phase);
+					ConfigurePipelineForPhase(pipelineDesc, category);
 
 					currentPipeline = RHI::Device::CreatePipeline(pipelineDesc);
 					encoder.BindPipeline(currentPipeline);
@@ -51,20 +51,20 @@ namespace Zephyr
 		}
 	}
 
-	void BaseGeometryPass::ConfigurePipelineForPhase(RHI::GraphicsPipelineDesc& desc, RenderPhase phase)
+	void BaseGeometryPass::ConfigurePipelineForPhase(RHI::GraphicsPipelineDesc& desc, DrawCategory category)
 	{
 		desc.Depth.DepthTestEnable = true;
 		desc.Depth.DepthWriteEnable = true;
 		desc.Blend.Enable = false;
 
-		switch (phase)
+		switch (category)
 		{
-		case RenderPhase::Transparent:
+		case DrawCategory::Transparent:
 			desc.Blend.Enable = true;
 			desc.Depth.DepthWriteEnable = false; // Don't write depth for transparents
 			break;
 
-		case RenderPhase::Overlay:
+		case DrawCategory::Overlay:
 			desc.Depth.DepthTestEnable = false; // Always on top
 			desc.Depth.DepthWriteEnable = false;
 			break;

@@ -11,9 +11,9 @@ export namespace Zephyr
 		void RenderPhases(
 			RHI::IRenderPassEncoder& encoder,
 			const PassExecutionContext& context,
-			std::span<const RenderPhase> phasesToRender);
+			std::span<const DrawCategory> categoryToRender);
 
 	private:
-		void ConfigurePipelineForPhase(RHI::GraphicsPipelineDesc& desc, RenderPhase phase);
+		void ConfigurePipelineForPhase(RHI::GraphicsPipelineDesc& desc, DrawCategory category);
 	};
 }

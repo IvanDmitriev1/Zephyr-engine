@@ -11,7 +11,7 @@ export namespace Zephyr
 		Ref<Mesh> Mesh{};
 		Ref<Material> Material{};
 		glm::mat4 Transform{};
-		RenderPhase Phase = RenderPhase::Geometry;
+		DrawCategory Category = DrawCategory::Opaque;
 
 		float DistanceFromCamera = 0.0f;
 	};
