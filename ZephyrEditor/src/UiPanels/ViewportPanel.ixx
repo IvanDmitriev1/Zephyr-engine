@@ -37,6 +37,7 @@ export namespace ZephyrEditor
 		Ref<RHI::IFrameBuffer> m_Framebuffer;
 		Entity m_CameraEntity;
 
+		ViewportRenderMode m_RenderMode = ViewportRenderMode::Shaded;
 		bool m_ResizeRequested = false;
 		Extent2D m_newSize;
 	};

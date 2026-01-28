@@ -53,4 +53,15 @@ export namespace Zephyr::RHI::OpenGL
     {
         return (f == FrontFace::Clockwise) ? GL_CW : GL_CCW;
     }
+
+	GLenum ToGlPolygonMode(PolygonMode mode) noexcept
+	{
+		switch (mode)
+		{
+		case PolygonMode::Fill:      return GL_FILL;
+		case PolygonMode::Wireframe: return GL_LINE;
+		case PolygonMode::Point:     return GL_POINT;
+		}
+		return GL_FILL;
+	}
 }

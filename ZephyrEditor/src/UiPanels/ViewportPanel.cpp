@@ -9,6 +9,25 @@ using namespace Zephyr;
 
 namespace ZephyrEditor
 {
+	static bool ModeButton(const char* label, bool selected)
+	{
+		// Simple "toggle" look: selected button is darker.
+		if (selected)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+		}
+
+		const bool pressed = ImGui::Button(label);
+
+		if (selected)
+			ImGui::PopStyleColor(3);
+
+		return pressed;
+	}
+
+
 	ViewportPanel::ViewportPanel(std::string_view title, World& world)
 		:m_Title(title), m_World(world), m_SceneRenderer(world)
 	{
@@ -40,11 +59,35 @@ namespace ZephyrEditor
 		m_SceneRenderer.BeginFrame();
 		m_SceneRenderer.RenderWorld(m_CameraEntity);
 
-		m_SceneRenderer.Execute(m_Framebuffer);
+		m_SceneRenderer.Execute(m_Framebuffer, m_RenderMode);
 	}
 
 	void ViewportPanel::OnDisplay()
 	{
+		// --- Toolbar row ---
+		{
+			ImGui::PushID("ViewportToolbar");
+
+			// Keep the toolbar compact
+			ImGui::AlignTextToFramePadding();
+			ImGui::TextUnformatted("Mode:");
+			ImGui::SameLine();
+
+			// Shaded
+			if (ModeButton("Shaded", m_RenderMode == ViewportRenderMode::Shaded))
+				m_RenderMode = ViewportRenderMode::Shaded;
+
+			ImGui::SameLine();
+
+			// Wireframe
+			if (ModeButton("Wireframe", m_RenderMode == ViewportRenderMode::Wireframe))
+				m_RenderMode = ViewportRenderMode::Wireframe;
+
+			ImGui::PopID();
+		}
+
+		ImGui::Separator();
+
 		auto fboSize = m_Framebuffer->GetDesc().Size;
 		const ImVec2 avail = ImGui::GetContentRegionAvail();
 

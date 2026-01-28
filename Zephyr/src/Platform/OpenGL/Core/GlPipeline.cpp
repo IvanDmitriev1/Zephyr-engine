@@ -20,6 +20,7 @@ namespace Zephyr::RHI::OpenGL
     {
         ApplyRasterizerState();
         ApplyDepthState();
+		ApplyBlendState();
 
         auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
         glShader.Bind();
@@ -40,15 +41,22 @@ namespace Zephyr::RHI::OpenGL
         glFrontFace(ToGlFrontFace(m_Desc.Rasterizer.Face));
 
         if (m_Desc.Rasterizer.DepthClampEnable)
-        {
             glEnable(GL_DEPTH_CLAMP);
-        }
         else
-        {
             glDisable(GL_DEPTH_CLAMP);
-        }
 
-        glLineWidth(m_Desc.Rasterizer.LineWidth);
+		glLineWidth(1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, ToGlPolygonMode(m_Desc.Rasterizer.Polygon));
+
+		if (m_Desc.Rasterizer.Polygon == PolygonMode::Wireframe)
+		{
+			glEnable(GL_POLYGON_OFFSET_LINE);
+			glPolygonOffset(-1.0f, -1.0f);
+		}
+		else
+		{
+			glDisable(GL_POLYGON_OFFSET_LINE);
+		}
     }
 
     void GlPipeline::ApplyDepthState()

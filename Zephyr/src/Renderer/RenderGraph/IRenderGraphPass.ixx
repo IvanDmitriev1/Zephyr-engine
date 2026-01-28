@@ -11,8 +11,6 @@ export namespace Zephyr
 		virtual ~IRenderGraphPass() = default;
 
 		virtual std::string_view GetName() const noexcept = 0;
-
-		virtual void Initialize() = 0;
 		virtual void Execute(PassExecutionContext& ctx) = 0;
 	};
 }

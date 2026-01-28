@@ -41,12 +41,21 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::Bind()
 	{
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 		glViewport(0, 0, (GLsizei)m_Spec.Size.Width, (GLsizei)m_Spec.Size.Height);
+
+		glEnable(GL_SCISSOR_TEST);
+		glScissor(0, 0, (GLsizei)m_Spec.Size.Width, (GLsizei)m_Spec.Size.Height);
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+
 		// Color clears
 		for (size_t i = 0; i < rp.Colors.size(); ++i)
 		{

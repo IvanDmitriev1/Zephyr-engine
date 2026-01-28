@@ -1,10 +1,12 @@
 module Zephyr.Renderer.SceneRenderer;
 
 import Zephyr.Renderer.RHI.Device;
-import Zephyr.Renderer.Passes.GeometryPass;
 import Zephyr.Scene.Components.CameraComponent;
 import Zephyr.Scene.Components.TransformComponent;
 import Zephyr.Scene.Components.MeshComponent;
+
+import Zephyr.Renderer.Passes.GBufferPass;
+import Zephyr.Renderer.Passes.WireframeOverlayPass;
 
 namespace Zephyr
 {
@@ -28,8 +30,8 @@ namespace Zephyr
 		m_Resources.CameraBuffer = RHI::Device::CreateBuffer(cameraDesc);
 		m_Resources.ObjectBuffer = RHI::Device::CreateBuffer(objectDesc);
 
-		m_Graph.AddPass(CreateScope<GeometryPass>());
-		m_Graph.Initialize();
+		m_Graph.AddPass<GBufferPass>();
+		m_Graph.AddPass<WireframeOverlayPass>();
 	}
 
 	void SceneRenderer::BeginFrame()
@@ -37,7 +39,7 @@ namespace Zephyr
 		m_Queue.BeginFrame();
 	}
 
-	void SceneRenderer::Execute(Ref<RHI::IFrameBuffer> target)
+	void SceneRenderer::Execute(Ref<RHI::IFrameBuffer> target, ViewportRenderMode renderMode)
 	{
 		m_Queue.SortQueues();
 
@@ -45,6 +47,7 @@ namespace Zephyr
 			.Queue = m_Queue,
 			.Resources = m_Resources,
 			.Target = std::move(target),
+			.RenderMode = renderMode
 		};
 
 		m_Graph.Execute(context);

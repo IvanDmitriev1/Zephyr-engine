@@ -14,6 +14,7 @@ export namespace Zephyr::RHI
 
 		// Color
 		RGBA8,
+		RGBA16F,
 		RED_INTEGER,
 		//B8G8R8A8,
 

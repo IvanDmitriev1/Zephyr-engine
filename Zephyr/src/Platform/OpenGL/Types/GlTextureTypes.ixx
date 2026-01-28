@@ -5,57 +5,49 @@ module;
 export module Zephyr.Renderer.OpenGL.Types.GlTextureTypes;
 
 import Zephyr.Renderer.RHI.TextureTypes;
+import Zephyr.Core.Assert;
 
 export namespace Zephyr::RHI::OpenGL
 {
-	constexpr GLenum ToGLInternal(TextureFormat fmt)
+	constexpr GLenum ToGLInternal(TextureFormat fmt) noexcept
 	{
         switch (fmt)
         {
         case TextureFormat::RGBA8:           return GL_RGBA8;
+		case TextureFormat::RGBA16F:         return GL_RGBA16F;
         case TextureFormat::DEPTH24STENCIL8: return GL_DEPTH24_STENCIL8;
-        default:
-            break;
+		default: Unreachable();
         }
-
-        throw std::runtime_error("GlTextureTypes: unsupported TextureFormat");
 	}
 
-    constexpr GLenum ToGLFormat(TextureFormat fmt)
+    constexpr GLenum ToGLFormat(TextureFormat fmt) noexcept
     {
         switch (fmt)
         {
-        case TextureFormat::RGBA8:                 return GL_RGBA;
+        case TextureFormat::RGBA8:
+        case TextureFormat::RGBA16F:               return GL_RGBA;
         case TextureFormat::DEPTH24STENCIL8:       return GL_DEPTH_STENCIL;
-        default:
-            break;
+		default: Unreachable();
         }
-
-        throw std::runtime_error("ToGLFormat: unsupported TextureFormat");
     }
 
-    constexpr GLenum ToGLType(TextureFormat fmt)
+    constexpr GLenum ToGLType(TextureFormat fmt) noexcept
     {
         switch (fmt)
         {
         case TextureFormat::RGBA8:                 return GL_UNSIGNED_BYTE;
+        case TextureFormat::RGBA16F:               return GL_FLOAT;
         case TextureFormat::DEPTH24STENCIL8:       return GL_UNSIGNED_INT_24_8;
-        default:
-            break;
+		default: Unreachable();
         }
-
-        throw std::runtime_error("ToGLType: unsupported TextureFormat");
     }
 
-    constexpr GLenum ToGlAttachment(TextureFormat fmt)
+    constexpr GLenum ToGlAttachment(TextureFormat fmt) noexcept
     {
         switch (fmt)
         {
         case TextureFormat::DEPTH24STENCIL8: return GL_DEPTH_STENCIL_ATTACHMENT;
-        default:
-            break;
+		default: Unreachable();
         }
-
-        throw std::runtime_error("ToGlAttachment: unsupported TextureFormat");
     }
 }

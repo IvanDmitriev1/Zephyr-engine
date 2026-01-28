@@ -45,7 +45,6 @@ export namespace Zephyr::RHI
         PolygonMode Polygon = PolygonMode::Fill;
 
         bool DepthClampEnable = false;
-        float LineWidth = 1.0f;
     };
 
     enum class CompareOp : uint8_t

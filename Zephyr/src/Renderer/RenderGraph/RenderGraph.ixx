@@ -7,15 +7,12 @@ export namespace Zephyr
 	class RenderGraph final
 	{
 	public:
-		void AddPass(Scope<IRenderGraphPass> pass)
+		template<typename TPass, typename ... Args>
+			requires(std::is_base_of_v<IRenderGraphPass, TPass>)
+		void AddPass(Args&& ... args)
 		{
-			m_Passes.push_back(std::move(pass));
-		}
-
-		void Initialize()
-		{
-			for (auto& pass : m_Passes)
-				pass->Initialize();
+			auto pass = CreateScope<TPass>(std::forward<Args>(args)...);
+			m_Passes.emplace_back(std::move(pass));
 		}
 
 		void Execute(PassExecutionContext& context)

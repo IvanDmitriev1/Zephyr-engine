@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.SceneRenderer;
 
 export import Zephyr.Renderer.Types.RendererTypes;
+export import Zephyr.Renderer.Types.DrawItemRendererTypes;
 export import Zephyr.Renderer.RHI.IFrameBuffer;
 export import Zephyr.Renderer.RenderGraph;
 export import Zephyr.Scene.World;
@@ -14,7 +15,7 @@ export namespace Zephyr
 		~SceneRenderer() = default;
 
 		void BeginFrame();
-		void Execute(Ref<RHI::IFrameBuffer> target);
+		void Execute(Ref<RHI::IFrameBuffer> target, ViewportRenderMode renderMode);
 
 		void RenderWorld(Entity cameraEntity);
 
