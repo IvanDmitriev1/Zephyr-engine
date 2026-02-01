@@ -83,7 +83,7 @@ namespace Zephyr
 				.Mesh = mesh.MeshData,
 				.Material = mesh.MaterialInstance,
 				.Transform = transform.LocalToWorld,
-				.Category = GetDefaultDrawCategory(mesh.MaterialInstance->GetType()),
+				.Category = GetDefaultDrawCategory(mesh.MaterialInstance->GetAlphaMode()),
 				.DistanceFromCamera = distance
 			};
 

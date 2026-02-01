@@ -7,11 +7,11 @@ export namespace Zephyr::RHI::OpenGL
 	class GlPipeline final : public IPipeline
 	{
 	public:
-		explicit GlPipeline(GraphicsPipelineDesc desc);
+		explicit GlPipeline(const GraphicsPipelineDesc& desc);
 		~GlPipeline() override = default;
 
 		const GraphicsPipelineDesc& GetDesc() const noexcept override { return m_Desc; }
-		void ApplyState();
+		void Bind();
 
 	private:
 		void ApplyRasterizerState();

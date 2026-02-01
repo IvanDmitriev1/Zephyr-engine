@@ -31,19 +31,15 @@ export namespace Zephyr::RHI
     {
         LoadOp Load = LoadOp::Clear;
         StoreOp Store = StoreOp::Store;
-        float ClearDepth = 1.0f;
-		bool DepthTestEnable = false;
-		bool DepthWriteEnable = false;
-		CompareOp DepthCompare = CompareOp::LessEqual;
 
-        uint32_t ClearStencil = 0;
-        bool ClearStencilEnable = false;
+        float ClearDepth = 1.0f;
+		uint32_t ClearStencil = 0;
     };
 
     struct RenderPassDesc
     {
         Ref<IFrameBuffer> Target{};
-        std::span<const ColorAttachment> Colors{};
+		std::span<const ColorAttachment> Colors{};
         std::optional<DepthAttachment> Depth{};
 
         std::string_view DebugName{};

@@ -10,21 +10,21 @@ import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
 {
-    GlPipeline::GlPipeline(GraphicsPipelineDesc desc)
-        : m_Desc(std::move(desc))
+    GlPipeline::GlPipeline(const GraphicsPipelineDesc& desc)
+        : m_Desc(desc)
     {
     
     }
 
-    void GlPipeline::ApplyState()
+    void GlPipeline::Bind()
     {
-        ApplyRasterizerState();
-        ApplyDepthState();
+		ApplyRasterizerState();
+		ApplyDepthState();
 		ApplyBlendState();
 
-        auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
-        glShader.Bind();
-    }
+		auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
+		glShader.Bind();
+	}
 
     void GlPipeline::ApplyRasterizerState()
     {

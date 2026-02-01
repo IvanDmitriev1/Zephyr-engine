@@ -1,7 +1,7 @@
 module Zephyr.Renderer.Passes.GBufferPass;
 
 import Zephyr.Renderer.RHI.Device;
-import Zephyr.Renderer.DrawItemRenderer;
+import Zephyr.Renderer.DrawBatch;
 
 namespace Zephyr
 {
@@ -28,24 +28,25 @@ namespace Zephyr
 			{
 				.Load = RHI::LoadOp::Load,
 				.Store = RHI::StoreOp::Store,
-				.DepthTestEnable = true,
-				.DepthWriteEnable = false
 			},
 			.DebugName = "ForwardPass"
 		};
 
-		auto encoder = RHI::Device::CreateRenderPassEncoder(passDesc);
+		auto cmdBuffer = RHI::Device::CreateCommandBuffer();
+		
+		{
+			auto encoder = cmdBuffer->BeginRenderPass(passDesc);
 
-		DrawItemRenderer::RenderCategory(*encoder, ctx, {
-			.Depth = *passDesc.Depth,
-			.Category = DrawCategory::Opaque,
-			.RenderMode = ctx.RenderMode
-										 });
+			auto forwardConfig = [](RHI::GraphicsPipelineDesc& desc)
+			{
+				desc.Depth.DepthTestEnable = true;
+				desc.Depth.DepthWriteEnable = false;  // Read depth from prepass
+			};
 
-		DrawItemRenderer::RenderCategory(*encoder, ctx, {
-			.Depth = *passDesc.Depth,
-			.Category = DrawCategory::AlphaMasked,
-			.RenderMode = ctx.RenderMode
-										 });
+			DrawBatch::SubmitCategory(*encoder, ctx, DrawCategory::Opaque, forwardConfig);
+			DrawBatch::SubmitCategory(*encoder, ctx, DrawCategory::AlphaMasked, forwardConfig);
+		}
+
+		cmdBuffer->Execute();
 	}
 }

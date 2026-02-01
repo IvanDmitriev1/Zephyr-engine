@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Types.MaterialTypes;
 
-export import Zephyr.Renderer.RHI.RenderPassEncoderTypes;
+export import Zephyr.Renderer.RHI.RenderEncoderTypes;
 export import Zephyr.Renderer.RHI.PipelineTypes;
 export import Zephyr.Renderer.Types.DrawCategory;
 
@@ -9,8 +9,8 @@ export namespace Zephyr
 	enum class AlphaMode: uint8_t
 	{
 		Opaque,
-		Transparent,
-		Cutout
+		Masked,
+		Blend
 	};
 
 	struct MaterialProperties
@@ -38,10 +38,9 @@ export namespace Zephyr
 		switch (mode)
 		{
 		case AlphaMode::Opaque: return DrawCategory::Opaque;
-		case AlphaMode::Cutout: return DrawCategory::AlphaMasked;
-		case AlphaMode::Transparent: return DrawCategory::Transparent;
-		default:
-			std::unreachable();
+		case AlphaMode::Masked: return DrawCategory::AlphaMasked;
+		case AlphaMode::Blend: return DrawCategory::Transparent;
+		default: Unreachable();
 		}
 	}
 }

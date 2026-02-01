@@ -77,7 +77,7 @@ namespace Zephyr::RHI::OpenGL
 			return;
 
 		const bool clearDepth = (rp.Depth->Load == LoadOp::Clear);
-		const bool clearStencil = rp.Depth->ClearStencilEnable;
+		const bool clearStencil = rp.Depth->ClearStencil;
 
 		if (clearDepth && clearStencil)
 		{

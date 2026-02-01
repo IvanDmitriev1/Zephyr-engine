@@ -61,10 +61,9 @@ export namespace Zephyr::RHI
 
     struct DepthStencilState
     {
+		CompareOp DepthCompare = CompareOp::LessEqual;
         bool DepthTestEnable = true;
         bool DepthWriteEnable = true;
-        CompareOp DepthCompare = CompareOp::LessEqual;
-
         bool StencilTestEnable = false;
     };
 
@@ -82,7 +81,7 @@ export namespace Zephyr::RHI
         DepthStencilState Depth{};
         BlendState Blend{};
 
-        TextureFormat ColorFormat = TextureFormat::RGBA8;
+		TextureFormat ColorFormat{};
         TextureFormat DepthFormat = TextureFormat::DEPTH24STENCIL8;
 
         uint32_t SampleCount = 1; // MSAA

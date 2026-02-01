@@ -13,25 +13,10 @@ export namespace Zephyr::RHI::OpenGL
 		~GlFrameBuffer() override;
 
 	public:
-		const FrameBufferDesc& GetDesc() const noexcept override
-		{
-			return m_Spec;
-		}
-
-		size_t GetColorAttachmentCount() const noexcept override
-		{
-			return m_ColorAttachments.size();
-		}
-
-		std::optional<std::reference_wrapper<const ITexture>> GetDepthAttachment() const override
-		{
-			return m_DepthAttachment;
-		}
-
-		uint32_t GetHandle() const noexcept
-		{
-			return m_FBO;
-		}
+		inline const FrameBufferDesc& GetDesc() const noexcept override { return m_Spec; }
+		inline size_t GetColorAttachmentCount() const noexcept override { return m_ColorAttachments.size(); }
+		inline std::optional<std::reference_wrapper<const ITexture>> GetDepthAttachment() const override { return m_DepthAttachment; }
+		inline uint32_t GetHandle() const noexcept { return m_FBO; }
 
 		const ITexture& GetColorAttachment(size_t index) const override;
 		void Resize(Extent2D newSize) override;

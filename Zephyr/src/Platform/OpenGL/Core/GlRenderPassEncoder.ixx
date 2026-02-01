@@ -1,13 +1,15 @@
 export module Zephyr.Renderer.OpenGL.GlRenderPassEncoder;
 
-export import Zephyr.Renderer.RHI.IRenderPassEncoder;
+export import Zephyr.Renderer.RHI.IRenderEncoder;
+export import Zephyr.Renderer.RHI.RenderPassTypes;
+export import Zephyr.Renderer.OpenGL.GlPipeline;
 
 export namespace Zephyr::RHI::OpenGL
 {
-	class GlRenderPassEncoder final : public IRenderPassEncoder
+	class GlRenderPassEncoder final : public IRenderEncoder
 	{
 	public:
-		explicit GlRenderPassEncoder(const RenderPassDesc& rp);
+		explicit GlRenderPassEncoder(const RenderPassDesc& desc);
 		~GlRenderPassEncoder() override;
 
 	public:
@@ -20,10 +22,10 @@ export namespace Zephyr::RHI::OpenGL
 		void DrawIndexed(uint32_t indexCount, uint32_t firstIndex) override;
 
 	private:
-		uint32_t GetCurrentShaderProgram() const;
+		void BeginRenderPass(const RenderPassDesc& desc);
 
 	private:
-		Ref<IPipeline> m_BoundedPipeline{};
+		Ref<IPipeline> m_CurrentPipeline;
 		Ref<IVertexArray> m_BoundedVao{};
 	};
 }

@@ -12,6 +12,7 @@ export namespace Zephyr::RHI
 
     public:
         virtual std::string_view GetName() const noexcept = 0;
+		virtual size_t GetHash() const noexcept = 0;
     };
 
 }

@@ -1,7 +1,6 @@
 export module Zephyr.Renderer.SceneRenderer;
 
 export import Zephyr.Renderer.Types.RendererTypes;
-export import Zephyr.Renderer.Types.DrawItemRendererTypes;
 export import Zephyr.Renderer.RHI.IFrameBuffer;
 export import Zephyr.Renderer.RenderGraph;
 export import Zephyr.Scene.World;

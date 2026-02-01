@@ -8,6 +8,7 @@ import Zephyr.Renderer.OpenGL.GlPipeline;
 import Zephyr.Renderer.OpenGL.GlBuffer;
 import Zephyr.Renderer.OpenGL.GlVertexArray;
 import Zephyr.Renderer.OpenGL.GlFrameBuffer;
+import Zephyr.Renderer.OpenGL.GlCommandBuffer;
 
 namespace Zephyr::RHI::Device
 {
@@ -21,14 +22,14 @@ namespace Zephyr::RHI::Device
 		return CreateRef<OpenGL::GlShader>(createInfo);
 	}
 
-	Ref<IPipeline> CreatePipeline(GraphicsPipelineDesc desc)
+	Scope<ICommandBuffer> CreateCommandBuffer()
 	{
-		return CreateRef<OpenGL::GlPipeline>(std::move(desc));
+		return CreateScope<OpenGL::GlCommandBuffer>();
 	}
 
-	Scope<IRenderPassEncoder> CreateRenderPassEncoder(const RenderPassDesc& rp)
+	Ref<IPipeline> CreatePipeline(const GraphicsPipelineDesc& desc)
 	{
-		return CreateScope<OpenGL::GlRenderPassEncoder>(rp);
+		return CreateRef<OpenGL::GlPipeline>(desc);
 	}
 
 	Ref<IBuffer> CreateBuffer(BufferDesc desc)
@@ -40,4 +41,6 @@ namespace Zephyr::RHI::Device
 	{
 		return CreateRef<OpenGL::GlVertexArray>(std::move(createInfo));
 	}
+
+
 }

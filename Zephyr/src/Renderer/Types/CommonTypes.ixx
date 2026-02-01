@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.Types.CommonTypes;
 
 import std.compat;
+import Zephyr.Core.Assert;
 
 export namespace Zephyr
 {
@@ -27,4 +28,29 @@ export namespace Zephyr
 
 		constexpr bool operator==(const Rect2D&) const noexcept = default;
 	};
+
+	enum class ViewportRenderMode : uint8_t
+	{
+		Shaded,
+		Wireframe,
+		Unlit,
+		Normals,
+		UVs
+	};
+
+	namespace Utils
+	{
+		constexpr std::string_view ToString(ViewportRenderMode mode) noexcept
+		{
+			switch (mode)
+			{
+			case ViewportRenderMode::Shaded:           return "Shaded";
+			case ViewportRenderMode::Wireframe:        return "Wireframe";
+			case ViewportRenderMode::Unlit:            return "Unlit";
+			case ViewportRenderMode::Normals:          return "Normals";
+			case ViewportRenderMode::UVs:              return "UVs";
+			default:  Unreachable();
+			}
+		}
+	}
 }

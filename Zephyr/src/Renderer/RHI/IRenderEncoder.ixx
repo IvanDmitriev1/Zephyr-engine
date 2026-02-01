@@ -1,16 +1,15 @@
-export module Zephyr.Renderer.RHI.IRenderPassEncoder;
+export module Zephyr.Renderer.RHI.IRenderEncoder;
 
-export import Zephyr.Renderer.RHI.RenderPassTypes;
-export import Zephyr.Renderer.RHI.IPipeline;
+export import Zephyr.Renderer.RHI.RenderEncoderTypes;
 export import Zephyr.Renderer.RHI.IVertexArray;
-export import Zephyr.Renderer.RHI.RenderPassEncoderTypes;
+export import Zephyr.Renderer.RHI.IPipeline;
 
 export namespace Zephyr::RHI
 {
-    class IRenderPassEncoder
+    class IRenderEncoder
     {
     public:
-        virtual ~IRenderPassEncoder() = default;
+        virtual ~IRenderEncoder() = default;
 
 		virtual void BindPipeline(const Ref<IPipeline>& pipeline) = 0;
         virtual void BindVertexArray(const Ref<IVertexArray>& vao) = 0;

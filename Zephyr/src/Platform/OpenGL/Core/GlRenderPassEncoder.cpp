@@ -14,11 +14,9 @@ import Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
 
 namespace Zephyr::RHI::OpenGL
 {
-	GlRenderPassEncoder::GlRenderPassEncoder(const RenderPassDesc& rp)
+	GlRenderPassEncoder::GlRenderPassEncoder(const RenderPassDesc& desc)
 	{
-		auto& glFb = StaticCast<GlFrameBuffer>(rp.Target);
-		glFb.Bind();
-		glFb.ClearForRenderPass(rp);
+		BeginRenderPass(desc);
 	}
 
 	GlRenderPassEncoder::~GlRenderPassEncoder()
@@ -27,14 +25,14 @@ namespace Zephyr::RHI::OpenGL
 	}
 
 	void GlRenderPassEncoder::BindPipeline(const Ref<IPipeline>& pipeline)
-    {
-        auto& glp = StaticCast<GlPipeline>(pipeline);
-        glp.ApplyState();
+	{
+		auto& glp = StaticCast<GlPipeline>(pipeline);
+		glp.Bind();
 
-        m_BoundedPipeline = pipeline;
-    }
+		m_CurrentPipeline = pipeline;
+	}
 
-    void GlRenderPassEncoder::BindVertexArray(const Ref<IVertexArray>& vao)
+	void GlRenderPassEncoder::BindVertexArray(const Ref<IVertexArray>& vao)
     {
         auto& glvao = StaticCast<GlVertexArray>(vao);
         glvao.Bind();
@@ -79,20 +77,20 @@ namespace Zephyr::RHI::OpenGL
 
     void GlRenderPassEncoder::Draw(uint32_t vertexCount, uint32_t firstVertex)
     {
-		Assert(m_BoundedPipeline, "GlCommandList: Draw called without bound pipeline");
+		Assert(m_CurrentPipeline, "GlCommandList: Draw called without bound pipeline");
 		Assert(m_BoundedVao, "GlCommandList: Draw called without bound VAO");
 
-        const auto mode = ToGlTopology(m_BoundedPipeline->GetDesc().Topology);
+        const auto mode = ToGlTopology(m_CurrentPipeline->GetDesc().Topology);
 		glDrawArrays(mode, static_cast<GLint>(firstVertex), static_cast<GLsizei>(vertexCount));
     }
 
     void GlRenderPassEncoder::DrawIndexed(uint32_t indexCount, uint32_t firstIndex)
     {
-		Assert(m_BoundedPipeline, "GlCommandList: DrawIndexed called without bound pipeline");
+		Assert(m_CurrentPipeline, "GlCommandList: DrawIndexed called without bound pipeline");
 		Assert(m_BoundedVao && m_BoundedVao->GetIndexBinding().has_value(),
 			   "GlCommandList: DrawIndexed called without bound index buffer");
 
-        const auto mode = ToGlTopology(m_BoundedPipeline->GetDesc().Topology);
+        const auto mode = ToGlTopology(m_CurrentPipeline->GetDesc().Topology);
         const auto& indexBinding = m_BoundedVao->GetIndexBinding();
         const auto idxType = indexBinding->Type;
 
@@ -103,15 +101,10 @@ namespace Zephyr::RHI::OpenGL
 		glDrawElements(mode, static_cast<GLsizei>(indexCount), glIndexType, offset);
 	}
 
-	uint32_t GlRenderPassEncoder::GetCurrentShaderProgram() const
+	void GlRenderPassEncoder::BeginRenderPass(const RenderPassDesc& desc)
 	{
-		Assert(m_BoundedPipeline, "No pipeline bound");
-
-		auto& glPipeline = StaticCast<GlPipeline>(m_BoundedPipeline);
-		auto& shader = glPipeline.GetDesc().Shader;
-		Assert(shader, "GlCommandList: No active shader program");
-
-		auto& glShader = StaticCast<GlShader>(shader);
-		return glShader.GetRendererID();
+		auto& glFb = StaticCast<GlFrameBuffer>(desc.Target);
+		glFb.Bind();
+		glFb.ClearForRenderPass(desc);
 	}
 }
