@@ -2,11 +2,6 @@ project "Zephyr"
     kind "StaticLib"
     staticruntime "off"
 
-    defines
-    {
-        "GLFW_INCLUDE_NONE",
-    }
-
     includedirs
     {
         "src",
@@ -28,23 +23,15 @@ project "Zephyr"
     }
     removefiles { "**/vendor/**" }
 
-    filter "files:**.glsl"
-        buildaction "None"
-
     filter "system:windows"
+        buildoptions { "/utf-8" }
         systemversion "latest"
         defines
         {
-            "Zephyr_PLATFORM_WINDOWS",
-            "GLFW_EXPOSE_NATIVE_WIN32",
+            "NOMINMAX"
         }
 
     filter "platforms:Opengl"
-        defines
-        {
-            "Zephyr_RENDERER=OpenGL",
-            "ZEPHYR_RENDERER_OPENGL",
-        }
         includedirs
         {
             "%{IncludeDir.glfw}",
@@ -57,3 +44,6 @@ project "Zephyr"
             "glad",
             "glm",
         }
+
+    filter "files:**.glsl"
+        buildaction "None"

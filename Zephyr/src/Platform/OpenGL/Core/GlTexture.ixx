@@ -7,32 +7,35 @@ export namespace Zephyr::RHI::OpenGL
 	class GlTexture final : public ITexture
 	{
 	public:
-		explicit GlTexture(TextureDesc desc);
+		GlTexture() = default;
+		explicit GlTexture(const TextureDesc& desc);
 		~GlTexture() override;
 
 		GlTexture(const GlTexture&) = delete;
 		GlTexture& operator=(const GlTexture&) = delete;
-
 		GlTexture(GlTexture&& other) noexcept;
 		GlTexture& operator=(GlTexture&& other) noexcept;
 
 	public:
-		const TextureDesc& GetDesc() const noexcept override
-		{
-			return m_desc;
-		}
+		inline Extent2D GetSize() const noexcept override { return m_Size; }
+		inline TextureFormat GetFormat() const noexcept override { return m_Format; }
+		inline uint32_t GetMipLevels() const noexcept override { return m_MipLevels; }
+		inline uint32_t GetArrayLayers() const noexcept override { return m_ArrayLayers; }
 
-		const uint32_t GetId() const noexcept
-		{
-			return m_Id;
-		}
+	public:
+		inline uint32_t GetId() const noexcept { return m_Id; }
 
 	private:
 		void Destroy() noexcept;
 		void Invalidate();
 
 	private:
-		TextureDesc m_desc{};
+		Extent2D m_Size{};
+		TextureFormat m_Format = TextureFormat::RGBA8;
+		uint32_t m_MipLevels{ 1 };
+		uint32_t m_ArrayLayers{ 1 };
+		std::string m_Name;
+
 		uint32_t m_Id{};
 	};
 }

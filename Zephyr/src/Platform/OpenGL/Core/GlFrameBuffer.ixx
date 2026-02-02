@@ -9,21 +9,24 @@ export namespace Zephyr::RHI::OpenGL
 	class GlFrameBuffer final : public IFrameBuffer
 	{
 	public:
-		explicit GlFrameBuffer(FrameBufferDesc desc);
+		explicit GlFrameBuffer(const FrameBufferDesc& desc);
 		~GlFrameBuffer() override;
 
 	public:
-		inline const FrameBufferDesc& GetDesc() const noexcept override { return m_Spec; }
+		inline Extent2D GetSize() const noexcept override { return m_Size; }
 		inline size_t GetColorAttachmentCount() const noexcept override { return m_ColorAttachments.size(); }
 		inline std::optional<std::reference_wrapper<const ITexture>> GetDepthAttachment() const override { return m_DepthAttachment; }
-		inline uint32_t GetHandle() const noexcept { return m_FBO; }
-
 		const ITexture& GetColorAttachment(size_t index) const override;
+
 		void Resize(Extent2D newSize) override;
 
 	public:
-		void Bind();
-		void ClearForRenderPass(const RenderPassDesc& rp);
+		inline uint32_t GetHandle() const noexcept { return m_FBO; }
+
+	public:
+		void Bind() const;
+		void Unbind() const;
+		void ClearForRenderPass(const RenderPassDesc& rp) const;
 
 	private:
 		void Destroy() noexcept;
@@ -34,7 +37,11 @@ export namespace Zephyr::RHI::OpenGL
 		void CheckStatus();
 
 	public:
-		FrameBufferDesc m_Spec;
+		Extent2D m_Size{};
+		std::vector<TextureFormat> m_ColorAttachmentDescs;
+		std::optional<TextureFormat> m_DepthAttachmentDesc;
+		std::string m_Name;
+
 		uint32_t m_FBO = 0;
 		std::vector<GlTexture> m_ColorAttachments;
 		std::optional<GlTexture> m_DepthAttachment;

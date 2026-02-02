@@ -37,7 +37,7 @@ export namespace Zephyr
 			return;
 		}
 
-		if (FrameBuffer->GetDesc().Size != size)
+		if (FrameBuffer->GetSize() != size)
 		{
 			FrameBuffer->Resize(size);
 		}
@@ -45,16 +45,19 @@ export namespace Zephyr
 
 	void GBuffer::Create(const GBufferDesc& desc)
 	{
-		RHI::FrameBufferDesc fbDesc{};
-		fbDesc.Size = desc.Size;
-		fbDesc.ColorAttachments = {
+		auto colorFormats = std::to_array<RHI::TextureFormat>(
+		{
 			{ desc.AlbedoFormat },
 			{ desc.NormalFormat },
 			{ desc.EmissiveFormat }
-		};
-		fbDesc.DepthStencilAttachment = RHI::FrameBufferAttachmentDesc{ desc.DepthFormat };
+		});
+
+		RHI::FrameBufferDesc fbDesc{};
+		fbDesc.Size = desc.Size;
+		fbDesc.ColorFormats = colorFormats;
+		fbDesc.DepthFormat = desc.DepthFormat;
 		fbDesc.DebugName = desc.DebugName;
 
-		FrameBuffer = RHI::Device::CreateFrameBuffer(std::move(fbDesc));
+		FrameBuffer = RHI::Device::CreateFrameBuffer(fbDesc);
 	}
 }

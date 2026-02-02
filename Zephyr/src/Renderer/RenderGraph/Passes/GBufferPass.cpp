@@ -10,20 +10,23 @@ namespace Zephyr
 		if (ctx.RenderMode == ViewportRenderMode::Wireframe)
 			return;
 
-		const Extent2D targetSize = ctx.Target->GetDesc().Size;
-		m_GBuffer.EnsureSize(targetSize);
+		const Extent2D targetSize = ctx.Target->GetSize();
+		//m_GBuffer.EnsureSize(targetSize);
+
+		auto colorAttachments = std::to_array<RHI::ColorAttachment>(
+		{
+			{
+				.Load = RHI::LoadOp::Clear,
+				.Store = RHI::StoreOp::Store,
+				.Clear = {0.1f, 0.1f, 0.15f, 1.0f}
+			}
+		});
+
 
 		RHI::RenderPassDesc passDesc
 		{
 			.Target = ctx.Target,
-			.Colors = std::to_array<RHI::ColorAttachment>(
-			{
-				{
-					.Load = RHI::LoadOp::Clear,
-					.Store = RHI::StoreOp::Store,
-					.Clear = {0.1f, 0.1f, 0.15f, 1.0f}
-				},
-			}),
+			.Colors = colorAttachments,
 			.Depth = RHI::DepthAttachment
 			{
 				.Load = RHI::LoadOp::Load,

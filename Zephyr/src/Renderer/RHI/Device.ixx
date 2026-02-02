@@ -11,7 +11,7 @@ export import Zephyr.Renderer.RHI.IPipeline;
 
 export namespace Zephyr::RHI::Device
 {
-	Ref<IFrameBuffer> CreateFrameBuffer(FrameBufferDesc desc);
+	Ref<IFrameBuffer> CreateFrameBuffer(const FrameBufferDesc& desc);
 	Ref<IShader> CreateShader(ShaderCreateInfo createInfo);
 	Scope<ICommandBuffer> CreateCommandBuffer();
 	Ref<IPipeline> CreatePipeline(const GraphicsPipelineDesc& desc);

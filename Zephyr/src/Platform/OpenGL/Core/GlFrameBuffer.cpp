@@ -8,10 +8,15 @@ import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Types.GlTextureTypes;
 import Zephyr.Renderer.OpenGL.Debug;
 
+import zephyr.logging.LogHelpers;
+
 namespace Zephyr::RHI::OpenGL
 {
-	GlFrameBuffer::GlFrameBuffer(FrameBufferDesc desc)
-		:m_Spec(std::move(desc))
+	GlFrameBuffer::GlFrameBuffer(const FrameBufferDesc& desc)
+		: m_Size(desc.Size),
+		m_ColorAttachmentDescs(desc.ColorFormats.begin(), desc.ColorFormats.end()),
+		m_DepthAttachmentDesc(desc.DepthFormat),
+		m_Name(desc.DebugName)
 	{
 		Invalidate();
 	}
@@ -32,29 +37,30 @@ namespace Zephyr::RHI::OpenGL
 		if (newSize.Width == 0 || newSize.Height == 0)
 			return;
 
-		if (m_Spec.Size == newSize)
+		if (m_Size == newSize)
 			return;
-		
-		m_Spec.Size = newSize;
+
+		m_Size = newSize;
 		Invalidate();
 	}
 
-	void GlFrameBuffer::Bind()
+	void GlFrameBuffer::Bind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-		glViewport(0, 0, (GLsizei)m_Spec.Size.Width, (GLsizei)m_Spec.Size.Height);
+		glViewport(0, 0, (GLsizei)m_Size.Width, (GLsizei)m_Size.Height);
 
-		glEnable(GL_SCISSOR_TEST);
-		glScissor(0, 0, (GLsizei)m_Spec.Size.Width, (GLsizei)m_Spec.Size.Height);
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		glDepthMask(GL_TRUE);
-		glDisable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
 	}
 
-	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp)
+	void GlFrameBuffer::Unbind() const
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp) const
+	{
+		glDisable(GL_SCISSOR_TEST);
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 		// Color clears
 		for (size_t i = 0; i < rp.Colors.size(); ++i)
@@ -62,14 +68,15 @@ namespace Zephyr::RHI::OpenGL
 			if (rp.Colors[i].Load != LoadOp::Clear)
 				continue;
 
-			const std::array<float, 4> arr = {
+			const float clearColor[4] =
+			{
 				rp.Colors[i].Clear.R,
 				rp.Colors[i].Clear.G,
 				rp.Colors[i].Clear.B,
 				rp.Colors[i].Clear.A
 			};
 
-			glClearNamedFramebufferfv(m_FBO, GL_COLOR, (GLint)i, arr.data());
+			glClearNamedFramebufferfv(m_FBO, GL_COLOR, static_cast<GLint>(i), clearColor);
 		}
 
 		// Depth / stencil clears
@@ -86,7 +93,7 @@ namespace Zephyr::RHI::OpenGL
 				GL_DEPTH_STENCIL,
 				0,
 				rp.Depth->ClearDepth,
-				(GLint)rp.Depth->ClearStencil
+				static_cast<GLint>(rp.Depth->ClearStencil)
 			);
 		}
 		else if (clearDepth)
@@ -118,41 +125,40 @@ namespace Zephyr::RHI::OpenGL
 		Destroy();
 
 		glCreateFramebuffers(1, &m_FBO);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-		Debug::SetGlDebugLabel(GL_FRAMEBUFFER, m_FBO, m_Spec.DebugName);
+		Bind();
+		Debug::SetGlDebugLabel(GL_FRAMEBUFFER, m_FBO, m_Name);
 
 		CreateAttachments();
 		AttachTextures();
 		CheckStatus();
+
+		Unbind();
 	}
 
 	void GlFrameBuffer::CreateAttachments()
 	{
-		const auto& atts = m_Spec.ColorAttachments;
-		m_ColorAttachments.reserve(atts.size());
+		const size_t count = m_ColorAttachmentDescs.size();
+		m_ColorAttachments.clear();
+		m_ColorAttachments.reserve(count);
 
-		for (auto& a : atts)
+		for (const auto& format : m_ColorAttachmentDescs)
 		{
-			bool rightFormat = !(a.Format == TextureFormat::None || IsDepth(a.Format));
+			bool rightFormat = !(format == TextureFormat::Invalid || IsDepth(format));
 			Assert(rightFormat, "GlFrameBuffer: invalid color attachment");
 
-			m_ColorAttachments.emplace_back(
-				TextureDesc
-				{
-					.Size = m_Spec.Size,
-					.Format = a.Format,
-					.Usage = TextureUsage::RenderTarget | TextureUsage::ShaderRead
-				});
+			m_ColorAttachments.emplace_back(TextureDesc{
+				.Size = m_Size,
+				.Format = format,
+				.Usage = TextureUsage::RenderTarget | TextureUsage::ShaderRead
+											});
 		}
 
-
-		if (m_Spec.DepthStencilAttachment.has_value())
+		if (m_DepthAttachmentDesc.has_value())
 		{
-			m_DepthAttachment.emplace(TextureDesc
-									  {
-										  .Size = m_Spec.Size,
-										  .Format = m_Spec.DepthStencilAttachment->Format,
-										  .Usage = TextureUsage::RenderTarget | TextureUsage::ShaderRead
+			m_DepthAttachment.emplace(TextureDesc{
+				.Size = m_Size,
+				.Format = *m_DepthAttachmentDesc,
+				.Usage = TextureUsage::RenderTarget | TextureUsage::ShaderRead
 									  });
 		}
 	}
@@ -180,7 +186,7 @@ namespace Zephyr::RHI::OpenGL
 
 		if (m_DepthAttachment)
 		{
-			GLenum attachment = ToGlAttachment(m_Spec.DepthStencilAttachment->Format);
+			GLenum attachment = ToGlAttachment(*m_DepthAttachmentDesc);
 			glNamedFramebufferTexture(
 				m_FBO,
 				attachment,
@@ -192,12 +198,24 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::CheckStatus()
 	{
-		if (glCheckNamedFramebufferStatus(m_FBO, GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			throw std::runtime_error("GLFrameBuffer: incomplete framebuffer");
-		}
+		const GLenum status = glCheckNamedFramebufferStatus(m_FBO, GL_FRAMEBUFFER);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		if (status != GL_FRAMEBUFFER_COMPLETE)
+		{
+			const char* error = "Unknown error";
+			switch (status)
+			{
+			case GL_FRAMEBUFFER_UNDEFINED:
+				error = "GL_FRAMEBUFFER_UNDEFINED";
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+				error = "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+				break;
+				// ... more cases
+			}
+
+			throw std::runtime_error(
+				std::string("GLFrameBuffer: incomplete - ") + error);
+		}
 	}
 }

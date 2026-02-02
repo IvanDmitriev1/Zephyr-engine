@@ -12,9 +12,9 @@ import Zephyr.Renderer.OpenGL.GlCommandBuffer;
 
 namespace Zephyr::RHI::Device
 {
-	Ref<IFrameBuffer> CreateFrameBuffer(FrameBufferDesc desc)
+	Ref<IFrameBuffer> CreateFrameBuffer(const FrameBufferDesc& desc)
 	{
-		return CreateRef<OpenGL::GlFrameBuffer>(std::move(desc));
+		return CreateRef<OpenGL::GlFrameBuffer>(desc);
 	}
 
 	Ref<IShader> CreateShader(ShaderCreateInfo createInfo)

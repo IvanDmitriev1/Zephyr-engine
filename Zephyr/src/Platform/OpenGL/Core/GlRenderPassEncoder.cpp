@@ -12,16 +12,22 @@ import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
 
+import zephyr.logging.LogHelpers;
+
 namespace Zephyr::RHI::OpenGL
 {
 	GlRenderPassEncoder::GlRenderPassEncoder(const RenderPassDesc& desc)
+		:m_Framebuffer(desc.Target)
 	{
-		BeginRenderPass(desc);
+		auto& glFb = StaticCast<GlFrameBuffer>(m_Framebuffer);
+		glFb.Bind();
+		glFb.ClearForRenderPass(desc);
 	}
 
 	GlRenderPassEncoder::~GlRenderPassEncoder()
 	{
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		auto& glFb = StaticCast<GlFrameBuffer>(m_Framebuffer);
+		glFb.Unbind();
 	}
 
 	void GlRenderPassEncoder::BindPipeline(const Ref<IPipeline>& pipeline)
@@ -99,12 +105,5 @@ namespace Zephyr::RHI::OpenGL
         const void* offset = reinterpret_cast<const void*>(static_cast<uintptr_t>(firstIndex) * indexSize);
 
 		glDrawElements(mode, static_cast<GLsizei>(indexCount), glIndexType, offset);
-	}
-
-	void GlRenderPassEncoder::BeginRenderPass(const RenderPassDesc& desc)
-	{
-		auto& glFb = StaticCast<GlFrameBuffer>(desc.Target);
-		glFb.Bind();
-		glFb.ClearForRenderPass(desc);
 	}
 }

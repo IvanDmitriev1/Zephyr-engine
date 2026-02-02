@@ -36,10 +36,18 @@ workspace "Zephyr"
     filter "system:windows"
         buildoptions { "/utf-8" }
         defines
-		{
-			"ZEPHYR_PLATFORM_WINDOWS",
-            "NOMINMAX"
-		}
+        {
+            "ZEPHYR_PLATFORM_WINDOWS",
+        }
+
+    filter { "system:windows", "platforms:OpenGL" }
+        defines
+        {
+            "Zephyr_RENDERER=OpenGL",
+            "ZEPHYR_RENDERER_OPENGL",
+            "GLFW_EXPOSE_NATIVE_WIN32",
+            "GLFW_INCLUDE_NONE"
+        }
 
     filter "action:vs2022"
         toolset "v145"

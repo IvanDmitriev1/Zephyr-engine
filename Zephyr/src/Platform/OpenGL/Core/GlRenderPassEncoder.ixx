@@ -22,9 +22,8 @@ export namespace Zephyr::RHI::OpenGL
 		void DrawIndexed(uint32_t indexCount, uint32_t firstIndex) override;
 
 	private:
-		void BeginRenderPass(const RenderPassDesc& desc);
+		Ref<IFrameBuffer> m_Framebuffer;
 
-	private:
 		Ref<IPipeline> m_CurrentPipeline;
 		Ref<IVertexArray> m_BoundedVao{};
 	};

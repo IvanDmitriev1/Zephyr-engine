@@ -5,6 +5,12 @@ import Zephyr.Renderer.RHI.Device;
 
 import ZephyrEditor.SceneSetup;
 
+#ifdef ZEPHYR_RENDERER_OPENGL
+
+import Zephyr.Renderer.OpenGL.GlTexture;
+
+#endif // ZEPHYR_RENDERER_OPENGL
+
 using namespace Zephyr;
 
 namespace ZephyrEditor
@@ -31,11 +37,13 @@ namespace ZephyrEditor
 	ViewportPanel::ViewportPanel(std::string_view title, World& world)
 		:m_Title(title), m_World(world), m_SceneRenderer(world)
 	{
+		auto colorFormats = std::to_array<RHI::TextureFormat>({ RHI::TextureFormat::RGBA8 });
+
 		RHI::FrameBufferDesc desc
 		{
 			.Size = {720, 1080},
-			.ColorAttachments = { {RHI::TextureFormat::RGBA8 }},
-			.DepthStencilAttachment = { { RHI::TextureFormat::DEPTH24STENCIL8 }}
+			.ColorFormats = colorFormats,
+			.DepthFormat = { RHI::TextureFormat::DEPTH24STENCIL8 }
 		};
 
 		m_Framebuffer = RHI::Device::CreateFrameBuffer(std::move(desc));
@@ -88,7 +96,7 @@ namespace ZephyrEditor
 
 		ImGui::Separator();
 
-		auto fboSize = m_Framebuffer->GetDesc().Size;
+		auto fboSize = m_Framebuffer->GetSize();
 		const ImVec2 avail = ImGui::GetContentRegionAvail();
 
 		const ImVec2 scale = ImGui::GetIO().DisplayFramebufferScale;
@@ -103,12 +111,18 @@ namespace ZephyrEditor
 		}
 
 		const auto& texture = m_Framebuffer->GetColorAttachment(0);
-		const ImTextureID texID = (ImTextureID)(intptr_t)texture.GetId();
+
+#ifdef ZEPHYR_RENDERER_OPENGL
+
+		const RHI::OpenGL::GlTexture& glTexture = static_cast<const RHI::OpenGL::GlTexture&>(texture);
+		const ImTextureID texID = (ImTextureID)(intptr_t)glTexture.GetId();
 		// Flip V for GL (0,0 is bottom-left): use UVs (0,1) to (1,0)
 		ImGui::Image(
 			texID,
 			ImVec2((float)fboSize.Width, (float)fboSize.Height),
 			ImVec2(0, 1), ImVec2(1, 0));
+
+#endif // ZEPHYR_RENDERER_OPENGL
 	}
 
 }

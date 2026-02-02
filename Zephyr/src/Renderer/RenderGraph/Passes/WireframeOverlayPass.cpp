@@ -10,15 +10,18 @@ namespace Zephyr
 		if (ctx.RenderMode != ViewportRenderMode::Wireframe)
 			return;
 
+		auto colorAttachments = std::to_array<RHI::ColorAttachment>(
+		{
+			{
+				.Load = RHI::LoadOp::Clear,
+				.Store = RHI::StoreOp::Store,
+				.Clear = {0.1f, 0.1f, 0.15f, 1.0f}
+			}
+		});
+
 		RHI::RenderPassDesc passDesc{
 			.Target = ctx.Target,
-			.Colors = std::to_array<RHI::ColorAttachment>({
-				{
-					.Load = RHI::LoadOp::Clear,
-					.Store = RHI::StoreOp::Store,
-					.Clear = {0.0f, 0.0f, 0.0f, 1.0f}
-				}
-			}),
+			.Colors = colorAttachments,
 			.Depth = RHI::DepthAttachment{
 				.Load = RHI::LoadOp::Load,
 				.Store = RHI::StoreOp::Store,

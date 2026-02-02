@@ -2,9 +2,9 @@ module;
 
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-#ifdef Zephyr_PLATFORM_WINDOWS
+#ifdef ZEPHYR_PLATFORM_WINDOWS
 	#include "spdlog/sinks/msvc_sink.h"
-#endif //Zephyr_PLATFORM_WINDOWS
+#endif //ZEPHYR_PLATFORM_WINDOWS
 
 module zephyr.logging.LoggerBuilder;
 
@@ -18,9 +18,9 @@ namespace Zephyr
 	{
 		AddSink(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 
-		#ifdef Zephyr_PLATFORM_WINDOWS
+		#ifdef ZEPHYR_PLATFORM_WINDOWS
 		AddSink(std::make_shared<spdlog::sinks::msvc_sink_mt>());
-		#endif //Zephyr_PLATFORM_WINDOWS
+		#endif //ZEPHYR_PLATFORM_WINDOWS
 	}
 
 	LoggerBuilder& LoggerBuilder::SetName(std::string_view loggerName)

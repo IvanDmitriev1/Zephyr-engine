@@ -4,17 +4,13 @@ export import Zephyr.Renderer.RHI.TextureTypes;
 
 export namespace Zephyr::RHI
 {
-    struct FrameBufferAttachmentDesc
-    {
-        TextureFormat Format = TextureFormat::RGBA8;
-    };
-
     struct FrameBufferDesc
     {
 		Extent2D Size{};
-        std::vector<FrameBufferAttachmentDesc> ColorAttachments{};
-        std::optional<FrameBufferAttachmentDesc> DepthStencilAttachment{};
+		std::span<const TextureFormat> ColorFormats{};
+		std::optional<TextureFormat> DepthFormat{};
+		uint32_t SampleCount = 1;  // MSAA
 
-        std::string_view DebugName = "FrameBuffer";
+		std::string_view DebugName = "FrameBuffer";
     };
 }

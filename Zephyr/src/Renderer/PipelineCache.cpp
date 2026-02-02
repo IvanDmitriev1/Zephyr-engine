@@ -22,16 +22,11 @@ namespace Zephyr
 		desc.Shader = material.GetShader();
 		desc.Topology = RHI::PrimitiveTopology::Triangles;
 
-		const auto& targetDesc = target->GetDesc();
+		if (target->GetColorAttachmentCount() > 0)
+			desc.ColorFormat = target->GetColorAttachment(0).GetFormat();
 
-		if (!targetDesc.ColorAttachments.empty())
-		{
-			desc.ColorFormat = targetDesc.ColorAttachments[0].Format;
-		}
-		if (targetDesc.DepthStencilAttachment)
-		{
-			desc.DepthFormat = targetDesc.DepthStencilAttachment->Format;
-		}
+		if (auto depthAtt = target->GetDepthAttachment())
+			desc.DepthFormat = depthAtt->get().GetFormat();
 
 		ApplyMaterialDefaults(desc, material);
 

@@ -10,7 +10,7 @@ export namespace Zephyr::RHI
 
 	enum class TextureFormat : uint8_t
 	{
-		None = 0,
+		Invalid = 0,
 
 		// Color
 		RGBA8,
@@ -52,6 +52,10 @@ export namespace Zephyr::RHI
 		Extent2D Size{};
 		TextureFormat Format = TextureFormat::RGBA8;
 		TextureUsage Usage = TextureUsage::ShaderRead;
+
+		uint32_t MipLevels = 1;      // 0 = auto-generate max mips
+		uint32_t ArrayLayers = 1;    // For texture arrays
+		uint32_t SampleCount = 1;    // For MSAA
 
 		std::string_view DebugName{};
 	};

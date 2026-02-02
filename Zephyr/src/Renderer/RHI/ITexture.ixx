@@ -10,8 +10,10 @@ export namespace Zephyr::RHI
 	public:
 		virtual ~ITexture() = default;
 
-		virtual const TextureDesc& GetDesc() const noexcept = 0;
-		virtual const uint32_t GetId() const noexcept = 0;
+		virtual Extent2D GetSize() const noexcept = 0;
+		virtual TextureFormat GetFormat() const noexcept = 0;
+		virtual uint32_t GetMipLevels() const noexcept = 0;
+		virtual uint32_t GetArrayLayers() const noexcept = 0;
 	};
 
 	class ISampler

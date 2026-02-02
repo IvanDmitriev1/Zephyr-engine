@@ -10,8 +10,12 @@ import Zephyr.Renderer.OpenGL.Debug;
 
 namespace Zephyr::RHI::OpenGL
 {
-	GlTexture::GlTexture(TextureDesc desc)
-		:m_desc(std::move(desc))
+	GlTexture::GlTexture(const TextureDesc& desc)
+		: m_Size(desc.Size),
+		m_Format(desc.Format),
+		m_MipLevels(desc.MipLevels > 0 ? desc.MipLevels : 1),
+		m_ArrayLayers(desc.ArrayLayers > 0 ? desc.ArrayLayers : 1),
+		m_Name(desc.DebugName)
 	{
 		Invalidate();
 	}
@@ -22,9 +26,17 @@ namespace Zephyr::RHI::OpenGL
 	}
 
 	GlTexture::GlTexture(GlTexture&& other) noexcept
-		: m_Id(other.m_Id), m_desc(std::move(other.m_desc))
+		: m_Size(other.m_Size)
+		, m_Format(other.m_Format)
+		, m_MipLevels(other.m_MipLevels)
+		, m_ArrayLayers(other.m_ArrayLayers)
+		, m_Name(std::move(other.m_Name))
+		, m_Id(std::exchange(other.m_Id, 0u))
 	{
-		other.m_Id = 0;
+		other.m_Size = {};
+		other.m_Format = TextureFormat::Invalid;
+		other.m_MipLevels = 1;
+		other.m_ArrayLayers = 1;
 	}
 
 	GlTexture& GlTexture::operator=(GlTexture&& other) noexcept
@@ -33,9 +45,19 @@ namespace Zephyr::RHI::OpenGL
 			return *this;
 
 		Destroy();
-		m_Id = other.m_Id;
-		m_desc = std::move(other.m_desc);
-		other.m_Id = 0;
+
+		m_Size = other.m_Size;
+		m_Format = other.m_Format;
+		m_MipLevels = other.m_MipLevels;
+		m_ArrayLayers = other.m_ArrayLayers;
+		m_Name = std::move(other.m_Name);
+		m_Id = std::exchange(other.m_Id, 0u);
+
+		other.m_Size = {};
+		other.m_Format = TextureFormat::RGBA8;
+		other.m_MipLevels = 1;
+		other.m_ArrayLayers = 1;
+
 		return *this;
 	}
 
@@ -52,20 +74,48 @@ namespace Zephyr::RHI::OpenGL
 	{
 		Destroy();
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_Id);
+		GLint target;
+
+		if (m_ArrayLayers > 1)
+			target = GL_TEXTURE_2D_ARRAY;
+		else
+			target = GL_TEXTURE_2D;
+
+		glCreateTextures(target, 1, &m_Id);
 		Assert(m_Id, "GlTexture: glGenTextures failed");
 
-		GLenum internalFmt = ToGLInternal(m_desc.Format);
-		GLenum dataFmt = ToGLFormat(m_desc.Format);
-		GLenum dataType = ToGLType(m_desc.Format);
+		GLenum internalFmt = ToGLInternal(m_Format);
+		GLenum dataFmt = ToGLFormat(m_Format);
+		GLenum dataType = ToGLType(m_Format);
 
-		glTextureStorage2D(m_Id, 1, internalFmt, m_desc.Size.Width, m_desc.Size.Height);
+		if (target == GL_TEXTURE_2D_ARRAY)
+		{
+			glTextureStorage3D(
+				m_Id,
+				m_MipLevels,
+				internalFmt,
+				m_Size.Width,
+				m_Size.Height,
+				m_ArrayLayers
+			);
+		}
+		else
+		{
+			glTextureStorage2D(
+				m_Id,
+				m_MipLevels,
+				internalFmt,
+				m_Size.Width,
+				m_Size.Height
+			);
+		}
 
-		glTextureParameteri(m_Id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_Id, GL_TEXTURE_MIN_FILTER,
+							m_MipLevels > 1 ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 		glTextureParameteri(m_Id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTextureParameteri(m_Id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTextureParameteri(m_Id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		Debug::SetGlDebugLabel(GL_TEXTURE, m_Id, m_desc.DebugName);
+		Debug::SetGlDebugLabel(GL_TEXTURE, m_Id, m_Name);
 	}
 }
