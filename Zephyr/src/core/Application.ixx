@@ -6,10 +6,10 @@ export import zephyr.events.IEvent;
 export import zephyr.logging.LoggerBuilder;
 export import zephyr.logging.LogBuffer;
 
-export import Zephyr.Renderer.RHI.Device;
-export import Zephyr.Renderer.Window;
+export import Zephyr.Renderer.RHI.Interfaces.Device;
+export import Zephyr.Renderer.Platform.Window;
 
-import Zephyr.Renderer.Shader.ShaderLoader;
+import Zephyr.Renderer.Platform.IUiRenderContext;
 
 export namespace Zephyr
 {

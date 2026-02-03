@@ -8,25 +8,6 @@ module Zephyr.Renderer.OpenGL.Window;
 import Zephyr.Renderer.OpenGL.GlImGuiRenderContext;
 import Zephyr.Renderer.OpenGL.Debug;
 
-namespace Zephyr::Window
-{
-	IWindow* g_Window = nullptr;
-
-	Scope<IWindow> CreateMainWindow(const WindowSpecification& spec)
-	{
-		auto window = CreateScope<OpenGL::GlWindow>(spec);
-		g_Window = window.get();
-
-		return window;
-	}
-
-	IWindow& GetMainWindow()
-	{
-		Assert(g_Window, "Window::GetMainWindow() called before Window::CreateMainWindow().");
-		return *g_Window;
-	}
-}
-
 namespace Zephyr::OpenGL
 {
 	GlWindow::GlWindow(const WindowSpecification& spec)

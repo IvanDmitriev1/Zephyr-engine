@@ -1,7 +1,7 @@
 export module ZephyrEditor.App;
 
 import Zephyr.App;
-import Zephyr.Renderer.RHI.IFrameBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Scene.World;
 import Zephyr.Scene;
 

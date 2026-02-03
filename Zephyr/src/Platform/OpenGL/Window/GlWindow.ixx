@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.Window;
 
-export import Zephyr.Renderer.Window;
+import Zephyr.Renderer.Platform.IWindow;
 
 import <GLFW/glfw3.h>;
 

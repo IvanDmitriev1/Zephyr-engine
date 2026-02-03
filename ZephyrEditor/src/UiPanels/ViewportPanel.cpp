@@ -1,14 +1,12 @@
 module ZephyrEditor.ViewportPanel;
 
 import Zephyr.Scene.Components.CameraComponent;
-import Zephyr.Renderer.RHI.Device;
+import Zephyr.Renderer.RHI.Interfaces.Device;
 
 import ZephyrEditor.SceneSetup;
 
 #ifdef ZEPHYR_RENDERER_OPENGL
-
 import Zephyr.Renderer.OpenGL.GlTexture;
-
 #endif // ZEPHYR_RENDERER_OPENGL
 
 using namespace Zephyr;

@@ -11,6 +11,8 @@ import Zephyr.Renderer.OpenGL.GlBuffer;
 import Zephyr.Renderer.OpenGL.GlTexture;
 import Zephyr.Renderer.OpenGL.Shader;
 import Zephyr.Renderer.OpenGL.Types.GlPipelineTypes;
+import std;
+import Zephyr.Core.EnumBitmask;
 
 import zephyr.logging.LogHelpers;
 

@@ -2,8 +2,8 @@ export module ZephyrEditor.SceneSetup;
 
 import ZephyrEditor.GeometryGenerator;
 import Zephyr.Scene.World;
-import Zephyr.Renderer.Shader.ShaderLoader;
-import Zephyr.Renderer.Renderables.Material;
+import Zephyr.Renderer.Shaders.ShaderLoader;
+import Zephyr.Renderer.Resources.Material;
 
 import Zephyr.Scene.Components.TransformComponent;
 import Zephyr.Scene.Components.MeshComponent;
