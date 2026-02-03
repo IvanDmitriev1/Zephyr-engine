@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.RHI.Types.RenderPassTypes;
 
-export import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
-export import Zephyr.Renderer.RHI.Types.PipelineTypes;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
+import Zephyr.Renderer.RHI.Types.PipelineTypes;
 import std.compat;
 
 export namespace Zephyr::RHI

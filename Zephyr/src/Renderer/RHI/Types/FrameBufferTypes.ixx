@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.RHI.Types.FrameBufferTypes;
 
-export import Zephyr.Renderer.RHI.Types.TextureTypes;
+import Zephyr.Renderer.RHI.Types.TextureTypes;
 
 export namespace Zephyr::RHI
 {

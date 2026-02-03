@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Graph.Passes.GBufferPass;
 
-export import Zephyr.Renderer.Graph.IRenderGraphPass;
+import Zephyr.Renderer.Graph.IRenderGraphPass;
 import Zephyr.Renderer.Graph.GBuffer;
 
 export namespace Zephyr

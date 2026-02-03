@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Graph.GBuffer;
 
-export import Zephyr.Renderer.Types.GBufferTypes;
+import Zephyr.Renderer.Types.GBufferTypes;
 import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Renderer.RHI.Interfaces.Device;
 

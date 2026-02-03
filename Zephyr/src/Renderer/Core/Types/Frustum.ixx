@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Types.Frustum;
 
-export import Zephyr.Renderer.Types.Vertex3d;
+import Zephyr.Renderer.Types.Vertex3d;
 import std;
 
 export namespace Zephyr

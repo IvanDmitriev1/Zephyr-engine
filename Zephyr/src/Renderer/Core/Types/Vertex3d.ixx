@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.Types.Vertex3d;
 
-export import Zephyr.Renderer.RHI.Types.VertexLayout;
-export import glm;
+import Zephyr.Renderer.RHI.Types.VertexLayout;
+import glm;
 
 export namespace Zephyr
 {

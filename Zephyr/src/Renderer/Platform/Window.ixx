@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.Platform.Window;
 
-export import Zephyr.Renderer.Platform.IWindow;
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.Platform.IWindow;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr::Window
 {

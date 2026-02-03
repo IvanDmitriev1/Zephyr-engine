@@ -1,13 +1,12 @@
 export module Zephyr.Renderer.RHI.Interfaces.Device;
 
-export import Zephyr.Core.CoreTypes;
-export import Zephyr.Renderer.Platform.IWindow;
-export import Zephyr.Renderer.RHI.Interfaces.IShader;
-export import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
-export import Zephyr.Renderer.RHI.Interfaces.ICommandBuffer;
-export import Zephyr.Renderer.RHI.Interfaces.IBuffer;
-export import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
-export import Zephyr.Renderer.RHI.Interfaces.IPipeline;
+import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.RHI.Interfaces.IShader;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
+import Zephyr.Renderer.RHI.Interfaces.ICommandBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
+import Zephyr.Renderer.RHI.Interfaces.IPipeline;
 
 export namespace Zephyr::RHI::Device
 {

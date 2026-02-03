@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.Types.GBufferTypes;
 
-export import Zephyr.Renderer.RHI.Types.TextureTypes;
-export import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.RHI.Types.TextureTypes;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {

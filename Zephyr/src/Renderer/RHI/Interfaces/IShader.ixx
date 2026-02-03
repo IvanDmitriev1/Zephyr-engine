@@ -1,7 +1,6 @@
 export module Zephyr.Renderer.RHI.Interfaces.IShader;
 
-export import Zephyr.Renderer.RHI.Types.ShaderTypes;
-export import glm;
+import Zephyr.Renderer.RHI.Types.ShaderTypes;
 
 export namespace Zephyr::RHI
 {

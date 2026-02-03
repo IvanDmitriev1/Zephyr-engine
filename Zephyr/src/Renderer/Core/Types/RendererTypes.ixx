@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.Types.RendererTypes;
 
-export import Zephyr.Renderer.Resources.Mesh;
-export import Zephyr.Renderer.Resources.Material;
-export import glm;
+import Zephyr.Renderer.Resources.Mesh;
+import Zephyr.Renderer.Resources.Material;
+import glm;
 
 export namespace Zephyr
 {	

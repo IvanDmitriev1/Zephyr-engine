@@ -1,10 +1,10 @@
 export module Zephyr.Renderer.Platform.IWindow;
 
-export import Zephyr.Renderer.Platform.WindowTypes;
-export import Zephyr.Renderer.Platform.IUiRenderContext;
-export import Zephyr.Core.CoreTypes;
-export import Zephyr.Renderer.Types.CommonTypes;
-export import zephyr.events.IEvent;
+import Zephyr.Renderer.Platform.WindowTypes;
+import Zephyr.Renderer.Platform.IUiRenderContext;
+import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.Types.CommonTypes;
+import zephyr.events.IEvent;
 
 export namespace Zephyr
 {

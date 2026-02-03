@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.RHI.Types.TextureTypes;
 
-export import Zephyr.Core.EnumBitmask;
-export import Zephyr.Renderer.Types.CommonTypes;
-export import std.compat;
+import Zephyr.Core.EnumBitmask;
+import Zephyr.Renderer.Types.CommonTypes;
+import std.compat;
 
 export namespace Zephyr::RHI
 {

@@ -1,11 +1,11 @@
 export module Zephyr.Renderer.Types.RenderGraphTypes;
 
-export import Zephyr.Renderer.RHI.Interfaces.IBuffer;
-export import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
-export import Zephyr.Renderer.Frame.RenderQueue;
-export import Zephyr.Renderer.Graph.GBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
+import Zephyr.Renderer.Frame.RenderQueue;
+import Zephyr.Renderer.Graph.GBuffer;
 
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {

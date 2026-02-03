@@ -1,9 +1,9 @@
 export module Zephyr.Renderer.RHI.Types.PipelineTypes;
 
-export import Zephyr.Renderer.RHI.Types.TextureTypes;
-export import Zephyr.Renderer.RHI.Types.VertexLayout;
-export import Zephyr.Renderer.RHI.Interfaces.IShader;
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.RHI.Types.TextureTypes;
+import Zephyr.Renderer.RHI.Types.VertexLayout;
+import Zephyr.Renderer.RHI.Interfaces.IShader;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr::RHI
 {

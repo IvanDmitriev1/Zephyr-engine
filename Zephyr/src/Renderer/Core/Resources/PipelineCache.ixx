@@ -1,9 +1,9 @@
 export module Zephyr.Renderer.Resources.PipelineCache;
 
-export import Zephyr.Renderer.Types.PipelineCacheTypes;
-export import Zephyr.Renderer.RHI.Interfaces.IPipeline;
-export import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
-export import Zephyr.Renderer.Resources.Material;
+import Zephyr.Renderer.Types.PipelineCacheTypes;
+import Zephyr.Renderer.RHI.Interfaces.IPipeline;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
+import Zephyr.Renderer.Resources.Material;
 
 import Zephyr.Renderer.RHI.Interfaces.Device;
 

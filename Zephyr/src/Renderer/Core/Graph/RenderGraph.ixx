@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Graph.RenderGraph;
 
-export import Zephyr.Renderer.Graph.IRenderGraphPass;
+import Zephyr.Renderer.Graph.IRenderGraphPass;
 
 export namespace Zephyr
 {

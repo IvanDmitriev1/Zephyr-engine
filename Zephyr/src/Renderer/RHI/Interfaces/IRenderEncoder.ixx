@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.RHI.Interfaces.IRenderEncoder;
 
-export import Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
-export import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
-export import Zephyr.Renderer.RHI.Interfaces.IPipeline;
+import Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
+import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
+import Zephyr.Renderer.RHI.Interfaces.IPipeline;
 
 export namespace Zephyr::RHI
 {

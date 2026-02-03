@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.Types.PipelineCacheTypes;
 
-export import std;
+import std;
 
 export namespace Zephyr
 {

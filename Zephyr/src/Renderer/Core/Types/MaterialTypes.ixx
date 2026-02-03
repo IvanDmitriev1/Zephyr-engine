@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.Types.MaterialTypes;
 
-export import Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
-export import Zephyr.Renderer.RHI.Types.PipelineTypes;
-export import Zephyr.Renderer.Types.DrawCategory;
+import Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
+import Zephyr.Renderer.RHI.Types.PipelineTypes;
+import Zephyr.Renderer.Types.DrawCategory;
 
 export namespace Zephyr
 {

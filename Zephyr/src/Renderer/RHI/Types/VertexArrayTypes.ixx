@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.RHI.Types.VertexArrayTypes;
 
-export import Zephyr.Renderer.RHI.Interfaces.IBuffer;
-export import Zephyr.Renderer.RHI.Types.VertexLayout;
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.RHI.Interfaces.IBuffer;
+import Zephyr.Renderer.RHI.Types.VertexLayout;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr::RHI
 {

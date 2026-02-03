@@ -1,7 +1,7 @@
 export module Zephyr.Renderer.RHI.Types.BufferTypes;
 
-export import Zephyr.Core.EnumBitmask;
-export import std.compat;
+import Zephyr.Core.EnumBitmask;
+import std.compat;
 
 export namespace Zephyr::RHI
 {

@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
 
-export import Zephyr.Renderer.RHI.Interfaces.IBuffer;
-export import Zephyr.Renderer.RHI.Interfaces.ITexture;
-export import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.RHI.Interfaces.IBuffer;
+import Zephyr.Renderer.RHI.Interfaces.ITexture;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr::RHI
 {
