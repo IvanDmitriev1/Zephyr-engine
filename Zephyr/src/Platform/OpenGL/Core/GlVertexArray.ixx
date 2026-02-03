@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlVertexArray;
 
-export import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
+import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
 import std.compat;
 
 export namespace Zephyr::RHI::OpenGL

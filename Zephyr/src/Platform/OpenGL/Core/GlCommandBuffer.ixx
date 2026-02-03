@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlCommandBuffer;
 
-export import Zephyr.Renderer.RHI.Interfaces.ICommandBuffer;
+import Zephyr.Renderer.RHI.Interfaces.ICommandBuffer;
 
 export namespace Zephyr::RHI::OpenGL
 {

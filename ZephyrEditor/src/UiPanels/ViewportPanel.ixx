@@ -2,10 +2,10 @@ export module ZephyrEditor.ViewportPanel;
 
 export import ZephyrEditor.UiPanel;
 
-import Zephyr.Renderer.RHI.IFrameBuffer;
+import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Scene.World;
 import Zephyr.Renderer.Types.RendererTypes;
-import Zephyr.Renderer.SceneRenderer;
+import Zephyr.Renderer.Scene.SceneRenderer;
 
 using namespace Zephyr;
 

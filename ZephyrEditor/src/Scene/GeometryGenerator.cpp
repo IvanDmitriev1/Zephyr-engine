@@ -1,5 +1,7 @@
 module ZephyrEditor.GeometryGenerator;
 
+import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
+
 using namespace Zephyr;
 
 namespace ZephyrEditor

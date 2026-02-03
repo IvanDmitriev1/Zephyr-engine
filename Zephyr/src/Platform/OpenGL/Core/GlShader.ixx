@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.Shader;
 
-export import Zephyr.Renderer.RHI.Interfaces.IShader;
+import Zephyr.Renderer.RHI.Interfaces.IShader;
 import std.compat;
 
 export namespace Zephyr::RHI::OpenGL

@@ -5,10 +5,11 @@ module;
 export module Zephyr.Renderer.OpenGL.Types.GlVertexArrayTypes;
 
 import Zephyr.Renderer.RHI.Types.VertexArrayTypes;
+import Zephyr.Core.Assert;
 
 export namespace Zephyr::RHI::OpenGL
 {
-	constexpr GLenum ToGlBaseType(VertexAttributeType type)
+	constexpr GLenum ToGlBaseType(VertexAttributeType type) noexcept
 	{
 		switch (type)
 		{
@@ -29,10 +30,7 @@ export namespace Zephyr::RHI::OpenGL
         case VertexAttributeType::Bool:
             return GL_UNSIGNED_BYTE;
 
-        default:
-            break;
+		default: Unreachable();
 		}
-
-        throw std::runtime_error("ToGlBaseType: unsupported VertexAttributeType");
 	}
 }
