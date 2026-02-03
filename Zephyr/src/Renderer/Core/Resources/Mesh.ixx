@@ -2,6 +2,8 @@ export module Zephyr.Renderer.Resources.Mesh;
 
 import Zephyr.Renderer.RHI.Interfaces.IVertexArray;
 import Zephyr.Renderer.Types.Frustum;
+import Zephyr.Core.CoreTypes;
+import std.compat;
 
 export namespace Zephyr
 {

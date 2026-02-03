@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.RHI.Interfaces.IBuffer;
 
-import Zephyr.Renderer.RHI.Types.BufferTypes;
+export import Zephyr.Renderer.RHI.Types.BufferTypes;
+import std.compat;
 
 export namespace Zephyr::RHI
 {

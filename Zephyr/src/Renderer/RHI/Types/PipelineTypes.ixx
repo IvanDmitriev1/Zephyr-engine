@@ -4,6 +4,7 @@ import Zephyr.Renderer.RHI.Types.TextureTypes;
 import Zephyr.Renderer.RHI.Types.VertexLayout;
 import Zephyr.Renderer.RHI.Interfaces.IShader;
 import Zephyr.Core.CoreTypes;
+import std.compat;
 
 export namespace Zephyr::RHI
 {

@@ -1,9 +1,11 @@
 export module Zephyr.Renderer.Scene.SceneRenderer;
 
-import Zephyr.Renderer.Types.RendererTypes;
 import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Renderer.Graph.RenderGraph;
 import Zephyr.Scene.World;
+import Zephyr.Core.CoreTypes;
+import Zephyr.Renderer.Frame.RenderQueue;
+import Zephyr.Renderer.Types.CommonTypes;
 
 export namespace Zephyr
 {

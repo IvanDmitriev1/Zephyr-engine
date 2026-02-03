@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.Graph.IRenderGraphPass;
 
-import Zephyr.Renderer.Types.RenderGraphTypes;
+export import Zephyr.Renderer.Types.RenderGraphTypes;
+import std;
 
 export namespace Zephyr
 {

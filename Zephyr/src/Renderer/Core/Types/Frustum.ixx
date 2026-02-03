@@ -2,6 +2,7 @@ export module Zephyr.Renderer.Types.Frustum;
 
 import Zephyr.Renderer.Types.Vertex3d;
 import std;
+import glm;
 
 export namespace Zephyr
 {

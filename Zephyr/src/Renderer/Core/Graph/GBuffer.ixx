@@ -1,8 +1,11 @@
 export module Zephyr.Renderer.Graph.GBuffer;
 
 import Zephyr.Renderer.Types.GBufferTypes;
+import Zephyr.Renderer.RHI.Interfaces.ITexture;
 import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Renderer.RHI.Interfaces.Device;
+import std.compat;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {

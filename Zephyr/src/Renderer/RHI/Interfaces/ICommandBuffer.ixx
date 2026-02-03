@@ -1,8 +1,8 @@
 export module Zephyr.Renderer.RHI.Interfaces.ICommandBuffer;
 
+export import Zephyr.Renderer.RHI.Interfaces.IRenderEncoder;
 import Zephyr.Core.CoreTypes;
 import Zephyr.Renderer.RHI.Types.RenderPassTypes;
-import Zephyr.Renderer.RHI.Interfaces.IRenderEncoder;
 
 export namespace Zephyr::RHI
 {

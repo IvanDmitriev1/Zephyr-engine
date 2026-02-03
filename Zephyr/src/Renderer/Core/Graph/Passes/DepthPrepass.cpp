@@ -2,6 +2,8 @@ module Zephyr.Renderer.Graph.Passes.DepthPrepass;
 
 import Zephyr.Renderer.RHI.Interfaces.Device;
 import Zephyr.Renderer.Graph.DrawBatch;
+import Zephyr.Renderer.RHI.Types.RenderPassTypes;
+import Zephyr.Renderer.RHI.Types.ShaderTypes;
 
 namespace Zephyr
 {

@@ -3,6 +3,7 @@ export module Zephyr.Renderer.Types.GBufferTypes;
 import Zephyr.Renderer.RHI.Types.TextureTypes;
 import Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 import Zephyr.Core.CoreTypes;
+import std.compat;
 
 export namespace Zephyr
 {

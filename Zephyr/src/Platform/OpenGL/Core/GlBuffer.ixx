@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.OpenGL.GlBuffer;
 
 export import Zephyr.Renderer.RHI.Interfaces.IBuffer;
+import std.compat;
 
 export namespace Zephyr::RHI::OpenGL
 {

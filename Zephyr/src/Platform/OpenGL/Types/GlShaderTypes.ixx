@@ -5,6 +5,7 @@ module;
 export module Zephyr.Renderer.OpenGL.Types.GlShaderTypes;
 
 import Zephyr.Renderer.RHI.Types.ShaderTypes;
+import Zephyr.Core.Assert;
 
 export namespace Zephyr::RHI::OpenGL
 {
@@ -18,14 +19,11 @@ export namespace Zephyr::RHI::OpenGL
         case ShaderStage::TessControl:    return GL_TESS_CONTROL_SHADER;
         case ShaderStage::TessEvaluation: return GL_TESS_EVALUATION_SHADER;
         case ShaderStage::Compute:        return GL_COMPUTE_SHADER;
-        default:
-            break;
+		default: Unreachable();
         }
-
-        throw std::runtime_error("ToGLStage: unsupported ShaderStage");
     }
 
-    constexpr std::string GetShaderInfoLog(GLuint shaderID)
+    constexpr std::string GetShaderInfoLog(GLuint shaderID) noexcept
     {
         GLint logLength = 0;
         glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &logLength);
@@ -38,7 +36,7 @@ export namespace Zephyr::RHI::OpenGL
         return log;
     }
 
-    constexpr std::string GetProgramInfoLog(GLuint programID)
+    constexpr std::string GetProgramInfoLog(GLuint programID) noexcept
     {
         GLint logLength = 0;
         glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &logLength);

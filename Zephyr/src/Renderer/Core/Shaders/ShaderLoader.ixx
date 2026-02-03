@@ -1,6 +1,9 @@
 export module Zephyr.Renderer.Shaders.ShaderLoader;
 
 import Zephyr.Renderer.RHI.Interfaces.Device;
+import Zephyr.Renderer.RHI.Interfaces.IShader;
+import std.compat;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {

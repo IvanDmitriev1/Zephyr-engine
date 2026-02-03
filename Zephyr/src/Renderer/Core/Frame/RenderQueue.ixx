@@ -1,6 +1,7 @@
 export module Zephyr.Renderer.Frame.RenderQueue;
 
-import Zephyr.Renderer.Types.RendererTypes;
+export import Zephyr.Renderer.Types.RendererTypes;
+import std;
 
 export namespace Zephyr
 {

@@ -1,8 +1,10 @@
 export module Zephyr.Renderer.Types.RendererTypes;
 
+export import Zephyr.Renderer.Types.DrawCategory;
 import Zephyr.Renderer.Resources.Mesh;
 import Zephyr.Renderer.Resources.Material;
 import glm;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {	

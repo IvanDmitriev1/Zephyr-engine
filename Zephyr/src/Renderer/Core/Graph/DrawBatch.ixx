@@ -1,8 +1,9 @@
 export module Zephyr.Renderer.Graph.DrawBatch;
 
-import Zephyr.Renderer.RHI.Interfaces.IRenderEncoder;
-import Zephyr.Renderer.Resources.PipelineCache;
-import Zephyr.Renderer.Types.RenderGraphTypes;
+export import Zephyr.Renderer.RHI.Interfaces.IRenderEncoder;
+export import Zephyr.Renderer.Resources.PipelineCache;
+export import Zephyr.Renderer.Types.RenderGraphTypes;
+export import Zephyr.Renderer.Types.RendererTypes;
 
 export namespace Zephyr
 {

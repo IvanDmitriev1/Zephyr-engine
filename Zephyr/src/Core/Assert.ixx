@@ -19,12 +19,6 @@ namespace Zephyr
 		throw std::runtime_error(std::string(message));
 	}
 
-	export [[noreturn]] inline void Unreachable()
-	{
-		Build::DebugBreak();
-		std::unreachable();
-	}
-
 	template<class T>
 	concept BoolThunk =
 		std::invocable<T&> && std::convertible_to<std::invoke_result_t<T&>, bool>;
@@ -79,5 +73,11 @@ namespace Zephyr
 			return;
 
 		FailAssert(message, location);
+	}
+
+	export [[noreturn]] inline void Unreachable()
+	{
+		Build::DebugBreak();
+		std::unreachable();
 	}
 }

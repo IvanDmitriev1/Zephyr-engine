@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.RHI.Interfaces.IFrameBuffer;
 
-import Zephyr.Renderer.RHI.Types.FrameBufferTypes;
+export import Zephyr.Renderer.RHI.Types.FrameBufferTypes;
 import Zephyr.Renderer.RHI.Interfaces.ITexture;
 import Zephyr.Core.CoreTypes;
 

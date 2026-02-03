@@ -1,6 +1,8 @@
 export module Zephyr.Renderer.Resources.Material;
 
-import Zephyr.Renderer.Types.MaterialTypes;
+export import Zephyr.Renderer.Types.MaterialTypes;
+import std.compat;
+import Zephyr.Core.CoreTypes;
 
 export namespace Zephyr
 {

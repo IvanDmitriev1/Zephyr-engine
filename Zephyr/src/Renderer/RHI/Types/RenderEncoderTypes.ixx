@@ -3,6 +3,7 @@ export module Zephyr.Renderer.RHI.Types.RenderEncoderTypes;
 import Zephyr.Renderer.RHI.Interfaces.IBuffer;
 import Zephyr.Renderer.RHI.Interfaces.ITexture;
 import Zephyr.Core.CoreTypes;
+import std.compat;
 
 export namespace Zephyr::RHI
 {

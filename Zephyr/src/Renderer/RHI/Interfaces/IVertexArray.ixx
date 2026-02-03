@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.RHI.Interfaces.IVertexArray;
 
-import Zephyr.Renderer.RHI.Types.VertexArrayTypes;
+export import Zephyr.Renderer.RHI.Types.VertexArrayTypes;
 
 export namespace Zephyr::RHI
 {

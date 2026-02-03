@@ -9,7 +9,7 @@ export import zephyr.logging.LogBuffer;
 export import Zephyr.Renderer.RHI.Interfaces.Device;
 export import Zephyr.Renderer.Platform.Window;
 
-import Zephyr.Renderer.Shaders.ShaderLoader;
+import Zephyr.Renderer.Platform.IUiRenderContext;
 
 export namespace Zephyr
 {

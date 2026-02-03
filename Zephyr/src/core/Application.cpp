@@ -7,6 +7,7 @@ import zephyr.events.ApplicationEvents;
 import <spdlog/spdlog.h>;
 
 import Zephyr.Renderer.Platform.Window;
+import glm;
 
 namespace Zephyr
 {
