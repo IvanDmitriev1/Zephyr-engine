@@ -21,17 +21,27 @@ project "Zephyr"
         "src/**.ixx",
         "src/**.glsl",
     }
+
     removefiles { "**/vendor/**" }
+    removefiles { "src/Platform/**" }
 
     filter "system:windows"
         buildoptions { "/utf-8" }
         systemversion "latest"
+        files
+        {
+            "src/Platform/Windows/**",
+        }
         defines
         {
             "NOMINMAX"
         }
 
     filter "platforms:Opengl"
+        files
+        {
+            "src/Platform/OpenGL/**",
+        }
         includedirs
         {
             "%{IncludeDir.glfw}",

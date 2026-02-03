@@ -40,7 +40,7 @@ workspace "Zephyr"
             "ZEPHYR_PLATFORM_WINDOWS",
         }
 
-    filter { "system:windows", "platforms:OpenGL" }
+    filter { "system:windows", "platforms:Opengl" }
         defines
         {
             "Zephyr_RENDERER=OpenGL",
