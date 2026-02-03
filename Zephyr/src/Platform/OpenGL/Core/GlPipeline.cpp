@@ -18,12 +18,12 @@ namespace Zephyr::RHI::OpenGL
 
     void GlPipeline::Bind()
     {
+		auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
+		glShader.Bind();
+
 		ApplyRasterizerState();
 		ApplyDepthState();
 		ApplyBlendState();
-
-		auto& glShader = StaticCast<GlShader>(m_Desc.Shader);
-		glShader.Bind();
 	}
 
     void GlPipeline::ApplyRasterizerState()
@@ -39,14 +39,12 @@ namespace Zephyr::RHI::OpenGL
         }
 
         glFrontFace(ToGlFrontFace(m_Desc.Rasterizer.Face));
-
-        if (m_Desc.Rasterizer.DepthClampEnable)
-            glEnable(GL_DEPTH_CLAMP);
-        else
-            glDisable(GL_DEPTH_CLAMP);
-
-		glLineWidth(1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, ToGlPolygonMode(m_Desc.Rasterizer.Polygon));
+
+		if (m_Desc.Rasterizer.DepthClampEnable)
+			glEnable(GL_DEPTH_CLAMP);
+		else
+			glDisable(GL_DEPTH_CLAMP);
 
 		if (m_Desc.Rasterizer.Polygon == PolygonMode::Wireframe)
 		{
@@ -64,14 +62,23 @@ namespace Zephyr::RHI::OpenGL
         if (m_Desc.Depth.DepthTestEnable)
         {
             glEnable(GL_DEPTH_TEST);
+			glDepthFunc(ToGlCompare(m_Desc.Depth.DepthCompare));
         }
         else
         {
             glDisable(GL_DEPTH_TEST);
         }
-
-		glDepthFunc(ToGlCompare(m_Desc.Depth.DepthCompare));
+		
         glDepthMask(m_Desc.Depth.DepthWriteEnable ? GL_TRUE : GL_FALSE);
+
+		if (m_Desc.Depth.StencilTestEnable)
+		{
+			glEnable(GL_STENCIL_TEST);
+		}
+		else
+		{
+			glDisable(GL_STENCIL_TEST);
+		}
     }
 
     void GlPipeline::ApplyBlendState()

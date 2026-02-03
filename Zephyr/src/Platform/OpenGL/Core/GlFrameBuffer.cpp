@@ -48,8 +48,6 @@ namespace Zephyr::RHI::OpenGL
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 		glViewport(0, 0, (GLsizei)m_Size.Width, (GLsizei)m_Size.Height);
-
-		glDepthMask(GL_TRUE);
 	}
 
 	void GlFrameBuffer::Unbind() const
@@ -59,8 +57,8 @@ namespace Zephyr::RHI::OpenGL
 
 	void GlFrameBuffer::ClearForRenderPass(const RenderPassDesc& rp) const
 	{
-		glDisable(GL_SCISSOR_TEST);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		glDepthMask(GL_TRUE);
 
 		// Color clears
 		for (size_t i = 0; i < rp.Colors.size(); ++i)
