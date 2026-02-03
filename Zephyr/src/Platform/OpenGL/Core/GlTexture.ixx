@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlTexture;
 
-export import Zephyr.Renderer.RHI.ITexture;
+export import Zephyr.Renderer.RHI.Interfaces.ITexture;
 
 export namespace Zephyr::RHI::OpenGL
 {

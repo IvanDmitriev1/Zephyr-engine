@@ -1,6 +1,6 @@
 export module Zephyr.Renderer.OpenGL.GlImGuiRenderContext;
 
-export import Zephyr.Renderer.Ui.IUiRenderContext;
+export import Zephyr.Renderer.Platform.IUiRenderContext;
 
 import <GLFW/glfw3.h>;
 import <imgui.h>;

@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.RHI.BufferTypes;
+export module Zephyr.Renderer.RHI.Types.BufferTypes;
 
 export import Zephyr.Core.EnumBitmask;
 export import std.compat;

@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.RHI.VertexLayoutTypes;
+export module Zephyr.Renderer.RHI.Types.VertexLayoutTypes;
 
 export import std.compat;
 export import Zephyr.Core.CoreTypes;

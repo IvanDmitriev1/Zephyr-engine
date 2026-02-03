@@ -1,4 +1,4 @@
-export module Zephyr.Renderer.RHI.TextureTypes;
+export module Zephyr.Renderer.RHI.Types.TextureTypes;
 
 export import Zephyr.Core.EnumBitmask;
 export import Zephyr.Renderer.Types.CommonTypes;
